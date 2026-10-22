@@ -108,10 +108,13 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
           console.log('bot spawned, opping...')
           trace.log('bot spawned, opping')
           wrap.writeServer('op flatbot\n')
+          // mobs that tests summon and /kill must not leave loot that the bot picks up in a later test
           if (bot.supportFeature('gameRuleUsesResourceLocation')) {
             wrap.writeServer('gamerule minecraft:spawn_monsters false\n')
+            wrap.writeServer('gamerule minecraft:mob_drops false\n')
           } else {
             wrap.writeServer('gamerule spawnMonsters false\n')
+            wrap.writeServer('gamerule doMobLoot false\n')
           }
           bot.once('messagestr', msg => {
             if (msg.includes('Made flatbot a server operator') || msg === '[Server: Opped flatbot]') {
