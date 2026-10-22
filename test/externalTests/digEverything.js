@@ -87,8 +87,11 @@ async function digSomething (blockName, bot) {
     : null
   released?.catch(() => {}) // awaited below; only keeps a failed dig from leaving it unhandled
   await bot.dig(bot.blockAt(position))
-  // make sure that block is gone
-  assert.notStrictEqual(bot.blockAt(position).name, blockName)
+  // bot.dig resolves on the client's own prediction. Wait for the server's update: the server can
+  // apply the break after commands sent later (26.3 queues digging packets for its next tick but
+  // runs commands at once), and a break applied after the next test's /setblock removes that block.
+  const [, confirmed] = await onceWithCleanup(bot.world, `blockUpdate:${position}`, { timeout: 5000 })
+  assert.notStrictEqual(confirmed.name, blockName)
   if (released) {
     const [silverfish] = await released
     await bot.test.killEntity(silverfish)
