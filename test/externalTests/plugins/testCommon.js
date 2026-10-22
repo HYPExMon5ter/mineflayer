@@ -160,8 +160,11 @@ function inject (bot, wrap) {
   // resetState uses it to skip the /fill roundtrips after read-only tests.
   // Fills themselves fire blockUpdate, so the flag is cleared after they
   // settle; a late-arriving update just makes the next reset conservative.
+  // A large change (fishing's water fill) reaches the client as whole-chunk
+  // resends without any blockUpdate, so a column load counts as a change too.
   let worldDirty = true
   bot.on('blockUpdate', () => { worldDirty = true })
+  bot.on('chunkColumnLoad', () => { worldDirty = true })
 
   // always leaves you in creative mode
   async function resetState () {

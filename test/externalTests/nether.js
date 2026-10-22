@@ -33,8 +33,16 @@ module.exports = () => async (bot) => {
   const spot = spots[bot.test.netherAttempts++ % spots.length]
   await bot.test.teleport(new Vec3(spot.x, bot.test.groundY, spot.z))
   await cooldown
-  const arrive = onceWithCleanup(bot, 'spawn', { timeout: 30000 }).then(() =>
-    onceWithCleanup(bot, 'forcedMove', { timeout: 10000 }))
+  // The server sends the arrival teleport with the respawn but update_health, which
+  // emits spawn, only on a later tick: the teleport may be answered before or after
+  // spawn, so wait for both once the dimension has changed.
+  let changedDimension = false
+  bot.once('respawn', () => { changedDimension = true })
+  const afterDimensionChange = { timeout: 30000, checkCondition: () => changedDimension }
+  const arrive = Promise.all([
+    onceWithCleanup(bot, 'spawn', afterDimensionChange),
+    onceWithCleanup(bot, 'forcedMove', afterDimensionChange)
+  ])
   bot.chat(`/setblock ~ ~ ~ ${portalName}`)
   await arrive
   // Acknowledge the dimension-arrival position before issuing another move.
