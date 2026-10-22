@@ -8,6 +8,7 @@ const fs = require('fs')
 const path = require('path')
 
 const { getPort } = require('./common/util')
+const { watchPacketErrors } = require('./common/packetErrors')
 const trace = require('./common/trace')
 const { once } = require('../lib/promise_utils')
 
@@ -16,7 +17,9 @@ const START_THE_SERVER = true
 // if you want to have time to look what's happening increase this (milliseconds)
 const TEST_TIMEOUT_MS = 90000
 
-const excludedTests = ['digEverything', 'anvil', 'placeEntity']
+// digEverything digs every diggable block, which takes far longer than the rest of the suite.
+// Set RUN_EXCLUDED_TESTS=1 to include it.
+const excludedTests = process.env.RUN_EXCLUDED_TESTS ? [] : ['digEverything']
 
 const propOverrides = {
   'level-type': 'FLAT',
@@ -55,6 +58,8 @@ async function pingUntilReady (port, host, version, attempts = 5) {
     }
   }
 }
+
+const packetErrors = watchPacketErrors()
 
 for (const supportedVersion of require('./common/versions').getTestVersions()) {
   let PORT = 25565
@@ -171,6 +176,17 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
     // reacting to the shared bot, so the next test (or retry) would run the
     // example twice at once. This hook runs after every attempt, retries too.
     afterEach(() => bot?.test?.abortRunningExample?.())
+
+    // A packet the protocol could not decode is dropped with only a log line, and a test can still
+    // pass without it. Report every one once the version's suite has run.
+    const undecodedPackets = []
+    afterEach(function () {
+      for (const report of packetErrors.take()) undecodedPackets.push(`${this.currentTest.title}: ${report}`)
+    })
+    after(function () {
+      for (const report of packetErrors.take()) undecodedPackets.push(`after the suite: ${report}`)
+      if (undecodedPackets.length) throw new Error(`${undecodedPackets.length} packet(s) could not be decoded:\n${undecodedPackets.join('\n')}`)
+    })
 
     async function reconnectBot () {
       console.log('  Bot disconnected, reconnecting...')

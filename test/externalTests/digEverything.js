@@ -1,7 +1,7 @@
-const { Vec3 } = require('vec3')
 const assert = require('assert')
+const { onceWithCleanup } = require('../../lib/promise_utils')
 
-// this test takes about 20min
+// Digs every diggable block: about an hour per version, so it only runs with RUN_EXCLUDED_TESTS=1
 
 const excludedBlocks = [
   // broken
@@ -44,39 +44,43 @@ const excludedBlocks = [
 
   // cause problems
   'mob_spawner',
-  'obsidian'
+  'obsidian',
+
+  // not blocks a player can break
+  'air',
+  'cave_air',
+  'void_air',
+  'water',
+  'lava'
 ]
 
 module.exports = (version) => {
   const registry = require('prismarine-registry')(version)
 
   const funcs = {}
-  for (const id in registry.blocks) {
-    if (registry.blocks[id] !== undefined) {
-      const block = registry.blocks[id]
-      if (block.diggable && excludedBlocks.indexOf(block.name) === -1) {
-        funcs[block.name] = (blockId => async (bot) => {
-          await digSomething(blockId, bot)
-        })(block.id)
-      }
+  for (const block of registry.blocksArray) {
+    if (block.diggable && excludedBlocks.indexOf(block.name) === -1) {
+      funcs[block.name] = bot => digSomething(block.name, bot)
     }
   }
 
   return funcs
 }
 
-async function digSomething (blockId, bot) {
+// Creates the block with /setblock rather than by placing an item: not every block has an
+// item of the same name, and block IDs are not item IDs since 1.13.
+async function digSomething (blockName, bot) {
   const Item = require('prismarine-item')(bot.registry)
+  const position = bot.entity.position.floored().offset(1, 0, 0)
 
-  await bot.test.setInventorySlot(36, new Item(blockId, 1, 0))
-  await bot.test.placeBlock(36, bot.entity.position.plus(new Vec3(1, 0, 0)))
-  // TODO: find a better way than this bot.test.wait(200)
-  await bot.test.wait(200)
-  await bot.test.clearInventory()
+  await bot.test.setBlock({ x: 1, relative: true, blockName })
+  assert.strictEqual(bot.blockAt(position).name, blockName, `could not create ${blockName}`)
   await bot.test.setInventorySlot(36, new Item(bot.registry.itemsByName.diamond_pickaxe.id, 1, 0))
+  bot.setQuickBarSlot(0)
   await bot.test.becomeSurvival()
-  // we are bare handed
-  await bot.dig(bot.blockAt(bot.entity.position.plus(new Vec3(1, 0, 0))))
+  // Leaving creative can leave the bot airborne for a moment, which makes digging five times slower
+  if (!bot.entity.onGround) await onceWithCleanup(bot, 'physicsTick', { timeout: 5000, checkCondition: () => bot.entity.onGround })
+  await bot.dig(bot.blockAt(position))
   // make sure that block is gone
-  assert.strictEqual(bot.blockAt(bot.entity.position.plus(new Vec3(1, 0, 0))).type, 0)
+  assert.notStrictEqual(bot.blockAt(position).name, blockName)
 }

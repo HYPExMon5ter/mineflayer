@@ -1,24 +1,31 @@
 const assert = require('assert')
-const { once } = require('../../lib/promise_utils')
+const { onceWithCleanup } = require('../../lib/promise_utils')
+
+// The server keeps an item's enchantments in a map, so their order carries no meaning
+const byName = enchants => [...enchants].sort((a, b) => a.name.localeCompare(b.name))
 
 module.exports = () => {
   async function runTest (bot, testFunction) {
     const Item = require('prismarine-item')(bot.registry)
     const renameCost = () => bot.registry.isNewerOrEqualTo('1.8.9') ? 0 : 1 // weird quirk of anvils
-    const renameName = (name) => bot.registry.isOlderThan('1.13.2') ? name : JSON.stringify({ text: name }) // weird quirk of anvils
+    // Item names are plain text before 1.13; from 1.20.3 a component without style is written as a JSON string
+    const renameName = (name) => bot.registry.isOlderThan('1.13.2') ? name : JSON.stringify(bot.registry.isOlderThan('1.20.3') ? { text: name } : name)
     await bot.test.becomeCreative()
     await bot.test.setInventorySlot(36, new Item(bot.registry.itemsByName.anvil.id, 1))
     await bot.test.becomeSurvival()
     await bot.test.placeBlock(36, bot.entity.position.offset(1, 0, 0))
 
-    if (bot.registry.isNewerOrEqualTo('1.13')) bot.chat(`/xp set ${bot.username} 999 levels`)
-    else {
-      bot.chat(`/xp -2147483648L ${bot.username}`)
-      await once(bot, 'experience')
-      bot.chat(`/xp 999L ${bot.username}`)
+    // The server sends no experience update when the level does not change, e.g. when an
+    // earlier test did not spend any, so wait for the level rather than for an update.
+    if (bot.experience.level !== 999) {
+      const levelSet = onceWithCleanup(bot, 'experience', { timeout: 20000, checkCondition: () => bot.experience.level === 999 })
+      if (bot.registry.isNewerOrEqualTo('1.13')) bot.chat(`/xp set ${bot.username} 999 levels`)
+      else {
+        bot.chat(`/xp -2147483648L ${bot.username}`)
+        bot.chat(`/xp 999L ${bot.username}`)
+      }
+      await levelSet
     }
-
-    await once(bot, 'experience')
 
     const b = bot.findBlock({ matching: bot.registry.blocksByName.anvil.id }) // find anvil before tests so all tests can use it
 
@@ -58,7 +65,7 @@ module.exports = () => {
     // test result
     assert.strictEqual(bot.experience.level, 994)
     assert.strictEqual(anvil.slots[3].repairCost, 1)
-    assert.deepStrictEqual(anvil.slots[3].enchants, [{ name: 'sharpness', lvl: 5 }])
+    assert.deepStrictEqual(byName(anvil.slots[3].enchants), byName([{ name: 'sharpness', lvl: 5 }]))
     await anvil.close()
     await bot.test.wait(1000)
   })
@@ -82,7 +89,7 @@ module.exports = () => {
     // test result
     assert.strictEqual(bot.experience.level, 996)
     assert.strictEqual(anvil.slots[3].repairCost, 1)
-    assert.deepStrictEqual(anvil.slots[3].enchants, [{ name: 'sharpness', lvl: 5 }, { name: 'unbreaking', lvl: 3 }])
+    assert.deepStrictEqual(byName(anvil.slots[3].enchants), byName([{ name: 'sharpness', lvl: 5 }, { name: 'unbreaking', lvl: 3 }]))
     await anvil.close()
     await bot.test.wait(1000)
   })
@@ -126,7 +133,7 @@ module.exports = () => {
     // test result
     assert.strictEqual(bot.experience.level, 995)
     assert.strictEqual(anvil.slots[3].repairCost, 1)
-    assert.deepStrictEqual(anvil.slots[3].enchants, [{ name: 'sharpness', lvl: 5 }, { name: 'unbreaking', lvl: 3 }])
+    assert.deepStrictEqual(byName(anvil.slots[3].enchants), byName([{ name: 'sharpness', lvl: 5 }, { name: 'unbreaking', lvl: 3 }]))
     assert.strictEqual(anvil.slots[3].customName, renameName('lol'))
     await anvil.close()
     await bot.test.wait(1000)

@@ -1,7 +1,6 @@
 const { Vec3 } = require('vec3')
 
 const { spawn } = require('child_process')
-const { once } = require('../../../lib/promise_utils')
 const process = require('process')
 const assert = require('assert')
 const { sleep, onceWithCleanup } = require('../../../lib/promise_utils')
@@ -48,7 +47,11 @@ function inject (bot, wrap) {
   }
 
   bot.test.awaitItemReceived = async (command) => {
-    const p = once(bot.inventory, 'updateSlot')
+    // An unrelated slot update (e.g. the previous test's late correction) must not count
+    const p = onceWithCleanup(bot.inventory, 'updateSlot', {
+      timeout: 20000,
+      checkCondition: (slot, oldItem, newItem) => newItem != null && (oldItem == null || newItem.type !== oldItem.type || newItem.count > oldItem.count)
+    })
     bot.chat(command)
     await p // await getting the item
   }
@@ -59,7 +62,9 @@ function inject (bot, wrap) {
     if (block.name === blockName) {
       return
     }
-    const p = once(bot.world, `blockUpdate:(${_x}, ${_y}, ${_z})`)
+    // Wait for the requested block: an update still in flight from an earlier change (such as
+    // the previous test's reset) would otherwise end the wait first
+    const p = onceWithCleanup(bot.world, `blockUpdate:(${_x}, ${_y}, ${_z})`, { timeout: 20000, checkCondition: (oldBlock, newBlock) => newBlock?.name === blockName })
     const prefix = relative ? '~' : ''
     bot.chat(`/setblock ${prefix}${x} ${prefix}${y} ${prefix}${z} ${blockName}`)
     await p
