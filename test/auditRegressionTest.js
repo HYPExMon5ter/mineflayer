@@ -432,6 +432,45 @@ describe('audit regressions', () => {
     assert.deepStrictEqual(actions, [['click', 31], ['click', 0], ['click', 32], ['click', 1], ['putAway', 2, true]])
   })
 
+  it('takes a renamed anvil result only once it carries the final name', async () => {
+    const bot = makeBot('1.16.5')
+    const Item = require('prismarine-item')(bot.registry)
+    const windows = require('prismarine-windows')(bot.registry)
+    const anvil = windows.createWindow(1, 'minecraft:anvil', 'Anvil')
+    bot.inventory = windows.createWindow(0, 'minecraft:inventory', 'Inventory')
+    bot.game = { gameMode: 'survival' }
+    bot.experience = { level: 30 }
+    const sword = new Item(bot.registry.itemsByName.diamond_sword.id, 1)
+    anvil.updateSlot(30, sword)
+    const named = text => {
+      const item = new Item(sword.type, 1)
+      item.customName = JSON.stringify({ text })
+      return item
+    }
+    let taken = null
+    bot.openBlock = async () => anvil
+    bot.clickWindow = async slot => {
+      const held = anvil.selectedItem
+      anvil.selectedItem = anvil.slots[slot]
+      anvil.updateSlot(slot, held)
+    }
+    // The server answers each name with a new result; the last arrives after the name loop ends.
+    bot._client.write = (name, params) => {
+      if (name !== 'name_item' || !params.name) return
+      const text = params.name
+      setTimeout(() => anvil.updateSlot(2, named(text)), text === 'ab' ? 150 : 0)
+    }
+    bot.putAway = async slot => {
+      taken = anvil.slots[slot].customName
+      bot.experience.level -= 1
+      bot.emit('experience')
+    }
+    require('../lib/plugins/anvil')(bot)
+    const opened = await bot.openAnvil({})
+    await opened.rename(anvil.slots[30], 'ab')
+    assert.strictEqual(taken, JSON.stringify({ text: 'ab' }))
+  })
+
   it('waits for the entity type each boat item spawns', async () => {
     const { Vec3 } = require('vec3')
     const cases = [['1.8.8', 'boat', 'Boat'], ['1.20.4', 'oak_chest_boat', 'chest_boat'], ['1.20.4', 'bamboo_raft', 'boat'], ['26.3', 'spruce_chest_boat', 'spruce_chest_boat'], ['26.3', 'bamboo_raft', 'bamboo_raft']]
