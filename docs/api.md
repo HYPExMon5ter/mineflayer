@@ -49,7 +49,7 @@
       - [enchantmentTable.putLapis(item)](#enchantmenttableputlapisitem)
     - [mineflayer.anvil](#mineflayeranvil)
       - [anvil.combine(itemOne, itemTwo[, name])](#anvilcombineitemone-itemtwo-name)
-      - [anvil.combine(item[, name])](#anvilcombineitem-name)
+      - [anvil.rename(item[, name])](#anvilrenameitem-name)
       - [villager "ready"](#villager-ready)
       - [villager.trades](#villagertrades)
       - [villager.trade(tradeIndex, [times])](#villagertradetradeindex-times)
@@ -627,8 +627,9 @@ See `bot.openAnvil(anvilBlock)`.
 
 This function returns a `Promise`, with `void` as its argument upon completion.
 
+Pass items of the anvil window or of `bot.inventory`: those exact items are moved into the anvil, so items of one type that differ only in enchantments or other components are not confused. The promise resolves once the bot has taken the result the server produced.
 
-#### anvil.combine(item[, name])
+#### anvil.rename(item[, name])
 
 This function returns a `Promise`, with `void` as its argument upon completion.
 
@@ -2046,6 +2047,8 @@ This function returns a `Promise`, with `Entity` as its argument upon completion
 
 The new block will be placed at `referenceBlock.position.plus(faceVector)`.
 
+Supported items are end crystals, boats and rafts (including chest boats), spawn eggs and armor stands. From 1.21.2 each boat item spawns its own entity type, such as `oak_boat`.
+
 #### bot.activateBlock(block, direction?: Vec3, cursorPos?: Vec3)
 
 This function returns a `Promise`, with `void` as its argument upon completion.
@@ -2116,6 +2119,8 @@ Play an arm swing animation.
 
  * `hand` can take `left` or `right` which is the arm that is animated. Default: `right`
  * `showHand` is a boolean whether to add the hand to the packet, Default: `true`
+
+Java 26.3 removed the packet for this. There a `right` swing is sent as the main-hand attack swing (`punch`), which also resets the attack cooldown as in vanilla; `left` sends nothing because no off-hand swing packet exists, and `showHand` is ignored. The server itself swings the arm for block placement and `activateBlock`, so Mineflayer no longer sends a swing for those on 26.3.
 
 #### bot.mount(entity)
 
@@ -2368,7 +2373,7 @@ To resume normal physics, call `stopFlying()`.
 #### bot.creative.startFlying()
 
 Sets `bot.physics.gravity` to `0`.
-To resume normal physics, call `stopFlying()`.
+To resume normal physics, call `stopFlying()`. Gravity is also restored when the server takes away the ability to fly, for example when the bot leaves creative mode.
 
 This method is useful if you want to hover while digging the ground below you.
 It is not necessary to call this function before calling `flyTo()`.

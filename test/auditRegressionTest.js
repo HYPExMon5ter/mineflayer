@@ -317,8 +317,8 @@ describe('audit regressions', () => {
     assert.deepStrictEqual(bot.scoreboards.two.items, [])
   })
 
-  function creativeBot () {
-    const bot = makeBot('1.21.3')
+  function creativeBot (version = '1.21.3') {
+    const bot = makeBot(version)
     const Item = require('prismarine-item')(bot.registry)
     bot.inventory = new EventEmitter()
     bot.inventory.slots = new Array(46).fill(null)
@@ -370,6 +370,98 @@ describe('audit regressions', () => {
     bot._setSlot(36, Item.fromNotch(sent()))
     bot._client.emit('statistics', {})
     await pending
+  })
+
+  it('sends 1.21.5+ creative item components as their encoded bytes', async () => {
+    const mc = require('minecraft-protocol')
+    for (const version of ['1.21.4', '1.21.5', '26.3']) {
+      const { bot, Item } = creativeBot(version)
+      bot._client.serializer = mc.createSerializer({ state: 'play', isServer: false, version })
+      const book = new Item(bot.registry.itemsByName.enchanted_book.id, 1)
+      book.enchants = [{ name: 'sharpness', lvl: 5 }]
+      await bot.creative.setInventorySlot(36, book, 0)
+      const params = bot.packets.findLast(packet => packet.name === 'set_creative_slot').params
+      // What a vanilla server reads: the packet, then each component's bytes with its codec
+      const buffer = bot._client.serializer.createPacketBuffer({ name: 'set_creative_slot', params })
+      const read = mc.createDeserializer({ state: 'play', isServer: true, version }).parsePacketBuffer(buffer).data.params.item
+      const proto = bot._client.serializer.proto
+      const components = read.components.map(component => {
+        if (!Buffer.isBuffer(component.data)) return component
+        const type = Buffer.alloc(proto.sizeOf(component.type, 'SlotComponentType'))
+        proto.write(component.type, type, 0, 'SlotComponentType')
+        return proto.parsePacketBuffer('SlotComponent', Buffer.concat([type, component.data])).data
+      })
+      assert.strictEqual(Buffer.isBuffer(read.components[0].data), version !== '1.21.4', version)
+      assert.deepStrictEqual(Item.fromNotch({ ...read, components }).enchants, [{ name: 'sharpness', lvl: 5 }], version)
+    }
+  })
+
+  it('moves the given anvil items and takes the result only once the server sent it', async () => {
+    const bot = makeBot('1.21.11')
+    const Item = require('prismarine-item')(bot.registry)
+    const windows = require('prismarine-windows')(bot.registry)
+    const anvil = windows.createWindow(1, 'minecraft:anvil', 'Anvil')
+    bot.inventory = windows.createWindow(0, 'minecraft:inventory', 'Inventory')
+    bot.game = { gameMode: 'survival' }
+    bot.experience = { level: 30 }
+    const plain = new Item(bot.registry.itemsByName.diamond_sword.id, 1)
+    const sword = new Item(bot.registry.itemsByName.diamond_sword.id, 1)
+    sword.enchants = [{ name: 'sharpness', lvl: 1 }]
+    const book = new Item(bot.registry.itemsByName.enchanted_book.id, 1)
+    book.enchants = [{ name: 'unbreaking', lvl: 1 }]
+    // An unenchanted sword first: 1.20.5+ items cannot be told apart by type and NBT
+    for (const [slot, item] of [[30, plain], [31, sword], [32, book]]) anvil.updateSlot(slot, item)
+    const actions = []
+    bot.openBlock = async () => anvil
+    bot.clickWindow = async slot => {
+      actions.push(['click', slot])
+      const held = anvil.selectedItem
+      anvil.selectedItem = anvil.slots[slot]
+      anvil.updateSlot(slot, held)
+      // the server computes the output after the second input; it reaches the bot later
+      if (slot === 1) setTimeout(() => anvil.updateSlot(2, new Item(sword.type, 1)), 20)
+    }
+    bot.putAway = async slot => {
+      actions.push(['putAway', slot, anvil.slots[slot] !== null])
+      bot.experience.level -= 2
+      bot.emit('experience')
+    }
+    require('../lib/plugins/anvil')(bot)
+    const opened = await bot.openAnvil({})
+    await opened.combine(anvil.slots[31], anvil.slots[32])
+    assert.deepStrictEqual(actions, [['click', 31], ['click', 0], ['click', 32], ['click', 1], ['putAway', 2, true]])
+  })
+
+  it('waits for the entity type each boat item spawns', async () => {
+    const { Vec3 } = require('vec3')
+    const cases = [['1.8.8', 'boat', 'Boat'], ['1.20.4', 'oak_chest_boat', 'chest_boat'], ['1.20.4', 'bamboo_raft', 'boat'], ['26.3', 'spruce_chest_boat', 'spruce_chest_boat'], ['26.3', 'bamboo_raft', 'bamboo_raft']]
+    for (const [version, itemName, entityName] of cases) {
+      const bot = makeBot(version)
+      const Item = require('prismarine-item')(bot.registry)
+      bot.heldItem = new Item(bot.registry.itemsByName[itemName].id, 1)
+      bot.entity = { yaw: 0, pitch: 0 }
+      bot._nextSequence = () => 0
+      bot._genericPlace = async (block, face) => block.position
+      require('../lib/plugins/place_entity')(bot)
+      const placed = bot.placeEntity({ position: new Vec3(0, 64, 0) }, new Vec3(0, 1, 0))
+      await new Promise(resolve => setImmediate(resolve))
+      bot.emit('entitySpawn', { name: 'zombie', position: new Vec3(0.5, 65, 0.5) })
+      bot.emit('entitySpawn', { name: entityName, position: new Vec3(0.5, 65, 0.5) })
+      assert.strictEqual((await placed).name, entityName, `${version} ${itemName}`)
+    }
+  })
+
+  it('restores gravity when the server ends the ability to fly', () => {
+    const { bot } = creativeBot()
+    bot.physics = { gravity: 0.08 }
+    require('../lib/plugins/abilities')(bot)
+    const abilities = flags => bot._client.emit('abilities', { flags, flyingSpeed: 0.05, walkingSpeed: 0.1 })
+    abilities(4) // creative: may fly
+    bot.creative.startFlying()
+    abilities(4)
+    assert.strictEqual(bot.physics.gravity, 0)
+    abilities(0) // survival
+    assert.strictEqual(bot.physics.gravity, 0.08)
   })
 
   it('keeps watching for rejection after a matching creative slot echo', async () => {

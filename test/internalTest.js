@@ -13,6 +13,9 @@ const { getPort } = require('./common/util')
 
 for (const supportedVersion of require('./common/versions').getTestVersions()) {
   const registry = require('prismarine-registry')(supportedVersion)
+  // 26.3 has no serverbound swing: main-hand swings are sent as `punch`, and the server
+  // swings for block and item interactions itself.
+  const hasArmAnimation = registry.protocol.play.toServer.types.packet_arm_animation !== undefined
   const version = registry.version
   const Chunk = require('prismarine-chunk')(supportedVersion)
   const Item = require('prismarine-item')(registry)
@@ -1040,13 +1043,13 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
     describe('resource pack', () => {
       const packUuid = '8ef4746b-93b7-3c32-9dcb-b375016c114d'
 
-      // Answers the pack with `answer`, then swings the arm so the arm_animation
-      // packet marks the end of the resource_pack_receive packets the bot sent
+      // Answers the pack with `answer`, then swings the arm so the swing packet
+      // marks the end of the resource_pack_receive packets the bot sent
       function answerPack (answer, cb) {
         server.on('playerJoin', (client) => {
           const results = []
           client.on('resource_pack_receive', (packet) => results.push(packet))
-          client.on('arm_animation', () => cb(results))
+          client.on(hasArmAnimation ? 'arm_animation' : 'punch', () => cb(results))
           bot.once('resourcePack', () => {
             answer()
             bot.swingArm()
@@ -2425,10 +2428,13 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
           await bot.activateBlock(block, vec3(-1, 0, 0))
           try {
             const scale = bot.supportFeature('blockPlaceHasHandAndFloatCursor') || bot.supportFeature('blockPlaceHasInsideBlock') ? 1 : 16
-            assert.deepStrictEqual(writes.map(w => w.name), ['block_place', 'arm_animation', 'block_place', 'arm_animation'])
+            assert.deepStrictEqual(writes.map(w => w.name), hasArmAnimation
+              ? ['block_place', 'arm_animation', 'block_place', 'arm_animation']
+              : ['block_place', 'block_place'])
             const cursor = ({ params }) => [params.cursorX / scale, params.cursorY / scale, params.cursorZ / scale, params.direction]
-            assert.deepStrictEqual(cursor(writes[0]), [0.5, 1, 0.5, 1])
-            assert.deepStrictEqual(cursor(writes[2]), [0, 0.5, 0.5, 4])
+            const places = writes.filter(w => w.name === 'block_place')
+            assert.deepStrictEqual(cursor(places[0]), [0.5, 1, 0.5, 1])
+            assert.deepStrictEqual(cursor(places[1]), [0, 0.5, 0.5, 4])
             done()
           } catch (err) {
             done(err)
@@ -2623,6 +2629,33 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
       })
     })
 
+    describe('swingArm', () => {
+      it('sends the swing packet this version has', (done) => {
+        server.on('playerJoin', async (client) => {
+          const loggedIn = once(bot, 'login')
+          await client.write('login', bot.test.generateLoginPacket())
+          await loggedIn
+          const writes = []
+          bot._client.write = (name, params) => { writes.push([name, params]) }
+          bot.swingArm()
+          bot.swingArm('left')
+          bot.swingArm('right', false)
+          bot.attack({ id: 5 })
+          try {
+            if (hasArmAnimation) {
+              assert.deepStrictEqual(writes.slice(0, 3), [['arm_animation', { hand: 0 }], ['arm_animation', { hand: 1 }], ['arm_animation', {}]])
+            } else {
+              // No off-hand swing packet exists; the attack is followed by its swing as in vanilla.
+              assert.deepStrictEqual(writes, [['punch', {}], ['punch', {}], ['attack', { entityId: 5 }], ['punch', {}]])
+            }
+            done()
+          } catch (err) {
+            done(err)
+          }
+        })
+      })
+    })
+
     describe('generic place', () => {
       it('swings the arm after use_item_on', (done) => {
         server.on('playerJoin', async (client) => {
@@ -2635,7 +2668,7 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
           bot.inventory.updateSlot(bot.QUICK_BAR_START, new Item(registry.itemsByName.stone.id, 1))
           await bot._genericPlace({ position: vec3(1, 65, 1) }, vec3(0, 1, 0), { forceLook: 'ignore', swingArm: 'right' })
           try {
-            assert.deepStrictEqual(writes, ['block_place', 'arm_animation'])
+            assert.deepStrictEqual(writes, hasArmAnimation ? ['block_place', 'arm_animation'] : ['block_place'])
             done()
           } catch (err) {
             done(err)
@@ -3088,7 +3121,9 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             const placed = bot.placeEntity({ position: vec3(1, 64, 1) }, vec3(0, 1, 0))
             await sleep(0)
             bot.emit('entitySpawn', { name: 'zombie', position: vec3(1.5, 65, 1.5) })
-            bot.emit('entitySpawn', { name: bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Boat' : 'boat', position: vec3(1.5, 65, 1.5) })
+            // 1.21.2 split boats into one entity type per item
+            const boatEntity = registry.entitiesByName[boat.name] ? boat.name : bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Boat' : 'boat'
+            bot.emit('entitySpawn', { name: boatEntity, position: vec3(1.5, 65, 1.5) })
             await placed
             bot.activateItem()
 
