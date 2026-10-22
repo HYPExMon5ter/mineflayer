@@ -12,7 +12,7 @@
       "license": "MIT",
       "dependencies": {
         "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-5/minecraft-data-3.117.0.tgz",
-        "minecraft-protocol": "git+https://github.com/HYPExMon5ter/node-minecraft-protocol.git#f8879fb1469a7ad10f2b1cd7763a5fc923c6a614",
+        "minecraft-protocol": "git+https://github.com/HYPExMon5ter/node-minecraft-protocol.git#aea3107ea70c5dbf0799b7c0f8e1d4d520f34509",
         "mojangson": "^2.0.4",
         "prismarine-biome": "^1.1.1",
         "prismarine-block": "^1.22.0",
@@ -4713,8 +4713,8 @@
     },
     "node_modules/minecraft-protocol": {
       "version": "1.68.0",
-      "resolved": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#f8879fb1469a7ad10f2b1cd7763a5fc923c6a614",
-      "integrity": "sha512-hKxnEu2fPBNpbnUxf9BOqRrRofdrq1y3hgt0hViDMTTZDvy/0HvBwy+C5i5xSF54zNyiDdBiXRgBDeHka16G1g==",
+      "resolved": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#aea3107ea70c5dbf0799b7c0f8e1d4d520f34509",
+      "integrity": "sha512-kXGR1/sBOB5Sf5Q0LYWF1TyOowYw1bOaeNde4ijjN5MN5qrMQUoBPqSwl+ScR7lHXVpVaDJDdrOWWjojugqOGQ==",
       "license": "BSD-3-Clause",
       "dependencies": {
         "@types/node-rsa": "^1.1.4",
