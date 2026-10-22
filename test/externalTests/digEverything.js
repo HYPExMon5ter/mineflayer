@@ -87,13 +87,25 @@ async function digSomething (blockName, bot) {
     : null
   released?.catch(() => {}) // awaited below; only keeps a failed dig from leaving it unhandled
   await bot.dig(bot.blockAt(position))
-  // bot.dig resolves on the client's own prediction. Wait for the server's update: the server can
-  // apply the break after commands sent later (26.3 queues digging packets for its next tick but
-  // runs commands at once), and a break applied after the next test's /setblock removes that block.
-  const [, confirmed] = await onceWithCleanup(bot.world, `blockUpdate:${position}`, { timeout: 5000 })
-  assert.notStrictEqual(confirmed.name, blockName)
+  // bot.dig resolves on the client's own prediction, before the server has handled the finish.
+  // 26.3 queues digging packets for its next tick but runs commands as they arrive, so the next
+  // test's /setblock could run first and the late break would remove that block. From 1.19 the
+  // server acknowledges digging packets once handled; earlier servers handle commands and digging
+  // packets in order, so a command round trip is enough. A block the server kept has been resent
+  // by then, so this checks the server's result, not the prediction.
+  if (acknowledgesBySequence(bot)) {
+    await onceWithCleanup(bot._client, 'acknowledge_player_digging', { timeout: 5000 })
+  } else {
+    await bot.test.awaitCommandsProcessed(`dug ${blockName}`)
+  }
+  assert.notStrictEqual(bot.blockAt(position).name, blockName)
   if (released) {
     const [silverfish] = await released
     await bot.test.killEntity(silverfish)
   }
+}
+
+function acknowledgesBySequence (bot) {
+  const ack = bot.registry.protocol?.play?.toClient?.types?.packet_acknowledge_player_digging
+  return ack?.[1]?.some(field => field.name === 'sequenceId') ?? false
 }
