@@ -31,17 +31,17 @@
   },
   "license": "MIT",
   "dependencies": {
-    "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-2/minecraft-data-3.117.0.tgz",
-    "minecraft-protocol": "git+https://github.com/HYPExMon5ter/node-minecraft-protocol.git#cbcee01724045e770b8a441700b2781b3dc67bb6",
+    "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-5/minecraft-data-3.117.0.tgz",
+    "minecraft-protocol": "git+https://github.com/HYPExMon5ter/node-minecraft-protocol.git#f8879fb1469a7ad10f2b1cd7763a5fc923c6a614",
     "mojangson": "^2.0.4",
     "prismarine-biome": "^1.1.1",
     "prismarine-block": "^1.22.0",
     "prismarine-chat": "^1.7.1",
-    "prismarine-chunk": "git+https://github.com/HYPExMon5ter/prismarine-chunk.git#84461090b8f6469b7eaa0a4aea35acca023a08d7",
+    "prismarine-chunk": "git+https://github.com/HYPExMon5ter/prismarine-chunk.git#f462cb49c9dd2b8a4587a31f577ee3a7785f0b8b",
     "prismarine-entity": "^2.5.0",
-    "prismarine-item": "^1.17.0",
+    "prismarine-item": "git+https://github.com/HYPExMon5ter/prismarine-item.git#7a7b72dc0f86550f66f89a60d60d5cb2800a449f",
     "prismarine-nbt": "^2.0.0",
-    "prismarine-physics": "git+https://github.com/HYPExMon5ter/prismarine-physics.git#31b5117038860844eddd5824aacaedaeaf0ff1c0",
+    "prismarine-physics": "git+https://github.com/HYPExMon5ter/prismarine-physics.git#5d9f493317c2f6dd822b65d71f0dbb99d7e7c85e",
     "prismarine-recipe": "^1.5.0",
     "prismarine-registry": "^1.10.0",
     "prismarine-windows": "^2.9.0",
@@ -54,6 +54,7 @@
   "overrides": {
     "minecraft-data": "$minecraft-data",
     "prismarine-chunk": "$prismarine-chunk",
+    "prismarine-item": "$prismarine-item",
     "prismarine-physics": "$prismarine-physics"
   },
   "devDependencies": {
