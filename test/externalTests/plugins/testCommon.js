@@ -262,10 +262,13 @@ function inject (bot, wrap) {
     const finalClear = clearSuccess()
     bot.chat('/clear')
     await finalClear
-    // The confirmation is sent at once but the emptied slots only with the server's next inventory
-    // broadcast: a test that sets a slot before they arrive would see its slot cleared under it.
-    const empty = () => bot.inventory.slots.every(item => item == null)
-    if (!empty()) await onceWithCleanup(bot.inventory, 'updateSlot', { timeout: 5000, checkCondition: empty })
+    // The server confirms a command while handling it, but sends the emptied slots with the
+    // inventory broadcast later in that tick: a test that set a slot in between saw it cleared
+    // under it. A command sent after this confirmation is handled in a later tick, so its own
+    // confirmation follows that broadcast.
+    const settled = clearSuccess()
+    bot.chat('/clear')
+    await settled
   }
 
   // you need to be in creative mode for this to work
