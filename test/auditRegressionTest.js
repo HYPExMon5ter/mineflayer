@@ -490,6 +490,34 @@ describe('audit regressions', () => {
     }
   })
 
+  it('adopts the block a 1.14-1.18 digging acknowledgement reports like vanilla', () => {
+    const { Vec3 } = require('vec3')
+    const bot = makeBot('1.16.5')
+    require('../lib/plugins/blocks')(bot, { version: bot.version })
+    const World = require('prismarine-world')(bot.registry)
+    const Chunk = require('prismarine-chunk')(bot.registry)
+    bot.world = new World(() => new Chunk()).sync
+    const pos = new Vec3(1, 64, 0)
+    const stone = bot.registry.blocksByName.stone.defaultState
+    const dirt = bot.registry.blocksByName.dirt.defaultState
+    bot.world.setColumn(0, 0, new Chunk())
+    const ack = (status, block, successful) => bot._client.emit('acknowledge_player_digging', { location: pos, block, status, successful })
+
+    bot._updateBlockState(pos, 0) // the bot predicted its break
+    ack(2, stone, false) // refused finish: the server kept the stone
+    assert.strictEqual(bot.blockAt(pos).name, 'stone')
+    bot._updateBlockState(pos, 0)
+    ack(2, stone, true) // finish handled but the block is still there (a delayed break)
+    assert.strictEqual(bot.blockAt(pos).name, 'stone')
+    bot._updateBlockState(pos, 0)
+    ack(0, dirt, true) // an accepted start does not override the prediction
+    assert.strictEqual(bot.blockAt(pos).name, 'air')
+    ack(0, dirt, false) // a refused one does
+    assert.strictEqual(bot.blockAt(pos).name, 'dirt')
+    bot._client.emit('acknowledge_player_digging', { sequenceId: 4 }) // 1.19+ shape is ignored
+    assert.strictEqual(bot.blockAt(pos).name, 'dirt')
+  })
+
   it('restores gravity when the server ends the ability to fly', () => {
     const { bot } = creativeBot()
     bot.physics = { gravity: 0.08 }
