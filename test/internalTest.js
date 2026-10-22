@@ -959,6 +959,10 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
               sent.length = 0
             }
             client.once('configuration_acknowledged', () => { client.state = 'configuration' })
+            // The server write does not mean the client has received the
+            // transition yet. Normal play movement in transit is valid;
+            // observe from receipt, before the client's handlers run.
+            bot._client.prependOnceListener('start_configuration', () => { sent.length = 0 })
             await client.write('start_configuration', {})
             if (bot._client.state !== 'configuration') {
               await once(bot._client, 'state')

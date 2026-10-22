@@ -12,6 +12,8 @@ Passing internal tests used to print `ECONNABORTED`/`ECONNREFUSED` traces: a tes
 
 ## Results
 
+The first hosted run ([39740140539](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39740140539), baseline `216b3abd`) passed lint and both unit jobs but failed the 26.3 delayed-respawn/transfer test. Its observation window started before the client received `start_configuration`, so normal movement still in play was misclassified as post-transfer movement. The test now resets the recording at receipt, before client handlers execute, and still waits beyond the delayed reply deadline. The focused test passes on 1.20.2, 1.21.11, 26.2 and 26.3; the parent also independently reran all 79 unit tests, lint and the consumer typecheck. Hosted success for the follow-up must be established separately.
+
 - Internal protocol-server matrix: **2243 passing, 292 pending, zero failures across 30 versions**. Pending tests are version/feature skips; the new 26.3 swing animation test accounts for 29 of them.
 - Internal + vanilla server suites: **3923 passing, 292 pending, zero failures across 30 versions**, with the existing exclusions (`digEverything`, `anvil`, `placeEntity`).
 - Standalone unit/regression suite: **79 passing**. Lint and the TypeScript consumer check (`test:types`) pass.
