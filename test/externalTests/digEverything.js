@@ -96,6 +96,12 @@ async function digSomething (blockName, bot) {
   // kept has been resent by then, so this checks the server's result, not the prediction.
   if (acknowledgements) {
     await acknowledgements.handled()
+    // A break the server found too fast is delayed without a block update, and the bot keeps its
+    // prediction, so ask the server whether the block is still there.
+    const feedback = onceWithCleanup(bot, 'messagestr', { timeout: 5000, checkCondition: message => /^Test (passed|failed)/.test(message) })
+    bot.chat(`/execute unless block ${position.x} ${position.y} ${position.z} minecraft:${blockName}`)
+    const [result] = await feedback
+    assert.match(result, /^Test passed/, `the server still has ${blockName} after the dig`)
   } else {
     await bot.test.awaitCommandsProcessed(`dug ${blockName}`)
   }
