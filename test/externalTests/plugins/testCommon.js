@@ -262,6 +262,10 @@ function inject (bot, wrap) {
     const finalClear = clearSuccess()
     bot.chat('/clear')
     await finalClear
+    // The confirmation is sent at once but the emptied slots only with the server's next inventory
+    // broadcast: a test that sets a slot before they arrive would see its slot cleared under it.
+    const empty = () => bot.inventory.slots.every(item => item == null)
+    if (!empty()) await onceWithCleanup(bot.inventory, 'updateSlot', { timeout: 5000, checkCondition: empty })
   }
 
   // you need to be in creative mode for this to work

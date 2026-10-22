@@ -116,7 +116,7 @@ module.exports = () => async (bot) => {
   await depositBones(smallChestLocation, 1)
   await depositBones(largeChestLocations[0], 2)
 
-  assert(bot.inventory.items().length === 0)
+  assert.deepStrictEqual(bot.inventory.items().map(item => `${item.count}x ${item.name} in ${item.slot}`), [])
 
   await withdrawBones(smallChestLocation, 1)
   await withdrawBones(largeChestLocations[0], 2)
@@ -124,7 +124,7 @@ module.exports = () => async (bot) => {
   await depositBones(smallTrappedChestLocation, 1)
   await depositBones(largeTrappedChestLocations[0], 2)
 
-  assert(bot.inventory.items().length === 0)
+  assert.deepStrictEqual(bot.inventory.items().map(item => `${item.count}x ${item.name} in ${item.slot}`), [])
 
   await withdrawBones(smallTrappedChestLocation, 1)
   await withdrawBones(largeTrappedChestLocations[0], 2)
