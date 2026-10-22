@@ -156,7 +156,8 @@ export interface BotEvents {
   scoreboardTitleChanged: (scoreboard: ScoreBoard) => Promise<void> | void
   scoreUpdated: (scoreboard: ScoreBoard, item: number) => Promise<void> | void
   scoreRemoved: (scoreboard: ScoreBoard, item: number) => Promise<void> | void
-  scoreboardPosition: (position: DisplaySlot, scoreboard: ScoreBoard) => Promise<void> | void
+  scoreboardPosition: (position: DisplaySlot, scoreboard: ScoreBoard, previous?: ScoreBoard) => Promise<void> | void
+  scoreboardPositionCleared: (position: DisplaySlot, previous: ScoreBoard) => Promise<void> | void
   teamCreated: (team: Team) => Promise<void> | void
   teamRemoved: (team: Team) => Promise<void> | void
   teamUpdated: (team: Team) => Promise<void> | void
@@ -165,7 +166,9 @@ export interface BotEvents {
   bossBarCreated: (bossBar: BossBar) => Promise<void> | void
   bossBarDeleted: (bossBar: BossBar) => Promise<void> | void
   bossBarUpdated: (bossBar: BossBar) => Promise<void> | void
-  resourcePack: (url: string, hash?: string, uuid?: string) => Promise<void> | void
+  // The second argument is the pack UUID on 1.20.3+ and the hash before. The third parameter
+  // was never provided and is kept only so existing three-parameter listeners still compile.
+  resourcePack: (url: string, hashOrUuid: string, uuid?: undefined) => Promise<void> | void
   heldItemChanged: (newItem: Item | null) => Promise<void> | void
   particle: (particle: Particle) => Promise<void> | void
 }
@@ -195,6 +198,7 @@ export interface Bot extends TypedEmitter<BotEvents> {
   settings: GameSettings
   experience: Experience
   health: number
+  isAlive: boolean
   food: number
   foodSaturation: number
   oxygenLevel: number
@@ -443,9 +447,9 @@ export interface Bot extends TypedEmitter<BotEvents> {
 
   awaitMessage: (...args: string[] | RegExp[]) => Promise<string>
 
-  acceptResourcePack: () => void
+  acceptResourcePack: (hashOrUuidOrUrl?: string) => void
 
-  denyResourcePack: () => void
+  denyResourcePack: (hashOrUuidOrUrl?: string) => void
 
   respawn: () => void
 }
@@ -573,6 +577,14 @@ export interface Time {
   moonPhase: number
   bigAge: BigInt
   age: number
+  clocks: { [name: string]: WorldClock }
+}
+
+export interface WorldClock {
+  id: number
+  totalTicks: number
+  partialTick: number
+  rate: number
 }
 
 export interface ControlStateStatus {

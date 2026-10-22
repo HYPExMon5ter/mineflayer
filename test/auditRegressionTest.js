@@ -31,6 +31,8 @@ describe('audit regressions', () => {
     assert.strictEqual(bot.currentWindow, null)
     assert.strictEqual(closed, oldWindow)
     assert.strictEqual(unknown, packet)
+    // Vanilla ignores clicks for any other container while this one is open server-side.
+    assert.deepStrictEqual(bot.packets, [{ name: 'close_window', params: { windowId: 8 } }])
   })
 
   it('reconciles passengers and clears all relationships before dismount events', () => {
@@ -62,6 +64,27 @@ describe('audit regressions', () => {
     }
   })
 
+  it('reports leaving the previous vehicle when the new vehicle passengers arrive first', () => {
+    const bot = makeBot('26.3')
+    require('../lib/plugins/entities')(bot)
+    bot._client.emit('login', { entityId: 0 })
+    for (const id of [2, 3, 4]) bot._client.emit('entity_velocity', { entityId: id, velocity: { x: 0, y: 0, z: 0 } })
+    const [a, b, rider] = [bot.entities[2], bot.entities[3], bot.entities[4]]
+    bot._client.emit('set_passengers', { entityId: 2, passengers: [0, 4] })
+    const events = []
+    bot.on('dismount', vehicle => events.push(['dismount', vehicle.id, bot.vehicle?.id]))
+    bot.on('mount', () => events.push(['mount', bot.vehicle.id]))
+    bot.on('entityDetach', (entity, vehicle) => events.push(['detach', entity.id, vehicle.id, entity.vehicle?.id]))
+    bot.on('entityAttach', (entity, vehicle) => events.push(['attach', entity.id, vehicle.id]))
+    bot._client.emit('set_passengers', { entityId: 3, passengers: [0, 4] })
+    bot._client.emit('set_passengers', { entityId: 2, passengers: [] })
+    // Relationships are settled before any event, so listeners already see the new vehicle.
+    assert.deepStrictEqual(events, [['dismount', 2, 3], ['detach', 4, 2, 3], ['mount', 3], ['attach', 4, 3]])
+    assert.deepStrictEqual(a.passengers, [])
+    assert.deepStrictEqual(b.passengers, [bot.entity, rider])
+    assert.strictEqual(bot.vehicle, b)
+  })
+
   it('allows resource-pack handlers to decline configuration packs without a later acceptance', () => {
     const bot = makeBot('26.3')
     bot._client.state = 'configuration'
@@ -85,6 +108,125 @@ describe('audit regressions', () => {
     bot._client.emit('add_resource_pack', { uuid, url: 'https://example.com/pack.zip' })
     bot.acceptResourcePack()
     assert.deepStrictEqual(bot.packets.map(packet => packet.params), [3, 4, 0].map(result => ({ uuid, result })))
+  })
+
+  it('does not let listeners that leave a configuration pack unanswered stall the transfer', () => {
+    for (const version of ['1.20.2', '26.3']) {
+      const bot = makeBot(version)
+      bot._client.state = 'configuration'
+      require('../lib/plugins/resource_pack')(bot)
+      const seen = []
+      bot.on('resourcePack', (url, id) => seen.push([url, id]))
+      const packet = { uuid: '00000000-0000-4000-8000-000000000002', url: 'https://example.com/a.zip', hash: 'abc' }
+      bot._client.emit(bot.supportFeature('resourcePackUsesUUID') ? 'add_resource_pack' : 'resource_pack_send', packet)
+      const expectedId = bot.supportFeature('resourcePackUsesUUID') ? packet.uuid : packet.hash
+      assert.deepStrictEqual(seen, [[packet.url, expectedId]], version)
+      assert.deepStrictEqual(bot.packets.map(p => p.params.result), version === '26.3' ? [3, 4, 0] : [3, 0], version)
+      bot.denyResourcePack()
+      assert.strictEqual(bot.packets.length, version === '26.3' ? 3 : 2, version)
+    }
+  })
+
+  it('answers each outstanding 1.20.3+ pack by id, URL or recency', () => {
+    const bot = makeBot('26.3')
+    bot._client.state = 'play'
+    require('../lib/plugins/resource_pack')(bot)
+    const packs = [1, 2, 3, 4].map(n => ({ uuid: `00000000-0000-4000-8000-00000000000${n}`, url: `https://example.com/${n}.zip` }))
+    for (const pack of packs) bot._client.emit('add_resource_pack', pack)
+    assert.deepStrictEqual(bot.packets, [])
+    bot.denyResourcePack(packs[0].uuid)
+    bot.acceptResourcePack(packs[1].url)
+    bot._client.emit('remove_resource_pack', { uuid: packs[2].uuid })
+    bot.acceptResourcePack(packs[2].uuid)
+    bot.acceptResourcePack()
+    bot.acceptResourcePack()
+    bot.denyResourcePack(packs[0].uuid)
+    assert.deepStrictEqual(bot.packets.map(p => p.params), [
+      { uuid: packs[0].uuid, result: 1 },
+      ...[3, 4, 0].map(result => ({ uuid: packs[1].uuid, result })),
+      ...[3, 4, 0].map(result => ({ uuid: packs[3].uuid, result }))
+    ])
+  })
+
+  it('answers a request when acceptResourcePack is used directly as the listener', () => {
+    const bot = makeBot('26.3')
+    require('../lib/plugins/resource_pack')(bot)
+    bot.on('resourcePack', bot.acceptResourcePack)
+    const uuid = '00000000-0000-4000-8000-000000000009'
+    bot._client.emit('add_resource_pack', { uuid, url: 'https://example.com/pack.zip' })
+    assert.deepStrictEqual(bot.packets.map(p => p.params), [3, 4, 0].map(result => ({ uuid, result })))
+  })
+
+  it('answers legacy hash-based requests with the hash only where the protocol has it', () => {
+    for (const [version, withHash] of [['1.8.8', true], ['1.12.2', false]]) {
+      const bot = makeBot(version)
+      require('../lib/plugins/resource_pack')(bot)
+      bot._client.emit('resource_pack_send', { url: 'https://example.com/old.zip', hash: 'old' })
+      bot._client.emit('resource_pack_send', { url: 'https://example.com/new.zip', hash: 'new' })
+      bot.acceptResourcePack('old')
+      assert.deepStrictEqual(bot.packets, [], version)
+      bot.denyResourcePack()
+      bot.acceptResourcePack()
+      assert.deepStrictEqual(bot.packets.map(p => p.params), [withHash ? { result: 1, hash: 'new' } : { result: 1 }], version)
+    }
+  })
+
+  it('resolves 1.21.2+ teleports like vanilla PositionMoveRotation.calculateAbsolute', () => {
+    const { resolveRelativeTeleport } = require('../lib/teleport')
+    const { Vec3 } = require('vec3')
+    const current = { position: new Vec3(1, 2, 3), velocity: new Vec3(1, 0.5, 0), yaw: 0, pitch: 0 }
+    const packet = (values, flags = {}) => ({ x: 0, y: 0, z: 0, dx: 0, dy: 0, dz: 0, yaw: 0, pitch: 0, ...values, flags })
+    const absolute = resolveRelativeTeleport(current, packet({ x: 5, dx: 0.25, dy: -0.5, yaw: 45, pitch: 120 }))
+    assert.deepStrictEqual(absolute, { position: new Vec3(5, 0, 0), velocity: new Vec3(0.25, -0.5, 0), yaw: 45, pitch: 90 })
+    const relative = resolveRelativeTeleport(current, packet({ x: 1, dy: 0.25, pitch: -100 }, { x: true, y: true, dx: true, dy: true, pitch: true }))
+    assert.deepStrictEqual(relative, { position: new Vec3(2, 2, 0), velocity: new Vec3(1, 0.75, 0), yaw: 0, pitch: -90 })
+    // Turning 90 degrees with yawDelta rotates the kept velocity from +X towards +Z.
+    const turned = resolveRelativeTeleport(current, packet({ yaw: 90 }, { yawDelta: true, dx: true, dy: true, dz: true }))
+    assert.ok(Math.abs(turned.velocity.x) < 1e-9 && Math.abs(turned.velocity.z - 1) < 1e-9, `${turned.velocity}`)
+    assert.strictEqual(turned.velocity.y, 0.5)
+    assert.strictEqual(current.velocity.x, 1, 'the current state is not modified')
+  })
+
+  it('emits entitySwingArm for 26.3 swing_animation packets and keeps renumbered animations', () => {
+    const swings = []
+    const effects = []
+    for (const version of ['1.8.8', '1.21.11', '26.3']) {
+      const bot = makeBot(version)
+      require('../lib/plugins/entities')(bot)
+      bot.on('entitySwingArm', entity => swings.push([version, entity.id]))
+      for (const event of ['entityWake', 'entityCriticalEffect', 'entityMagicCriticalEffect']) {
+        bot.on(event, entity => effects.push([version, event, entity.id]))
+      }
+      bot._client.emit('animation', { entityId: 5, animation: 0 })
+      bot._client.emit('animation', { entityId: 5, animation: 4 })
+      if (version === '26.3') {
+        bot._client.emit('swing_animation', { entityId: 6, hand: 0, animationType: 1, duration: 6 })
+        bot._client.emit('swing_animation', { entityId: 7, hand: 1, animationType: 1, duration: 6 })
+        bot._client.emit('animation', { entityId: 5, animation: 1 })
+      }
+    }
+    assert.deepStrictEqual(swings, [['1.8.8', 5], ['1.21.11', 5], ['26.3', 6]])
+    assert.deepStrictEqual(effects, [
+      ['1.8.8', 'entityCriticalEffect', 5],
+      ['1.21.11', 'entityCriticalEffect', 5],
+      ['26.3', 'entityWake', 5],
+      ['26.3', 'entityCriticalEffect', 5]
+    ])
+  })
+
+  it('prices villager trades like vanilla, including discounts and demand', () => {
+    const { tradePrice } = require('../lib/tradePrice')
+    const f32 = Math.fround
+    const offer = (demand, priceMultiplier, specialPrice) => ({ demand, priceMultiplier: f32(priceMultiplier), specialPrice })
+    assert.strictEqual(tradePrice(2, 64, offer(0, 0.05, 0)), 2)
+    // The former external fixture: demand 60 adds floor(2 * 60 * 0.05) = 6, a -4 discount removes 4.
+    assert.strictEqual(tradePrice(2, 64, offer(60, 0.05, -4)), 4)
+    assert.strictEqual(tradePrice(2, 64, offer(0, 0.05, -4)), 1, 'never below one item')
+    assert.strictEqual(tradePrice(32, 64, offer(-10, 0.2, 0)), 32, 'negative demand never discounts')
+    assert.strictEqual(tradePrice(36, 64, offer(100, 0.2, 0)), 64, 'clamped to the max stack size')
+    assert.strictEqual(tradePrice(1, 16, offer(3, 0.1, 0)), 1)
+    // Vanilla multiplies in float: 20 * 0.35f rounds to 7.0, while the double product is 6.9999998
+    assert.strictEqual(tradePrice(2, 64, offer(10, 0.35, 0)), 9)
   })
 
   it('decodes modern velocity in blocks per tick and legacy fixed-point velocity', () => {
@@ -131,6 +273,30 @@ describe('audit regressions', () => {
       bot._client.emit('update_health', { health: 20, food: 20, foodSaturation: 5 })
       bot._client.emit('update_health', { health: 20, food: 20, foodSaturation: 5 })
       assert.strictEqual(spawns, 1)
+    }
+  })
+
+  it('announces spawn once per login, including a proxy switch without respawn', async () => {
+    for (const version of ['1.8.8', '1.21.4', '26.3']) {
+      const bot = makeBot(version)
+      bot._client.state = 'play'
+      bot.entity = { position: { x: 0, y: 64, z: 0 } }
+      bot.blockAt = () => ({})
+      require('../lib/plugins/health')(bot, { respawn: false })
+      let spawns = 0
+      bot.on('spawn', () => spawns++)
+      const healthy = { health: 20, food: 20, foodSaturation: 5 }
+      bot._client.emit('update_health', healthy)
+      assert.strictEqual(spawns, 0, `${version}: no spawn before login`)
+      for (let login = 1; login <= 2; login++) {
+        // The game plugin emits login for every login packet
+        bot.emit('login')
+        bot._client.emit('update_health', healthy)
+        bot._client.emit('update_health', healthy)
+        assert.strictEqual(spawns, login, version)
+      }
+      const loaded = bot.packets.filter(packet => packet.name === 'player_loaded').length
+      assert.strictEqual(loaded, bot.supportFeature('sendsPlayerLoadedPacket') ? 2 : 0, version)
     }
   })
 
@@ -193,6 +359,17 @@ describe('audit regressions', () => {
       assert.strictEqual(bot.inventory.listenerCount('updateSlot:36'), 0)
       bot._client.emit('statistics', {})
     }
+  })
+
+  it('accepts a server echo of the creative item as it was sent', async () => {
+    const { bot, Item } = creativeBot()
+    const item = new Item(bot.registry.itemsByName.diamond_sword.id, 1)
+    item.enchants = [{ name: 'sharpness', lvl: 2 }]
+    const sent = () => bot.packets.findLast(packet => packet.name === 'set_creative_slot').params.item
+    const pending = bot.creative.setInventorySlot(36, item)
+    bot._setSlot(36, Item.fromNotch(sent()))
+    bot._client.emit('statistics', {})
+    await pending
   })
 
   it('keeps watching for rejection after a matching creative slot echo', async () => {

@@ -136,6 +136,7 @@
       - [bot.experience.points](#botexperiencepoints)
       - [bot.experience.progress](#botexperienceprogress)
       - [bot.health](#bothealth)
+      - [bot.isAlive](#botisalive)
       - [bot.food](#botfood)
       - [bot.foodSaturation](#botfoodsaturation)
       - [bot.oxygenLevel](#botoxygenlevel)
@@ -152,6 +153,7 @@
       - [bot.time.moonPhase](#bottimemoonphase)
       - [bot.time.bigAge](#bottimebigage)
       - [bot.time.age](#bottimeage)
+      - [bot.time.clocks](#bottimeclocks)
       - [bot.quickBarSlot](#botquickbarslot)
       - [bot.inventory](#botinventory)
       - [bot.targetDigBlock](#bottargetdigblock)
@@ -250,7 +252,8 @@
       - ["scoreboardTitleChanged" (scoreboard)](#scoreboardtitlechanged-scoreboard)
       - ["scoreUpdated" (scoreboard, item)](#scoreupdated-scoreboard-item)
       - ["scoreRemoved" (scoreboard, item)](#scoreremoved-scoreboard-item)
-      - ["scoreboardPosition" (position, scoreboard)](#scoreboardposition-position-scoreboard)
+      - ["scoreboardPosition" (position, scoreboard, previous)](#scoreboardposition-position-scoreboard-previous)
+      - ["scoreboardPositionCleared" (position, previous)](#scoreboardpositioncleared-position-previous)
       - ["teamCreated" (team)](#teamcreated-team)
       - ["teamRemoved" (team)](#teamremoved-team)
       - ["teamUpdated" (team)](#teamupdated-team)
@@ -310,8 +313,8 @@
       - [bot.dig(block, [forceLook], [digFace])](#botdigblock-forcelook-digface)
       - [bot.stopDigging()](#botstopdigging)
       - [bot.digTime(block)](#botdigtimeblock)
-      - [bot.acceptResourcePack()](#botacceptresourcepack)
-      - [bot.denyResourcePack()](#botdenyresourcepack)
+      - [bot.acceptResourcePack([request])](#botacceptresourcepackrequest)
+      - [bot.denyResourcePack([request])](#botdenyresourcepackrequest)
       - [bot.placeBlock(referenceBlock, faceVector)](#botplaceblockreferenceblock-facevector)
       - [bot.placeEntity(referenceBlock, faceVector)](#botplaceentityreferenceblock-facevector)
       - [bot.activateBlock(block, direction?: Vec3, cursorPos?: Vec3)](#botactivateblockblock-direction-vec3-cursorpos-vec3)
@@ -683,7 +686,7 @@ Name of the scoreboard.
 
 #### ScoreBoard.title
 
-The title of the scoreboard as a plain string (does not always equal the name). Server chat components are converted to text.
+The title of the scoreboard as a plain string (does not always equal the name). A JSON or NBT chat component title is converted to text. A plain-string title, as sent before 1.13, is kept unchanged, including `§` formatting codes.
 
 #### ScoreBoard.itemsMap
 
@@ -1067,6 +1070,10 @@ Between 0 and 1 - amount to get to the next level.
 
 Number in the range [0, 20] representing the number of half-hearts.
 
+#### bot.isAlive
+
+`false` after the bot dies, until the server respawns it. A respawn that keeps the player's entity data (a dimension change) leaves it `true`. The next healthy `update_health` after a login or respawn sets it to `true` and emits `spawn`.
+
 #### bot.food
 
 Number in the range [0, 20] representing the number of half-turkey-legs.
@@ -1153,6 +1160,10 @@ Age of the world, in ticks.
 
 Because the Number limit of Javascript is at 2^51 - 1 bot.time.age becomes inaccurate higher than this limit and the use of bot.time.bigAge is recommended.
 Realistically though you'll probably never need to use bot.time.bigAge as it will only reach 2^51 - 1 ticks naturally after ~14280821 real years.
+
+#### bot.time.clocks
+
+26.1+ world clocks by name without the `minecraft:` prefix (for example `overworld`), resolved through the server's `world_clock` registry. Each clock is `{ id, totalTicks, partialTick, rate }` and keeps advancing by `rate` every physics tick between server updates. A clock whose registry entry is unknown is named `unknown_clock_<id>`. The other `bot.time` fields follow the `overworld` clock, or the clock with the lowest id when there is none. Empty before 26.1.
 
 #### bot.quickBarSlot
 
@@ -1289,9 +1300,9 @@ Emitted when the server changes any of the game properties.
 
 #### "resourcePack" (url, hash)
 
-Emitted when the server sends a resource pack. The second argument is the pack UUID on 1.20.3+ and its hash on older versions. Call `bot.acceptResourcePack()` or `bot.denyResourcePack()` to answer the latest request. Each request is answered at most once.
+Emitted when the server sends a resource pack. The second argument is the pack UUID on 1.20.3+ and its hash on older versions. Call `bot.acceptResourcePack()` or `bot.denyResourcePack()` to answer it. Each request is answered at most once. On 1.20.3+ a server may have several packs outstanding; pass the UUID to answer a specific one.
 
-During configuration, a request with no `resourcePack` listeners is automatically acknowledged so login or transfer can proceed. A registered listener owns the decision, including an asynchronous decision. Acceptance reports protocol status; it does not download or render the pack.
+During configuration (1.20.2+, including proxy transfers) the server waits for the answer, so a request that no listener answers synchronously is accepted automatically after the event. Decline it from the listener itself to refuse it. Outside configuration nothing is answered automatically. Acceptance reports protocol status; it does not download or render the pack.
 
 #### "title" (title, type)
 
@@ -1375,6 +1386,9 @@ Fires when the server sends the abilities packet, with the new [bot.abilities](#
 Fires when an attribute of an entity changes.
 
 #### "entitySwingArm" (entity)
+
+Fires when an entity swings its main arm. On 26.3+ this comes from the separate swing animation packet.
+
 #### "entityHurt" (entity)
 #### "entityDead" (entity)
 #### "entityTaming" (entity)
@@ -1557,7 +1571,7 @@ Fires when you may no longer work with a workbench, chest, etc. Also fires when 
 
 #### "unknownWindow" (packet)
 
-Emitted when the server opens a menu whose layout is not supported by `prismarine-windows`. The raw packet contains `windowId`, `inventoryType`, `windowTitle`, and, on older versions, `slotCount`. The previous window is closed locally and `bot.currentWindow` becomes `null`.
+Emitted when the server opens a menu whose layout is not supported by `prismarine-windows`. The raw packet contains `windowId`, `inventoryType`, `windowTitle`, and, on older versions, `slotCount`. The previous window is closed locally and `bot.currentWindow` becomes `null`. Because the server would otherwise ignore clicks in every other window, including the player inventory, the unsupported menu is closed on the server before this event is emitted.
 
 #### "sleep"
 
@@ -1591,9 +1605,13 @@ Fires when the score of a item in a scoreboard is updated.
 
 Fires when the score of a item in a scoreboard is removed.
 
-#### "scoreboardPosition" (position, scoreboard)
+#### "scoreboardPosition" (position, scoreboard, previous)
 
-Fires when the position of a scoreboard is updated.
+Fires when a scoreboard is displayed in a slot. `position` is the protocol display slot number; `previous` is the scoreboard that was displayed there, if any. `scoreboard` is never `undefined`.
+
+#### "scoreboardPositionCleared" (position, previous)
+
+Fires when a display slot stops showing `previous`, either because the server cleared the slot or because the objective was deleted. Slots dropped by a login emit nothing, matching `scoreboardDeleted`.
 
 #### "teamCreated" (team)
 
@@ -1999,13 +2017,13 @@ If you call bot.dig twice before the first dig is finished, you will get a fatal
 
 Tells you how long it will take to dig the block, in milliseconds.
 
-#### bot.acceptResourcePack()
+#### bot.acceptResourcePack([request])
 
-Accepts resource pack.
+Accepts a resource pack request. Without an argument, answers the most recent request if it is still unanswered. `request` selects an outstanding request by the id from the [`resourcePack`](#resourcepack-url-hash) event (UUID on 1.20.3+, hash before) or by its URL, so `bot.on('resourcePack', bot.acceptResourcePack)` answers each request. Answered, removed or unknown requests are ignored.
 
-#### bot.denyResourcePack()
+#### bot.denyResourcePack([request])
 
-Denies resource pack.
+Declines a resource pack request. `request` works as for `bot.acceptResourcePack`.
 
 #### bot.placeBlock(referenceBlock, faceVector)
 

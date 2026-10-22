@@ -7,7 +7,8 @@ const assert = require('assert')
 const { sleep } = require('../lib/promise_utils')
 const nbt = require('prismarine-nbt')
 const { once, onceWithCleanup } = require('../lib/promise_utils')
-const { EventEmitter } = require('events')
+const events = require('events')
+const { EventEmitter } = events
 const { getPort } = require('./common/util')
 
 for (const supportedVersion of require('./common/versions').getTestVersions()) {
@@ -146,10 +147,17 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
         return respawnPacket
       }
     })
-    afterEach((done) => {
-      if (bot._client.ended) done()
-      else bot.on('end', () => done())
+    afterEach(async () => {
+      // A test can pass before the bot's connection attempt has settled (a synchronous test
+      // does). Closing the server under that attempt made the bot log ECONNABORTED or
+      // ECONNREFUSED for a passing test: let the attempt settle, then disconnect the bot
+      // before closing the server. A failed attempt is still reported by the bot.
+      const socket = bot._client.socket
+      if (socket?.connecting) await events.once(socket, 'connect').catch(() => {})
+      const ended = bot._client.ended ? undefined : once(bot, 'end')
+      bot.end()
       server.close()
+      await ended
     })
     it('chat', (done) => {
       bot.once('chat', (username, message) => {
@@ -574,15 +582,25 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
 
             await once(bot, 'chunkColumnLoad')
 
+            // 1.21.2+ teleports carry a velocity with its own relative flags (dx, dy, dz)
+            const hasVelocity = bot.registry.version['>=']('1.21.3')
+            const velocityFields = dy => hasVelocity ? { dx: 0, dy, dz: 0 } : {}
+            const flags = (relative, velocity) => {
+              if (!bot.supportFeature('positionPacketHasBitflags')) return relative ? 7 : 0
+              const result = { x: relative, y: relative, z: relative, yaw: false, pitch: false }
+              return hasVelocity ? { ...result, dx: velocity, dy: velocity, dz: velocity, yawDelta: false } : result
+            }
+
             // --- Test 1: Absolute Position ---
             const absolutePositionPacket = {
               x: 1.5,
               y: 80,
               z: 1.5,
+              ...velocityFields(0.25),
               pitch: 0,
               yaw: 0,
               teleportId: 1,
-              flags: bot.supportFeature('positionPacketHasBitflags') ? { x: false, y: false, z: false, yaw: false, pitch: false } : 0
+              flags: flags(false, false)
             }
 
             bot.entity.velocity.y = -1.0 // Give bot some velocity
@@ -592,7 +610,7 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             const afterAbsolute = await p1
 
             // Assertions for absolute teleport
-            assert.strictEqual(afterAbsolute.velocity.y, 0, 'Velocity should be reset to 0 after an absolute teleport')
+            assert.strictEqual(afterAbsolute.velocity.y, hasVelocity ? 0.25 : 0, 'Velocity should be set absolutely by an absolute teleport')
             assert.deepStrictEqual(afterAbsolute.position, vec3(1.5, 80, 1.5), 'Position should be set absolutely')
 
             // --- Test 2: Relative Position ---
@@ -600,10 +618,11 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
               x: 1.0,
               y: -2.0,
               z: 0.5,
+              ...velocityFields(0.5),
               pitch: 0,
               yaw: 0,
               teleportId: 2,
-              flags: bot.supportFeature('positionPacketHasBitflags') ? { x: true, y: true, z: true, yaw: false, pitch: false } : 7
+              flags: flags(true, true)
             }
 
             // Set a known velocity *before* the relative update
@@ -611,12 +630,16 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             const initialPosition = bot.entity.position.clone()
             const expectedPosition = initialPosition.plus(vec3(1.0, -2.0, 0.5))
 
+            // A physics tick may run before the packet arrives, so read the velocity it applies to.
+            let velocityBefore
+            bot._client.prependOnceListener('position', () => { velocityBefore = bot.entity.velocity.y })
             const p2 = onForcedMove()
             client.write('position', relativePositionPacket)
             const afterRelative = await p2
 
             // Assertions for relative teleport
-            assert.notStrictEqual(afterRelative.velocity.y, 0, 'Velocity should be preserved after a relative teleport')
+            assert.notStrictEqual(velocityBefore, 0)
+            assert.strictEqual(afterRelative.velocity.y, velocityBefore + (hasVelocity ? 0.5 : 0), 'Velocity should be preserved (plus the packet velocity) after a relative teleport')
             assert.deepStrictEqual(afterRelative.position, expectedPosition, 'Position should be updated relatively')
 
             done()
@@ -733,6 +756,9 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             x: 1.5,
             y: 80,
             z: 1.5,
+            dx: 0,
+            dy: 0,
+            dz: 0,
             pitch: 0,
             yaw: 0,
             flags: bot.supportFeature('positionPacketHasBitflags') ? { x: false, y: false, z: false, yaw: false, pitch: false } : 0,
@@ -1063,6 +1089,9 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
           x: 1.5,
           y: 80,
           z: 1.5,
+          dx: 0,
+          dy: 0,
+          dz: 0,
           pitch: 0,
           yaw: 0,
           flags: 0,
@@ -2101,6 +2130,37 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
         })
       })
 
+      it('reports 26.3 swing_animation main-hand swings as entitySwingArm', async function () {
+        if (bot.registry.protocol.play.toClient.types.packet_swing_animation === undefined) {
+          this.skip()
+          return
+        }
+        const client = (await once(server, 'playerJoin'))[0]
+        const spawned = once(bot, 'entitySpawn')
+        client.write('spawn_entity', {
+          entityId: 8,
+          objectUUID: '00112233-4455-6677-8899-aabbccddeeff',
+          type: bot.registry.entitiesByName.zombie.id,
+          x: 10,
+          y: 11,
+          z: 12,
+          yaw: 0,
+          pitch: 0,
+          headPitch: 0,
+          velocity: { x: 0, y: 0, z: 0 },
+          objectData: 0
+        })
+        const entity = (await spawned)[0]
+        const swings = []
+        bot.on('entitySwingArm', swung => swings.push(swung))
+        const critical = once(bot, 'entityCriticalEffect')
+        client.write('swing_animation', { entityId: 8, hand: 1, animationType: 1, duration: 6 })
+        client.write('swing_animation', { entityId: 8, hand: 0, animationType: 1, duration: 6 })
+        client.write('animation', { entityId: 8, animation: 1 })
+        assert.strictEqual((await critical)[0], entity)
+        assert.deepStrictEqual(swings, [entity])
+      })
+
       it('applies the 1.21.2+ entity_teleport relative flags', async function () {
         if (!bot.supportFeature('entityTeleportHasRelativeFlags')) {
           this.skip()
@@ -2140,6 +2200,9 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
         entity.velocity.set(1, 0, 0)
         await teleport({ yaw: 90, flags: { yawDelta: true, dx: true, dz: true } })
         assert.ok(Math.abs(entity.velocity.x) < 1e-6 && Math.abs(entity.velocity.z - 1) < 1e-6, `yawDelta turns the velocity with the rotation change: ${entity.velocity}`)
+        await teleport({ pitch: 80 })
+        await teleport({ pitch: 30, flags: { pitch: true } })
+        assert.ok(Math.abs(entity.pitch + Math.PI / 2) < 1e-6, `relative pitch is clamped to 90 degrees: ${entity.pitch}`)
       })
 
       it('\'itemDrop\' event', function (done) {
@@ -2300,6 +2363,9 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
           x: playerPos.x,
           y: playerPos.y,
           z: playerPos.z,
+          dx: 0,
+          dy: 0,
+          dz: 0,
           yaw: 0,
           pitch: 0,
           flags: 0,

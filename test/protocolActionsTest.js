@@ -25,4 +25,19 @@ describe('action packet wire compatibility', function () {
       }
     })
   }
+
+  it('resolves each action from the schema once per registry', () => {
+    const real = require('prismarine-registry')('26.3')
+    let lookups = 0
+    const registry = { get protocol () { lookups++; return real.protocol } }
+    const bot = { registry }
+    const first = entityAction(bot, 'start_sprinting')
+    assert.strictEqual(entityAction(bot, 'start_sprinting'), first)
+    assert.strictEqual(lookups, 1)
+    entityAction(bot, 'stop_sprinting')
+    assert.strictEqual(lookups, 2)
+    const legacy = require('prismarine-registry')('1.12.2')
+    assert.strictEqual(entityAction({ registry: legacy }, 'start_sprinting'), 3)
+    assert.strictEqual(entityAction(bot, 'start_sprinting'), first)
+  })
 })

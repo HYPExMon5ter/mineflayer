@@ -78,4 +78,21 @@ describe('book write state restoration', () => {
     assert.strictEqual(bot.inventory.slots[30].slot, 30)
     assert.strictEqual(bot.inventory.slots[36], null)
   })
+
+  it('reports both errors when restoring the book also fails', async () => {
+    const bot = makeBot()
+    const move = bot.moveSlotItem
+    bot.moveSlotItem = async (from, to) => {
+      if (from === 36) throw new Error('restore failed')
+      return move(from, to)
+    }
+
+    await assert.rejects(bot.writeBook(30, ['page']), error => {
+      assert.ok(error instanceof AggregateError)
+      assert.deepStrictEqual(error.errors.map(e => e.message), ['send failed', 'restore failed'])
+      assert.match(error.message, /send failed.*restore failed/)
+      return true
+    })
+    assert.strictEqual(bot.quickBarSlot, 4)
+  })
 })
