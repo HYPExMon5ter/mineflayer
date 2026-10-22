@@ -7,6 +7,7 @@ const inject = require('../lib/plugins/digging')
 describe('digging plugin death handler', () => {
   function createMockBot () {
     const bot = new EventEmitter()
+    bot.supportFeature = () => false
     // The digging plugin assigns these on the bot
     bot.targetDigBlock = null
     bot.targetDigFace = null

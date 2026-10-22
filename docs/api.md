@@ -84,6 +84,8 @@
       - [Particle.longDistanceRender](#particlelongdistancerender)
       - [Particle.count](#particlecount)
       - [Particle.movementSpeed](#particlemovementspeed)
+      - [Particle.maxSpeed](#particlemaxspeed)
+      - [Particle.randomizationType](#particlerandomizationtype)
   - [Bot](#bot)
     - [mineflayer.createBot(options)](#mineflayercreatebotoptions)
     - [Properties](#properties)
@@ -239,6 +241,7 @@
       - ["dismount" (vehicle)](#dismount-vehicle)
       - ["windowOpen" (window)](#windowopen-window)
       - ["windowClose" (window)](#windowclose-window)
+      - ["unknownWindow" (packet)](#unknownwindow-packet)
       - ["sleep"](#sleep)
       - ["wake"](#wake)
       - ["experience"](#experience)
@@ -680,11 +683,14 @@ Name of the scoreboard.
 
 #### ScoreBoard.title
 
-The title of the scoreboard (does not always equal the name)
+The title of the scoreboard as a plain string (does not always equal the name). Server chat components are converted to text.
 
 #### ScoreBoard.itemsMap
 
 An object with all items in the scoreboard in it
+
+Each item also exposes `displayName` as a ChatMessage. A server-provided score display name takes precedence over the team's formatted player name; otherwise the existing team/name fallback is used.
+
 ```js
 {
   wvffle: { name: 'wvffle', value: 3 },
@@ -796,7 +802,15 @@ Amount of particles created
 
 #### Particle.movementSpeed
 
-Particle speed in a random direction
+Particle speed in a random direction. On 26.3+, this is the X-axis maximum speed; use `maxSpeed` for all three axes.
+
+#### Particle.maxSpeed
+
+A `Vec3` of maximum particle speeds along each axis. Before 26.3, all three components equal `movementSpeed`.
+
+#### Particle.randomizationType
+
+The 26.3+ randomization mode: `default`, `alternative`, or `alternative_with_speed`. Undefined on older versions.
 
 ## Bot
 
@@ -1275,7 +1289,9 @@ Emitted when the server changes any of the game properties.
 
 #### "resourcePack" (url, hash)
 
-Emitted when the server sends a resource pack.
+Emitted when the server sends a resource pack. The second argument is the pack UUID on 1.20.3+ and its hash on older versions. Call `bot.acceptResourcePack()` or `bot.denyResourcePack()` to answer the latest request. Each request is answered at most once.
+
+During configuration, a request with no `resourcePack` listeners is automatically acknowledged so login or transfer can proceed. A registered listener owns the decision, including an asynchronous decision. Acceptance reports protocol status; it does not download or render the pack.
 
 #### "title" (title, type)
 
@@ -1537,7 +1553,11 @@ Fires when you begin using a workbench, chest, brewing stand, etc.
 
 #### "windowClose" (window)
 
-Fires when you may no longer work with a workbench, chest, etc.
+Fires when you may no longer work with a workbench, chest, etc. Also fires when a respawn or a re-login (proxy server switch) discards the open window.
+
+#### "unknownWindow" (packet)
+
+Emitted when the server opens a menu whose layout is not supported by `prismarine-windows`. The raw packet contains `windowId`, `inventoryType`, `windowTitle`, and, on older versions, `slotCount`. The previous window is closed locally and `bot.currentWindow` becomes `null`.
 
 #### "sleep"
 
@@ -2231,7 +2251,7 @@ Put the item at `slot` in the inventory.
 
 This function returns a `Promise`, with `void` as its argument once the server has acknowledged the close.
 
-Close the `window`. On 1.16.5 and below the server only learns which inventory slots the window changed on its next tick, so await this before anything else (a command, another player) touches those slots.
+Close the `window`. On 1.16.5 and below the server only learns which inventory slots the window changed on its next tick, so await this before anything else (a command, another player) touches those slots. A `null` window (`bot.currentWindow` after the window closed on its own) is a no-op.
 
 #### bot.transfer(options)
 

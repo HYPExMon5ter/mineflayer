@@ -144,6 +144,7 @@ export interface BotEvents {
   mount: () => Promise<void> | void
   dismount: (vehicle: Entity) => Promise<void> | void
   windowOpen: (window: Window) => Promise<void> | void
+  unknownWindow: (packet: { windowId: number, inventoryType: number | string, windowTitle: unknown, slotCount?: number }) => Promise<void> | void
   windowClose: (window: Window) => Promise<void> | void
   sleep: () => Promise<void> | void
   wake: () => Promise<void> | void
@@ -410,7 +411,7 @@ export interface Bot extends TypedEmitter<BotEvents> {
 
   putAway: (slot: number) => Promise<void>
 
-  closeWindow: (window: Window) => Promise<void>
+  closeWindow: (window: Window | null) => Promise<void>
 
   transfer: (options: TransferOptions) => Promise<void>
 
@@ -808,7 +809,7 @@ export class ScoreBoard {
 
   setTitle (title: string): void;
 
-  add(name: string, value: number): ScoreBoardItem;
+  add(name: string, value: number, display?: string | object): ScoreBoardItem;
 
   remove (name: string): ScoreBoardItem;
 }
@@ -892,6 +893,8 @@ export class Particle {
   offset: Vec3
   count: number
   movementSpeed: number
+  maxSpeed: Vec3
+  randomizationType?: 'default' | 'alternative' | 'alternative_with_speed'
   longDistanceRender: boolean
   static fromNetwork(packet: Object): Particle
 

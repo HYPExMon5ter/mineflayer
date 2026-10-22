@@ -1,0 +1,459 @@
+{
+  "date": "2026-10-22",
+  "platform": "Windows",
+  "node": "v26.12.0",
+  "java": "25",
+  "upstreamBase": "7b4bb8d2b56be9cdb832474af873acd37e609746",
+  "rows": [
+    {
+      "version": "1.8.8",
+      "internal": {
+        "log": "final-internal-1.8.8.log",
+        "passing": 64,
+        "pending": 19,
+        "sha256": "4eb673f37c318544cc38c15a79ba39f3bfa152f3aad51cae23c02bb15c26c876"
+      },
+      "serverSuite": {
+        "log": "final-server-1.8.8.log",
+        "passing": 120,
+        "pending": 19,
+        "sha256": "ce1319835cde3ba2999bacd55df1f5471945cef4d19ad45a460673d49b0e9a38"
+      }
+    },
+    {
+      "version": "1.9.4",
+      "internal": {
+        "log": "final-internal-1.9.4.log",
+        "passing": 66,
+        "pending": 17,
+        "sha256": "de5e1a3ac001b46ef52666261f265cb906fd163a1a5668475fda06f50476235c"
+      },
+      "serverSuite": {
+        "log": "matrix-1.9.4.log",
+        "passing": 110,
+        "pending": 16,
+        "sha256": "2477ca83810e3948c4d1352a6d8218d54cf6d69b9f8acdcca449aa2a7ed0c92d"
+      }
+    },
+    {
+      "version": "1.10.2",
+      "internal": {
+        "log": "final-internal-1.10.2.log",
+        "passing": 66,
+        "pending": 17,
+        "sha256": "de5e1a3ac001b46ef52666261f265cb906fd163a1a5668475fda06f50476235c"
+      },
+      "serverSuite": {
+        "log": "matrix-1.10.2.log",
+        "passing": 110,
+        "pending": 16,
+        "sha256": "b3673516abed3f1364711030c6d2a97ea777a38b23e342fecc7b585bbc2c8e89"
+      }
+    },
+    {
+      "version": "1.11.2",
+      "internal": {
+        "log": "final-internal-1.11.2.log",
+        "passing": 66,
+        "pending": 17,
+        "sha256": "8bb8305cb3e23f3d31b1f3adf295f1c965f84cba2110e14380ae452d262f317a"
+      },
+      "serverSuite": {
+        "log": "matrix-1.11.2.log",
+        "passing": 110,
+        "pending": 16,
+        "sha256": "c536f70971332c544ba6a2b30409735c9d6c673b7558cfd8dc7f752702e8ef14"
+      }
+    },
+    {
+      "version": "1.12.2",
+      "internal": {
+        "log": "final-internal-1.12.2.log",
+        "passing": 66,
+        "pending": 17,
+        "sha256": "3c82d9886a4f2f102c44e7beb63747bd675d06ec022ae0994f29f9c2150a431b"
+      },
+      "serverSuite": {
+        "log": "matrix-1.12.2.log",
+        "passing": 110,
+        "pending": 16,
+        "sha256": "00b51d102116280169e43e46d3452ca590bb9f22b6a89a842ede1296309a7a4c"
+      }
+    },
+    {
+      "version": "1.13.2",
+      "internal": {
+        "log": "final-internal-1.13.2.log",
+        "passing": 66,
+        "pending": 17,
+        "sha256": "f7be6221bfe478b2cbae79a74a277880c55be8985412b7cbece9296d703afc2c"
+      },
+      "serverSuite": {
+        "log": "matrix-1.13.2.log",
+        "passing": 110,
+        "pending": 16,
+        "sha256": "62e93cfaf2e1f9d53604962d4986df6342c21c1adfe1670c95bb3a896dbe3cf2"
+      }
+    },
+    {
+      "version": "1.14.4",
+      "internal": {
+        "log": "final-internal-1.14.4.log",
+        "passing": 66,
+        "pending": 17,
+        "sha256": "7f03c28672650690e3b3c42786f5d3f5e46f35e41e290d4a1c66c07f39f85583"
+      },
+      "serverSuite": {
+        "log": "matrix-1.14.4.log",
+        "passing": 110,
+        "pending": 16,
+        "sha256": "44592770094136203b766f0fd245cc7a3c769179897b5d49b4f92670a2f99a23"
+      }
+    },
+    {
+      "version": "1.15.2",
+      "internal": {
+        "log": "final-internal-1.15.2.log",
+        "passing": 66,
+        "pending": 17,
+        "sha256": "47ed96b120a4f00186d282041564eb5ce89c0d0af2ffe2ec057cbfca19e3c16a"
+      },
+      "serverSuite": {
+        "log": "matrix-1.15.2.log",
+        "passing": 119,
+        "pending": 16,
+        "sha256": "306a52e2208cf060adb6f9e3b8096e5e52275ec73de8d38130fca4e9c28ea863"
+      }
+    },
+    {
+      "version": "1.16.5",
+      "internal": {
+        "log": "final-internal-1.16.5.log",
+        "passing": 66,
+        "pending": 17,
+        "sha256": "1d58f502a224b7b41569402bde1a683e778fc1c07f31ee5c5b5c5174df205450"
+      },
+      "serverSuite": {
+        "log": "matrix-1.16.5.log",
+        "passing": 119,
+        "pending": 16,
+        "sha256": "810bd144e696eabbbc6d9612f306c2987d9580b78e683e5b3ed5da387ac10acc"
+      }
+    },
+    {
+      "version": "1.17.1",
+      "internal": {
+        "log": "final-internal-1.17.1.log",
+        "passing": 70,
+        "pending": 13,
+        "sha256": "8ea00e20c5add2b07385fbfe503766ca6ea799634782f4d4999c3c13b07f1639"
+      },
+      "serverSuite": {
+        "log": "matrix-1.17.1.log",
+        "passing": 122,
+        "pending": 13,
+        "sha256": "d221719c9e39ddc2a89f974d588c610f86a93bc86b13a0acbb582c5cdca4de31"
+      }
+    },
+    {
+      "version": "1.18.2",
+      "internal": {
+        "log": "final-internal-1.18.2.log",
+        "passing": 70,
+        "pending": 13,
+        "sha256": "b9804126efe4bf2219680a11452b25a23ff9d57b43a16f77c7d5fa911b1b567e"
+      },
+      "serverSuite": {
+        "log": "matrix-1.18.2.log",
+        "passing": 122,
+        "pending": 13,
+        "sha256": "77d31c5e5b87a14062725ee36ad2885e678789060dcef9d59f365f6142862f4c"
+      }
+    },
+    {
+      "version": "1.19",
+      "internal": {
+        "log": "final-internal-1.19.log",
+        "passing": 73,
+        "pending": 10,
+        "sha256": "413995106248c79fdcee621767b43c6da380f3c310403cb6d1a35d8d8db45016"
+      },
+      "serverSuite": {
+        "log": "matrix-1.19.log",
+        "passing": 125,
+        "pending": 10,
+        "sha256": "3a87d39649d0b9cae8be3dd1fe1ac3b824d297491808cbe4e0439d73f45c45e1"
+      }
+    },
+    {
+      "version": "1.19.2",
+      "internal": {
+        "log": "final-internal-1.19.2.log",
+        "passing": 73,
+        "pending": 10,
+        "sha256": "adbdf7b54390db8587544f823235d35af43b815625b8d28c9d895a10b4eb1481"
+      },
+      "serverSuite": {
+        "log": "matrix-1.19.2.log",
+        "passing": 125,
+        "pending": 10,
+        "sha256": "3dc1744a14e298fafbcf36f66be28a0468dedb496485da01b72758b317a7a37e"
+      }
+    },
+    {
+      "version": "1.19.3",
+      "internal": {
+        "log": "final-internal-1.19.3.log",
+        "passing": 73,
+        "pending": 10,
+        "sha256": "adbdf7b54390db8587544f823235d35af43b815625b8d28c9d895a10b4eb1481"
+      },
+      "serverSuite": {
+        "log": "matrix-1.19.3.log",
+        "passing": 129,
+        "pending": 10,
+        "sha256": "1b4640c476a7ab46f308ae43065bdd3b76b60d852790f5c4ab679c453e119be4"
+      }
+    },
+    {
+      "version": "1.19.4",
+      "internal": {
+        "log": "final-internal-1.19.4.log",
+        "passing": 74,
+        "pending": 9,
+        "sha256": "5b51a9163f5239e98ea159a6dc8c8095257b1a302ae6f5e7ef73a45935aa00f8"
+      },
+      "serverSuite": {
+        "log": "matrix-1.19.4.log",
+        "passing": 130,
+        "pending": 9,
+        "sha256": "f56e88219484369f2cbadb07ed9982068987c9cff1f16880ce9f42999939443e"
+      }
+    },
+    {
+      "version": "1.20.1",
+      "internal": {
+        "log": "final-internal-1.20.1.log",
+        "passing": 74,
+        "pending": 9,
+        "sha256": "cbc34a4e048d07edb048fc07a08403f28216df6a1b134dae9ef43ac7e5496289"
+      },
+      "serverSuite": {
+        "log": "matrix-1.20.1.log",
+        "passing": 130,
+        "pending": 9,
+        "sha256": "39404bb5e2f0311206bd63baba731314a1bc111f63ba932f7e566421a78304e5"
+      }
+    },
+    {
+      "version": "1.20.2",
+      "internal": {
+        "log": "final-internal-1.20.2.log",
+        "passing": 77,
+        "pending": 6,
+        "sha256": "7a551d46bc6e9d99b4a58cfa726e077a0f922c2f7d568d823ccdd6c47fbf7953"
+      },
+      "serverSuite": {
+        "log": "matrix-1.20.2.log",
+        "passing": 133,
+        "pending": 6,
+        "sha256": "fc356b81a39644d46bb81e9c8daa6a9efe6403a2206a11566af6f195ecc712e3"
+      }
+    },
+    {
+      "version": "1.20.4",
+      "internal": {
+        "log": "final-internal-1.20.4.log",
+        "passing": 78,
+        "pending": 5,
+        "sha256": "763b55780b5c475be1f11f633b8e3b02c62375bd439e313b1bc4705abf56b10b"
+      },
+      "serverSuite": {
+        "log": "matrix-1.20.4.log",
+        "passing": 134,
+        "pending": 5,
+        "sha256": "833bb056fd16f2de3dad5060fcb11107c3eec32413a6f83cebd19ceb0f36111e"
+      }
+    },
+    {
+      "version": "1.20.6",
+      "internal": {
+        "log": "final-internal-1.20.6.log",
+        "passing": 77,
+        "pending": 6,
+        "sha256": "4397c35e2d54620a2c98c87a928232bb260b96fb2d0377bca69834dcc2be3ed6"
+      },
+      "serverSuite": {
+        "log": "matrix-1.20.6.log",
+        "passing": 133,
+        "pending": 6,
+        "sha256": "01dca1883166fdd2066eeb5d395ac7606c769277546794d52ec2e449c4f184fa"
+      }
+    },
+    {
+      "version": "1.21.1",
+      "internal": {
+        "log": "final-internal-1.21.1.log",
+        "passing": 78,
+        "pending": 5,
+        "sha256": "4f32c284fc8e59487de403c007cd4b61c0241888c151dfb67b14d9c442bb193f"
+      },
+      "serverSuite": {
+        "log": "matrix-1.21.1.log",
+        "passing": 134,
+        "pending": 5,
+        "sha256": "2aa17104ef4cb6407631adfd940c6ced9816c4dd11b24bdd42fc9f94a16c78ca"
+      }
+    },
+    {
+      "version": "1.21.3",
+      "internal": {
+        "log": "final-internal-1.21.3.log",
+        "passing": 80,
+        "pending": 3,
+        "sha256": "2f25aa968b676228de0f2a266009d15dc1f5e6878ecc194873a80bbb3814c62c"
+      },
+      "serverSuite": {
+        "log": "matrix-1.21.3.log",
+        "passing": 136,
+        "pending": 3,
+        "sha256": "23cdfde35942bb8267a93401bb1dd0f78d0146ab2ce5d1ff6e1f9e7f0a1b4eda"
+      }
+    },
+    {
+      "version": "1.21.4",
+      "internal": {
+        "log": "final-internal-1.21.4.log",
+        "passing": 82,
+        "pending": 1,
+        "sha256": "937101820db5a0dd99f40a9d2f87495e6bdcbd85c24fb56862f90a2e90098a53"
+      },
+      "serverSuite": {
+        "log": "matrix-1.21.4.log",
+        "passing": 138,
+        "pending": 1,
+        "sha256": "d5a6a5a3e53dbde93474b026cac4844719b47bf9e0a3766d5b68aed49c860f26"
+      }
+    },
+    {
+      "version": "1.21.5",
+      "internal": {
+        "log": "final-internal-1.21.5.log",
+        "passing": 82,
+        "pending": 1,
+        "sha256": "7739b71174316f6f6c0a1f5306d019f52072e31281bea5b9222f676e2512e827"
+      },
+      "serverSuite": {
+        "log": "final-server-1.21.5.log",
+        "passing": 138,
+        "pending": 1,
+        "sha256": "b99aeb1b8a0f709267e2db97edac6272a0fd609e57571842969e2691f082ffda"
+      }
+    },
+    {
+      "version": "1.21.6",
+      "internal": {
+        "log": "final-internal-1.21.6.log",
+        "passing": 82,
+        "pending": 1,
+        "sha256": "afe10187a0cf720a6d9ff01eb4ea31f040b45043f6c67b03ab2c6a72c8650ddd"
+      },
+      "serverSuite": {
+        "log": "matrix-1.21.6.log",
+        "passing": 138,
+        "pending": 1,
+        "sha256": "31af77f423fdeb978bccb8382cf27a65f38e46e634a20daa29385bfb96b8b147"
+      }
+    },
+    {
+      "version": "1.21.8",
+      "internal": {
+        "log": "final-internal-1.21.8.log",
+        "passing": 82,
+        "pending": 1,
+        "sha256": "f75832e29a07ccb735cdb1bb5662be079c75d93bb6349e59fc2d9c3bc40474bc"
+      },
+      "serverSuite": {
+        "log": "matrix-1.21.8.log",
+        "passing": 138,
+        "pending": 1,
+        "sha256": "4370a436e6c8b43daa411d28c22e2d0971a920fd83460aa607466f9eb2cc35c8"
+      }
+    },
+    {
+      "version": "1.21.9",
+      "internal": {
+        "log": "final-internal-1.21.9.log",
+        "passing": 82,
+        "pending": 1,
+        "sha256": "f9044aa335e3549eeef5d10a29dc07b848d3d6851564665b3fa427f2b928f0cd"
+      },
+      "serverSuite": {
+        "log": "final-server-r4-1.21.9.log",
+        "passing": 138,
+        "pending": 1,
+        "sha256": "766c61463382e8f659208ad5aacaecebb36fbe25ba7d7560b77c10c6ce0751fa"
+      }
+    },
+    {
+      "version": "1.21.11",
+      "internal": {
+        "log": "final-internal-1.21.11.log",
+        "passing": 82,
+        "pending": 1,
+        "sha256": "f9044aa335e3549eeef5d10a29dc07b848d3d6851564665b3fa427f2b928f0cd"
+      },
+      "serverSuite": {
+        "log": "matrix-1.21.11.log",
+        "passing": 138,
+        "pending": 1,
+        "sha256": "acd5f5504103317b889fff1e97adc9c68e9f8727b7194e8197a442b296a8437f"
+      }
+    },
+    {
+      "version": "26.1",
+      "internal": {
+        "log": "final-internal-26.1.log",
+        "passing": 87,
+        "pending": 1,
+        "sha256": "f470d03c06361499fa3c600ad4407374efe5f8be63a8cd48551243f8a4c69b88"
+      },
+      "serverSuite": {
+        "log": "matrix-26.1.log",
+        "passing": 143,
+        "pending": 1,
+        "sha256": "c1c3e8e32b04ff0e140967fc2012808158445a1fc1ffa15cb327f53dcb455f38"
+      }
+    },
+    {
+      "version": "26.2",
+      "internal": {
+        "log": "final-internal-26.2.log",
+        "passing": 87,
+        "pending": 1,
+        "sha256": "f470d03c06361499fa3c600ad4407374efe5f8be63a8cd48551243f8a4c69b88"
+      },
+      "serverSuite": {
+        "log": "final-server-r4-26.2.log",
+        "passing": 143,
+        "pending": 1,
+        "sha256": "cd8e45d78d8d4c6c82f780e51b6081450108cd32c213eb202cfe6a1e6328a5a5"
+      }
+    },
+    {
+      "version": "26.3",
+      "internal": {
+        "log": "final-internal-26.3.log",
+        "passing": 87,
+        "pending": 1,
+        "sha256": "f470d03c06361499fa3c600ad4407374efe5f8be63a8cd48551243f8a4c69b88"
+      },
+      "serverSuite": {
+        "log": "final-server-r4-26.3.log",
+        "passing": 143,
+        "pending": 1,
+        "sha256": "ea76d92f7f9af5bd5605705252db316c8b6789c3ddaf14c290be4e66df75e88b"
+      }
+    }
+  ]
+}

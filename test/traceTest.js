@@ -9,6 +9,9 @@ const { execFileSync } = require('child_process')
 describe('packet trace', () => {
   const RECORDS = 40
   const CHUNK_BYTES = 800000
+  let directory
+  beforeEach(() => { directory = fs.mkdtempSync(path.join(os.tmpdir(), 'trace-')) })
+  afterEach(() => { fs.rmSync(directory, { recursive: true, force: true }) })
 
   // Records posted before an immediate process.exit must still reach disk.
   const child = `
@@ -23,7 +26,7 @@ describe('packet trace', () => {
 
   it('does not block the caller and loses nothing on exit', function () {
     this.timeout(60000)
-    const file = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'trace-')), 'trace.jsonl')
+    const file = path.join(directory, 'trace.jsonl')
     const elapsedMs = Number(execFileSync(process.execPath, ['-e', child], { env: { ...process.env, TRACE: file } }))
 
     assert.ok(elapsedMs < 500, `emitting ${RECORDS} records blocked the caller for ${elapsedMs}ms`)
@@ -38,5 +41,14 @@ describe('packet trace', () => {
     assert.strictEqual(JSON.stringify(record), JSON.stringify(expected))
 
     assert.strictEqual(lines[RECORDS].slice(lines[RECORDS].indexOf('"type"')), `"type":"LOG","msg":"done","args":{"n":"${RECORDS}"}}`)
+  })
+
+  it('does not hang process exit when the output path cannot be opened', function () {
+    this.timeout(10000)
+    const script = `require(${JSON.stringify(path.resolve(__dirname, 'common/trace.js'))}).log('test'); process.exit(0)`
+    execFileSync(process.execPath, ['-e', script], {
+      env: { ...process.env, TRACE: directory },
+      timeout: 5000
+    })
   })
 })

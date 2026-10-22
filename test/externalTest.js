@@ -23,6 +23,8 @@ const propOverrides = {
   'spawn-npcs': 'true',
   'spawn-animals': 'false',
   'online-mode': 'false',
+  // Keep the harness responsive before its first bot joins on modern servers.
+  'pause-when-empty-seconds': '0',
   gamemode: '1',
   'spawn-monsters': 'false',
   'generate-structures': 'false',
@@ -54,7 +56,7 @@ async function pingUntilReady (port, host, version, attempts = 5) {
   }
 }
 
-for (const supportedVersion of mineflayer.testedVersions) {
+for (const supportedVersion of require('./common/versions').getTestVersions()) {
   let PORT = 25565
   const registry = require('prismarine-registry')(supportedVersion)
   const version = registry.version

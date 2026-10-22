@@ -33,8 +33,11 @@ module.exports = () => async (bot) => {
   const spot = spots[bot.test.netherAttempts++ % spots.length]
   await bot.test.teleport(new Vec3(spot.x, bot.test.groundY, spot.z))
   await cooldown
+  const arrive = onceWithCleanup(bot, 'spawn', { timeout: 30000 }).then(() =>
+    onceWithCleanup(bot, 'forcedMove', { timeout: 10000 }))
   bot.chat(`/setblock ~ ~ ~ ${portalName}`)
-  await onceWithCleanup(bot, 'spawn', { timeout: 30000 })
+  await arrive
+  // Acknowledge the dimension-arrival position before issuing another move.
   bot.test.sayEverywhere('/tp 0 128 0')
 
   await once(bot, 'forcedMove')
@@ -45,7 +48,9 @@ module.exports = () => async (bot) => {
   // Poll until the block below is loaded and non-air before placing.
   // On slow CI, chunks may report as loaded before block data is ready.
   let lowerBlock = bot.blockAt(bot.entity.position.offset(0, -1, 0))
+  const terrainDeadline = Date.now() + 10000
   while (!lowerBlock || lowerBlock.name === 'air') {
+    assert(Date.now() < terrainDeadline, `Nether roof not loaded: dimension=${bot.game.dimension}, position=${bot.entity.position}`)
     await sleep(100)
     lowerBlock = bot.blockAt(bot.entity.position.offset(0, -1, 0))
   }
