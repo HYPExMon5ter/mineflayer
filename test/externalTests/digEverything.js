@@ -80,7 +80,17 @@ async function digSomething (blockName, bot) {
   await bot.test.becomeSurvival()
   // Leaving creative can leave the bot airborne for a moment, which makes digging five times slower
   if (!bot.entity.onGround) await onceWithCleanup(bot, 'physicsTick', { timeout: 5000, checkCondition: () => bot.entity.onGround })
+  // An infested block releases a silverfish, which would attack the bot while it digs later blocks
+  const silverfishName = bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Silverfish' : 'silverfish'
+  const released = /^(monster_egg|infested_)/.test(blockName)
+    ? onceWithCleanup(bot, 'entitySpawn', { timeout: 5000, checkCondition: entity => entity.name === silverfishName })
+    : null
+  released?.catch(() => {}) // awaited below; only keeps a failed dig from leaving it unhandled
   await bot.dig(bot.blockAt(position))
   // make sure that block is gone
   assert.notStrictEqual(bot.blockAt(position).name, blockName)
+  if (released) {
+    const [silverfish] = await released
+    await bot.test.killEntity(silverfish)
+  }
 }
