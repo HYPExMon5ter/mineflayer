@@ -1,6 +1,6 @@
 const assert = require('assert')
 const { Vec3 } = require('vec3')
-const { once } = require('../../lib/promise_utils')
+const { once, onceWithCleanup } = require('../../lib/promise_utils')
 
 module.exports = (version) => {
   async function runTest (bot, testFunction) {
@@ -52,7 +52,11 @@ module.exports = (version) => {
     const name = bot.registry.entitiesByName.oak_boat ? 'oak_boat' : bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Boat' : 'boat'
     const entity = bot.nearestEntity(o => o.name === name)
     assert(entity?.name === name)
-    await placeBlocksForTest('air')
+    // Empty the pool in one command: emptied one block at a time, the remaining water could flow
+    // back into a block in the tick it was emptied, so the client never saw it as air
+    const emptied = onceWithCleanup(bot.world, `blockUpdate:${bot.entity.position.floored().offset(1, -1, -3)}`, { timeout: 20000, checkCondition: (oldBlock, newBlock) => newBlock?.name === 'air' })
+    bot.chat('/fill ~-1 ~-1 ~-1 ~1 ~-1 ~-3 air')
+    await emptied
     bot.attack(entity)
     await once(bot, 'entityGone')
   })
