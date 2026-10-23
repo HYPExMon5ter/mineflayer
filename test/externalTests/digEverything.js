@@ -100,7 +100,11 @@ async function digSomething (blockName, bot) {
   const Item = require('prismarine-item')(bot.registry)
   const position = bot.entity.position.floored().offset(1, 0, 0)
 
-  await bot.test.setBlock({ x: 1, relative: true, blockName })
+  // Blocks placed waterlogged (conduit, corals, sea pickles) would let water push the bot and
+  // slow its digging, so create them dry
+  const Block = require('prismarine-block')(bot.registry)
+  const waterlogged = Block.fromStateId(bot.registry.blocksByName[blockName].defaultState, 0).getProperties().waterlogged === true
+  await bot.test.setBlock({ x: 1, relative: true, blockName, states: waterlogged ? '[waterlogged=false]' : '' })
   assert.strictEqual(bot.blockAt(position).name, blockName, `could not create ${blockName}`)
   await bot.test.setInventorySlot(36, new Item(bot.registry.itemsByName.diamond_pickaxe.id, 1, 0))
   bot.setQuickBarSlot(0)

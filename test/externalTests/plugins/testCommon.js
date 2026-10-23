@@ -56,7 +56,8 @@ function inject (bot, wrap) {
     await p // await getting the item
   }
   // setting relative to true makes x, y, & z relative using ~
-  bot.test.setBlock = async ({ x = 0, y = 0, z = 0, relative, blockName }) => {
+  // `states` is appended to the block in the command, for example '[waterlogged=false]'
+  bot.test.setBlock = async ({ x = 0, y = 0, z = 0, relative, blockName, states = '' }) => {
     const { x: _x, y: _y, z: _z } = relative ? bot.entity.position.floored().offset(x, y, z) : { x, y, z }
     const block = bot.blockAt(new Vec3(_x, _y, _z))
     if (block.name === blockName) {
@@ -66,7 +67,7 @@ function inject (bot, wrap) {
     // the previous test's reset) would otherwise end the wait first
     const p = onceWithCleanup(bot.world, `blockUpdate:(${_x}, ${_y}, ${_z})`, { timeout: 20000, checkCondition: (oldBlock, newBlock) => newBlock?.name === blockName })
     const prefix = relative ? '~' : ''
-    bot.chat(`/setblock ${prefix}${x} ${prefix}${y} ${prefix}${z} ${blockName}`)
+    bot.chat(`/setblock ${prefix}${x} ${prefix}${y} ${prefix}${z} ${blockName}${states}`)
     await p
   }
 
