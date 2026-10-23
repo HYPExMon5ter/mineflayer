@@ -62,7 +62,7 @@ module.exports = () => async (bot) => {
   // spawns facing the chest, so activating the face under its crosshair needs no turn.
   spawnBot = join()
   const opened = new Promise((resolve, reject) => {
-    spawnBot.once('spawn', () => {
+    const activate = () => {
       const chest = spawnBot.blockAtCursor(4)
       if (!chest?.position.equals(chestPosition)) return reject(new Error(`spawned facing ${chest?.name ?? 'nothing'} at ${chest?.position}`))
       let windowOpened = false
@@ -72,6 +72,13 @@ module.exports = () => async (bot) => {
         .then(() => windowOpened ? resolve() : reject(new Error('the server refused a block activated on spawn')),
           () => reject(new Error('the server did not answer a block activated on spawn')))
       spawnBot.activateBlock(chest, new Vec3(1, 0, 0), chest.intersect.minus(chest.position)).catch(reject)
+    }
+    spawnBot.once('spawn', () => {
+      // 1.21.4+ spawn waits for the chunk under the bot, which holds the chest. Earlier versions
+      // announce spawn without waiting for terrain, so there the chest is clicked once it loads.
+      if (spawnBot.blockAt(chestPosition) || spawnBot.supportFeature('sendsPlayerLoadedPacket')) return activate()
+      onceWithCleanup(spawnBot, 'chunkColumnLoad', { timeout: 10000, checkCondition: () => spawnBot.blockAt(chestPosition) })
+        .then(activate, reject)
     })
   })
   try {
