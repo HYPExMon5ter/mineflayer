@@ -83,22 +83,26 @@ function build () {
   bot.on('move', placeIfHighEnough)
 
   let tryCount = 0
+  let placing = false
 
+  // 'move' fires every tick: try one placement at a time
   async function placeIfHighEnough () {
-    if (bot.entity.position.y > jumpY) {
-      try {
-        await bot.placeBlock(referenceBlock, vec3(0, 1, 0))
+    if (placing || bot.entity.position.y <= jumpY) return
+    placing = true
+    try {
+      await bot.placeBlock(referenceBlock, vec3(0, 1, 0))
+      bot.setControlState('jump', false)
+      bot.removeListener('move', placeIfHighEnough)
+      bot.chat('Placing a block was successful')
+    } catch (err) {
+      tryCount++
+      if (tryCount > 10) {
+        bot.chat(err.message)
         bot.setControlState('jump', false)
         bot.removeListener('move', placeIfHighEnough)
-        bot.chat('Placing a block was successful')
-      } catch (err) {
-        tryCount++
-        if (tryCount > 10) {
-          bot.chat(err.message)
-          bot.setControlState('jump', false)
-          bot.removeListener('move', placeIfHighEnough)
-        }
       }
+    } finally {
+      placing = false
     }
   }
 }
