@@ -54,14 +54,15 @@ module.exports = () => async (bot) => {
   await bot.creative.clearInventory()
   assert.strictEqual(bot.inventory.slots.filter(item => item).length, 0)
   // Sets are server-confirmed, not fixed 400ms/call silence windows: three
-  // sequential sets must finish in well under 3x400ms.
+  // sequential sets must finish in well under 3x400ms, plus a round trip each
+  // when the suite runs through the latency proxy.
   if (bot.supportFeature('noAckOnCreateSetSlotPacket')) {
     const before = Date.now()
     for (let i = 0; i < 3; i++) {
       await bot.creative.setInventorySlot(SLOT, new Item(5 + i, 1, 0))
     }
     const elapsed = Date.now() - before
-    assert.ok(elapsed < 1000, `3 sequential slot sets took ${elapsed}ms`)
+    assert.ok(elapsed < 1000 + 3 * 2 * bot.test.latencyMs, `3 sequential slot sets took ${elapsed}ms`)
     await bot.creative.clearSlot(SLOT)
   }
 }

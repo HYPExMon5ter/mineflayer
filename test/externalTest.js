@@ -8,6 +8,7 @@ const fs = require('fs')
 const path = require('path')
 
 const { getPort } = require('./common/util')
+const { startLatencyProxy } = require('./common/latencyProxy')
 const { watchPacketErrors } = require('./common/packetErrors')
 const trace = require('./common/trace')
 const { once } = require('../lib/promise_utils')
@@ -16,6 +17,9 @@ const { once } = require('../lib/promise_utils')
 const START_THE_SERVER = true
 // if you want to have time to look what's happening increase this (milliseconds)
 const TEST_TIMEOUT_MS = 90000
+
+// MC_LATENCY_MS=n connects the bots through a proxy that delays everything by n ms each way.
+const LATENCY_MS = Number(process.env.MC_LATENCY_MS || 0)
 
 // digEverything digs every diggable block, which takes far longer than the rest of the suite.
 // Set RUN_EXCLUDED_TESTS=1 to include it.
@@ -74,6 +78,9 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
 
   describe(`mineflayer_external ${supportedVersion}v`, function () {
     let bot
+    // the port the bots connect to: the server's, or the latency proxy's in front of it
+    let botPort
+    let latencyProxy = null
     this.timeout(10 * 60 * 1000)
     before(async function () {
       PORT = await getPort()
@@ -85,7 +92,7 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
         bot = mineflayer.createBot({
           username: 'flatbot',
           viewDistance: 'tiny',
-          port: PORT,
+          port: botPort,
           host: '127.0.0.1',
           version: supportedVersion,
           // Dimension travel can stall the server thread past the 30s
@@ -93,7 +100,8 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
           checkTimeoutInterval: TEST_TIMEOUT_MS
         })
         commonTest(bot, wrap)
-        bot.test.port = PORT
+        bot.test.port = botPort
+        bot.test.latencyMs = LATENCY_MS
         // bot.entity survives a disconnect, so only the end event proves the
         // connection is gone; the flag dies with the bot on reconnect.
         bot.once('end', () => { bot.test.disconnected = true })
@@ -149,6 +157,13 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
               trace.log('pong', { latency: results.latency })
               assert.ok(results.latency >= 0)
               assert.ok(results.latency <= 1000)
+              if (!LATENCY_MS) return
+              return startLatencyProxy({ targetPort: PORT, latencyMs: LATENCY_MS }).then(proxy => {
+                latencyProxy = proxy
+                console.log(`bots connect through a ${LATENCY_MS} ms latency proxy on port ${proxy.port}`)
+              })
+            }).then(() => {
+              botPort = latencyProxy?.port ?? PORT
               begin()
             }).catch(err => {
               trace.log('ping failed', { error: err?.message ?? String(err) })
@@ -156,11 +171,15 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             })
           })
         })
-      } else begin()
+      } else {
+        botPort = PORT
+        begin()
+      }
     })
 
     after((done) => {
       if (bot) bot.quit()
+      latencyProxy?.close()
       wrap.stopServer((err) => {
         if (err) {
           console.log(err)
@@ -198,13 +217,14 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
       bot = mineflayer.createBot({
         username: 'flatbot',
         viewDistance: 'tiny',
-        port: PORT,
+        port: botPort,
         host: '127.0.0.1',
         version: supportedVersion,
         checkTimeoutInterval: TEST_TIMEOUT_MS
       })
       commonTest(bot, wrap)
-      bot.test.port = PORT
+      bot.test.port = botPort
+      bot.test.latencyMs = LATENCY_MS
       bot.once('end', () => { bot.test.disconnected = true })
       await once(bot, 'spawn')
       console.log('  Bot reconnected')
