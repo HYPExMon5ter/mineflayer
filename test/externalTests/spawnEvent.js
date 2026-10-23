@@ -47,6 +47,8 @@ module.exports = () => async (bot) => {
     await thrown
     // Operators bypass spawn protection, which would otherwise refuse the click this close to spawn
     bot.chat('/op spawnbot')
+    // Earlier tests can leave holes outside the area the world reset restores
+    bot.chat(`/fill ${x - 2} ${y - 1} ${z - 1} ${x + 1} ${y - 1} ${z + 1} stone`)
     bot.chat(`/fill ${x - 2} ${y} ${z - 1} ${x + 1} ${y + 2} ${z + 1} air`)
     await bot.test.setBlock({ ...chestPosition, blockName: 'chest' })
     const standing = new Vec3(x + 0.5, y, z + 0.5)
@@ -64,7 +66,10 @@ module.exports = () => async (bot) => {
   const opened = new Promise((resolve, reject) => {
     const activate = () => {
       const chest = spawnBot.blockAtCursor(4)
-      if (!chest?.position.equals(chestPosition)) return reject(new Error(`spawned facing ${chest?.name ?? 'nothing'} at ${chest?.position}`))
+      if (!chest?.position.equals(chestPosition)) {
+        const { position, yaw, pitch } = spawnBot.entity
+        return reject(new Error(`spawned facing ${chest?.name ?? 'nothing'} at ${chest?.position}, from ${position} yaw ${yaw} pitch ${pitch}, with ${spawnBot.blockAt(chestPosition)?.name} at ${chestPosition}`))
+      }
       let windowOpened = false
       spawnBot._client.once('open_window', () => { windowOpened = true })
       // The server answers every block click with the clicked block, after opening the chest if it accepted the click
