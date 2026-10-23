@@ -77,12 +77,24 @@ const excludedPattern = /_coral_wall_fan$/
 
 // These versions ship the next update's blocks behind an experimental feature flag, which the
 // test servers do not enable, so /setblock rejects them: test only the blocks of the last
-// version without them.
-const releasedBlocksOf = { '1.19.3': '1.19.2', '1.19.4': '1.19.2', '1.21.3': '1.21.1' }
+// version without the experiment, plus blocks renamed since.
+const withoutExperiments = {
+  '1.19.3': { base: '1.19.2' },
+  '1.19.4': { base: '1.19.2' },
+  '1.20.4': { base: '1.20.2', renamed: ['short_grass'] },
+  '1.20.6': { base: '1.20.2', renamed: ['short_grass'] },
+  '1.21.3': { base: '1.21.1' }
+}
+
+function releasedBlocks (version) {
+  const released = withoutExperiments[version]
+  if (!released) return null
+  return new Set([...require('prismarine-registry')(released.base).blocksArray.map(block => block.name), ...(released.renamed ?? [])])
+}
 
 module.exports = (version) => {
   const registry = require('prismarine-registry')(version)
-  const released = releasedBlocksOf[version] && new Set(require('prismarine-registry')(releasedBlocksOf[version]).blocksArray.map(block => block.name))
+  const released = releasedBlocks(version)
 
   const funcs = {}
   for (const block of registry.blocksArray) {
