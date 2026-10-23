@@ -2,7 +2,7 @@
 
 Executed locally on 2026-10-23 with Windows, Node.js 26.12.1 and Java 25 (OpenJDK 25.0.3). See [AUDIT.md](AUDIT.md) for scope, exclusions, dependency revisions and limitations. The [machine-readable record](validation-results.json) lists every attempt of this round, failed ones included, with its exit status and the SHA-256 of its log; the logs themselves are local and not published.
 
-This record replaces the one for `a26a40f9` (the second follow-up), which is superseded, not rewritten; its text and record remain in the history of this file. It covers Mineflayer `912e8ca2` with the dependency revisions it pins (those in AUDIT.md, except minecraft-protocol `41e6cd2`), installed from the pinned published commits and the `java-26.3-data-9` release. Every Mineflayer log of this round's matrices ran that one commit from a separate clean worktree; companion logs each name their clean commit. The follow-up `ec5885d6`, which pins minecraft-protocol `005d953`, was checked with the targeted runs under [Follow-up at `ec5885d6`](#follow-up-at-ec5885d6), and the spawn readiness fix `970eba23` with those under [Follow-up at `970eba23`](#follow-up-at-970eba23).
+This record replaces the one for `a26a40f9` (the second follow-up), which is superseded, not rewritten; its text and record remain in the history of this file. It covers Mineflayer `912e8ca2` with the dependency revisions it pins (those in AUDIT.md, except minecraft-protocol `41e6cd2`), installed from the pinned published commits and the `java-26.3-data-9` release. Every Mineflayer log of this round's matrices ran that one commit from a separate clean worktree; companion logs each name their clean commit. The follow-up `ec5885d6`, which pins minecraft-protocol `005d953`, was checked with the targeted runs under [Follow-up at `ec5885d6`](#follow-up-at-ec5885d6), the spawn readiness fix `970eba23` with those under [Follow-up at `970eba23`](#follow-up-at-970eba23), and the teleport confirmation fix with those under [Follow-up at `cb248a03`](#follow-up-at-cb248a03).
 
 ## Evidence format
 
@@ -10,7 +10,7 @@ Every attempt runs into a new run directory and is never overwritten, so a rerun
 
 ## Hosted CI
 
-Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23` had not run on hosted CI when this record was written.
+Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23` and the teleport confirmation follow-up `cb248a03` had not run on hosted CI when this record was written.
 
 ## Results
 
@@ -69,7 +69,7 @@ Online-mode scenarios authenticate against a local stub of the Mojang session se
 
 ### Real Microsoft account
 
-The account owner signed in with a real Microsoft account once, with the device code flow; every later run reused that cached session through Mineflayer's normal `auth: 'microsoft'` login (`audit-artifacts/live-auth/run.js`). Each run starts a fresh vanilla server with `online-mode=true` and `enforce-secure-profile=true` on loopback; the server's authenticator verifies the account, the bot must spawn, and its chat must come back as signed player chat, which the server logs without a "Not Secure" mark. Result files record packet names, times and booleans only, no keys, signatures or tokens. Every attempt, failed ones included (54):
+The account owner signed in with a real Microsoft account once, with the device code flow; every later run reused that cached session through Mineflayer's normal `auth: 'microsoft'` login (`audit-artifacts/live-auth/run.js`). Each run starts a fresh vanilla server with `online-mode=true` and `enforce-secure-profile=true` on loopback; the server's authenticator verifies the account, the bot must spawn, and its chat must come back as signed player chat, which the server logs without a "Not Secure" mark. Result files record packet names, times and booleans only, no keys, signatures or tokens. Every attempt, failed ones included (58):
 
 | # | Mineflayer | minecraft-protocol | Server | Chat sent at | Ticks/s | Result | Note |
 |---:|---|---|---|---|---:|---|---|
@@ -127,6 +127,10 @@ The account owner signed in with a real Microsoft account once, with the device 
 | 52 | `970eba23` | `005d953` | 26.3 | spawn | 20 | echoed | Spawn readiness follow-up, clean worktree. |
 | 53 | `970eba23` | `005d953` | 1.21.11 | spawn | 20 | echoed | Spawn readiness follow-up, clean worktree. |
 | 54 | `970eba23` | `005d953` | 1.21.4 | spawn | 20 | echoed | Spawn readiness follow-up, clean worktree. |
+| 55 | `cb248a03` | `005d953` | 26.3 | spawn | 20 | echoed | Teleport confirmation follow-up, clean worktree. |
+| 56 | `cb248a03` | `005d953` | 1.21.11 | spawn | 20 | echoed | Teleport confirmation follow-up, clean worktree. |
+| 57 | `cb248a03` | `005d953` | 1.21.4 | spawn | 20 | echoed | Teleport confirmation follow-up, clean worktree. |
+| 58 | `cb248a03` | `005d953` | 1.20.4 | spawn | 20 | echoed | Teleport confirmation follow-up, clean worktree. |
 
 The first sign-in passed at `4ff8872c`. At `7b3a5ae8` (the dependencies of `912e8ca2`) the chat failed: the server logged "Failed to update secure chat state for HYPExMon5ter: 'Chat disabled due to missing profile public key. Please try reconnecting.'" and dropped it, although the certificate request returned HTTP 200 and the client held its keys and a chat session. The packet trace showed the cause: the client announced its chat session (`chat_session_update`) on the login packet and chatted about 80 ms later on spawn; the server's rejection arrived about 20 ms after that, 2 ms before the server echoed the session back as applied (`player_info` with this player's chat session). From 1.21.9 the server hands the session update to a packet queue it drains once per tick, but handles chat from its main task queue, which also runs between ticks (`PacketUtils.ensureRunningOnSameThread` and `ServerGamePacketListenerImpl.tryHandleChat`, checked in the 1.21.9, 1.21.11 and 26.1–26.3 jars; 1.20.6–1.21.8 run both from the main task queue in arrival order). Without the fix the race was lost on 1.21.11 and 26.1–26.3 in every run, and not on 1.21.9 in three runs, one sending the chat on the login packet; why 1.21.9 handled the chat after its next tick was not established. 1.21.8, 1.20.4 and 1.19.3 passed without the fix. No change between `4ff8872c` and `912e8ca2` is in the session or chat sending code (the protocol changes were a bundle test and chat timestamps), and the outcome depends on where the chat falls in the server's tick, so the first pass is consistent with having won the same race; that was not shown.
 
@@ -270,6 +274,141 @@ minecraft-protocol `005d953` holds chat until the server has answered a statisti
 
 Development checks for this follow-up (in `audit-artifacts/followup3/dev/clear-after-container-970eba23`, not counted): `spawnEvent` on 26.3 failed 3 of 3 runs with `health.js` of `a1fca241` ("the server ignored an item used on spawn") and passed with the fix; and the `/clear` check described in AUDIT.md's limitations, run on 26.3 and 1.21.8.
 
+## Follow-up at `cb248a03`
+
+`cb248a03` (the fix is `cbcff236`; `ae0ed690` and `cb248a03` only change the new `spawnEvent` check: it clicks the chest once it loads before 1.21.4, and lays its own floor) announces `spawn`, and `player_loaded` on 1.21.4+, only once the bot has confirmed the server's latest teleport, which servers require before they accept a block interaction (see AUDIT.md, Spawn readiness); it pins the same dependencies as `ec5885d6`. Spawn timing changed on every version, so it was checked from a clean worktree whose logs name that commit and its shrinkwrap's dependencies with: the internal suite and the internal and vanilla suites on all 30 versions; `spawnEvent` alone three times on 1.8.8, 1.12.2, 1.16.5, 1.20.1, 1.21.3, 1.21.4 and 26.3, the versions whose unfixed runs are listed below; the vanilla suites through the latency proxy on 1.8.8, 1.12.2, 1.21.11 and 26.3; the Velocity scenarios; the companion checks below; and real Microsoft account runs (listed above). The full matrices of this record, including `digEverything`, were not rerun: the change does not touch digging or block data.
+
+`internal-cb248a03` (internal suite): Internal suite on all 30 versions: the health and physics plugins changed for every version.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 70 | 21 |
+| 1.9.4 | 72 | 19 |
+| 1.10.2 | 72 | 19 |
+| 1.11.2 | 72 | 19 |
+| 1.12.2 | 72 | 19 |
+| 1.13.2 | 72 | 19 |
+| 1.14.4 | 72 | 19 |
+| 1.15.2 | 72 | 19 |
+| 1.16.5 | 72 | 19 |
+| 1.17.1 | 76 | 15 |
+| 1.18.2 | 76 | 15 |
+| 1.19 | 79 | 12 |
+| 1.19.2 | 79 | 12 |
+| 1.19.3 | 79 | 12 |
+| 1.19.4 | 80 | 11 |
+| 1.20.1 | 80 | 11 |
+| 1.20.2 | 84 | 7 |
+| 1.20.4 | 85 | 6 |
+| 1.20.6 | 84 | 7 |
+| 1.21.1 | 85 | 6 |
+| 1.21.3 | 87 | 4 |
+| 1.21.4 | 89 | 2 |
+| 1.21.5 | 89 | 2 |
+| 1.21.6 | 89 | 2 |
+| 1.21.8 | 89 | 2 |
+| 1.21.9 | 89 | 2 |
+| 1.21.11 | 89 | 2 |
+| 26.1 | 94 | 2 |
+| 26.2 | 94 | 2 |
+| 26.3 | 95 | 1 |
+
+`suite-cb248a03` (server suites): Internal and vanilla suites on all 30 versions: spawn timing changed on every version.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 136 | 21 |
+| 1.9.4 | 138 | 19 |
+| 1.10.2 | 138 | 19 |
+| 1.11.2 | 138 | 19 |
+| 1.12.2 | 138 | 19 |
+| 1.13.2 | 138 | 19 |
+| 1.14.4 | 138 | 19 |
+| 1.15.2 | 138 | 19 |
+| 1.16.5 | 138 | 19 |
+| 1.17.1 | 144 | 15 |
+| 1.18.2 | 144 | 15 |
+| 1.19 | 147 | 12 |
+| 1.19.2 | 147 | 12 |
+| 1.19.3 | 147 | 12 |
+| 1.19.4 | 148 | 11 |
+| 1.20.1 | 149 | 11 |
+| 1.20.2 | 153 | 7 |
+| 1.20.4 | 154 | 6 |
+| 1.20.6 | 153 | 7 |
+| 1.21.1 | 154 | 6 |
+| 1.21.3 | 156 | 4 |
+| 1.21.4 | 158 | 2 |
+| 1.21.5 | 158 | 2 |
+| 1.21.6 | 158 | 2 |
+| 1.21.8 | 158 | 2 |
+| 1.21.9 | 159 | 2 |
+| 1.21.11 | 159 | 2 |
+| 26.1 | 164 | 2 |
+| 26.2 | 164 | 2 |
+| 26.3 | 166 | 1 |
+
+`spawn-cb248a03-a` (vanilla `spawnEvent`): The vanilla `spawnEvent` test alone on the versions of the unfixed baseline, attempt 1 of 3.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 1 | 0 |
+| 1.12.2 | 1 | 0 |
+| 1.16.5 | 1 | 0 |
+| 1.20.1 | 1 | 0 |
+| 1.21.3 | 1 | 0 |
+| 1.21.4 | 1 | 0 |
+| 26.3 | 1 | 0 |
+
+`spawn-cb248a03-b` (vanilla `spawnEvent`): Attempt 2 of 3.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 1 | 0 |
+| 1.12.2 | 1 | 0 |
+| 1.16.5 | 1 | 0 |
+| 1.20.1 | 1 | 0 |
+| 1.21.3 | 1 | 0 |
+| 1.21.4 | 1 | 0 |
+| 26.3 | 1 | 0 |
+
+`spawn-cb248a03-c` (vanilla `spawnEvent`): Attempt 3 of 3.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 1 | 0 |
+| 1.12.2 | 1 | 0 |
+| 1.16.5 | 1 | 0 |
+| 1.20.1 | 1 | 0 |
+| 1.21.3 | 1 | 0 |
+| 1.21.4 | 1 | 0 |
+| 26.3 | 1 | 0 |
+
+`lag150-cb248a03` (server suites through the latency proxy, 150 ms each way): Vanilla suites through the latency proxy on two legacy and two modern versions.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 66 | 0 |
+| 1.12.2 | 66 | 0 |
+| 1.21.11 | 70 | 0 |
+| 26.3 | 71 | 0 |
+
+| Scenario | Proxy | Backends | Clients | Refusals checked |
+|---|---|---|---|---|
+| legacy-offline | Velocity, legacy forwarding, offline mode | Paper 1.8.8, Paper 1.8.8, Paper 1.12.2 | 1.8.8 (switch and back): pass; 1.12.2: pass | – |
+| modern-offline | Velocity, modern forwarding, offline mode | Paper 26.3, Paper 26.3, Paper 1.21.11, Paper 1.20.4 | 26.3 (switch and back): pass; 1.21.11: pass; 1.20.4: pass | – |
+| legacy-online | Velocity, legacy forwarding, online mode | Paper 1.8.8, Paper 1.8.8 | 1.8.8 (switch and back): pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+| modern-online | Velocity, modern forwarding, online mode | Paper 26.3, Paper 26.3 | 26.3 (switch and back): pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+| vanilla-online-direct | none (direct, online mode) | vanilla 1.20.4 | 1.20.4: pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+
+| Package | Commit | Result |
+|---|---|---|
+| mineflayer lint | `cb248a0` | passes |
+| mineflayer unit | `cb248a0` | 97 passing |
+| mineflayer types | `cb248a0` | passes |
+
+The unfixed baseline is the library of `dd781b6a` with the new tests (runs `spawn-baseline-*` in the list below, at commits `6a5c46bc`, `c999f2a3` and `ae5a64a9` made only for them, carrying the tests of `cbcff236`, `ae0ed690` and `cb248a03`). The runs at `ae0ed690` are kept in the list as superseded: their only failures were the 1.8.8 chest check through the latency proxy, from the hole described in AUDIT.md, and `furnace` on 26.3 through the proxy, where the bot picked up a white bed item that the `bed` test had dropped about 80 s earlier (entity 22 in the packet trace) while a creative slot set was in flight, so the server reported the bed in that slot; the item left by `bed` is an existing test-isolation gap, not changed here. The reviewer's reproduction `audit-artifacts/astra-review-970eba23/spawn-teleport.cjs` was run on both commits; its logs are in `audit-artifacts/followup3/dev/r8-ae0ed690` with the development runs of this follow-up, which are not counted (they include a first run of the new chest check that the server refused only because of spawn protection, and wire tests whose harness mistakes were corrected before the commit).
+
 ## Attempts of this round
 
 - `suite-d22e00df` (server suites, `d22e00df`): all 30 versions passed. Superseded: the nether test changed in `912e8ca2` after the first lag run.
@@ -280,6 +419,17 @@ Development checks for this follow-up (in `audit-artifacts/followup3/dev/clear-a
 - `lag150-912e8ca2` (server suites through the latency proxy, 150 ms each way, `912e8ca2`): all 7 versions passed.
 - `dig-912e8ca2-a` (`digEverything`, `912e8ca2`): all 15 versions passed.
 - `dig-912e8ca2-b` (`digEverything`, `912e8ca2`): all 15 versions passed.
+- `spawn-baseline-6a5c46bc` (vanilla `spawnEvent`, `6a5c46bc`): 1 of 5 versions passed; failed: 1.12.2 (spawnEvent: Error: the server refused a block activated on spawn), 1.21.3 (spawnEvent: Error: spawned facing nothing at undefined), 1.21.4 (spawnEvent: Error: the server refused a block activated on spawn), 26.3 (spawnEvent: Error: the server refused a block activated on spawn). Unfixed baseline (the library of `dd781b6a` with the tests of `cbcff236`): refusals are the bug; 1.21.3 failed before clicking because spawn there does not wait for terrain, which `ae0ed690` handles.
+- `spawn-baseline-c999f2a3-a` (vanilla `spawnEvent`, `c999f2a3`): 2 of 7 versions passed; failed: 1.16.5 (spawnEvent: Error: the server refused a block activated on spawn), 1.20.1 (spawnEvent: Error: the server refused a block activated on spawn), 1.21.3 (spawnEvent: Error: the server refused a block activated on spawn), 1.21.4 (spawnEvent: Error: the server refused a block activated on spawn), 26.3 (spawnEvent: Error: the server refused a block activated on spawn). Unfixed baseline (the library of `dd781b6a` with the tests of `ae0ed690`), attempt 1 of 3: refusals are the bug.
+- `spawn-baseline-c999f2a3-b` (vanilla `spawnEvent`, `c999f2a3`): 1 of 7 versions passed; failed: 1.12.2 (spawnEvent: Error: the server refused a block activated on spawn), 1.16.5 (spawnEvent: Error: the server refused a block activated on spawn), 1.20.1 (spawnEvent: Error: the server refused a block activated on spawn), 1.21.3 (spawnEvent: Error: the server refused a block activated on spawn), 1.21.4 (spawnEvent: Error: the server refused a block activated on spawn), 26.3 (spawnEvent: Error: the server refused a block activated on spawn). Unfixed baseline, attempt 2 of 3.
+- `spawn-baseline-c999f2a3-c` (vanilla `spawnEvent`, `c999f2a3`): 1 of 7 versions passed; failed: 1.12.2 (spawnEvent: Error: the server refused a block activated on spawn), 1.16.5 (spawnEvent: Error: the server refused a block activated on spawn), 1.20.1 (spawnEvent: Error: the server refused a block activated on spawn), 1.21.3 (spawnEvent: Error: the server refused a block activated on spawn), 1.21.4 (spawnEvent: Error: the server refused a block activated on spawn), 26.3 (spawnEvent: Error: the server refused a block activated on spawn). Unfixed baseline, attempt 3 of 3.
+- `spawn-baseline-ae5a64a9` (vanilla `spawnEvent`, `ae5a64a9`): 1 of 7 versions passed; failed: 1.12.2 (spawnEvent: Error: the server refused a block activated on spawn), 1.16.5 (spawnEvent: Error: the server refused a block activated on spawn), 1.20.1 (spawnEvent: Error: the server refused a block activated on spawn), 1.21.3 (spawnEvent: Error: the server refused a block activated on spawn), 1.21.4 (spawnEvent: Error: the server refused a block activated on spawn), 26.3 (spawnEvent: Error: the server refused a block activated on spawn). Unfixed baseline (the library of `dd781b6a` with the tests of `cb248a03`): refusals are the bug.
+- `spawn-ae0ed690-a` (vanilla `spawnEvent`, `ae0ed690`): all 7 versions passed. Superseded by the runs at `cb248a03`, whose only change is the `spawnEvent` setup.
+- `spawn-ae0ed690-b` (vanilla `spawnEvent`, `ae0ed690`): all 7 versions passed. Superseded by the runs at `cb248a03`.
+- `spawn-ae0ed690-c` (vanilla `spawnEvent`, `ae0ed690`): all 7 versions passed. Superseded by the runs at `cb248a03`.
+- `internal-ae0ed690` (internal suite, `ae0ed690`): all 30 versions passed. Superseded by the run at `cb248a03`.
+- `suite-ae0ed690` (server suites, `ae0ed690`): all 30 versions passed. Superseded by the run at `cb248a03`.
+- `lag150-ae0ed690` (server suites through the latency proxy, 150 ms each way, `ae0ed690`): 2 of 4 versions passed; failed: 1.8.8 (spawnEvent: Error: spawned facing nothing at undefined), 26.3 (furnace: Error: Server rejected). Superseded: the 1.8.8 failure was a hole an earlier test left under the new chest check (fixed in `cb248a03`); the 26.3 `furnace` failure was a bed item left by the `bed` test, picked up while a creative slot set was in flight (see VALIDATION.md).
 
 ## Failures investigated
 

@@ -2575,6 +2575,1461 @@
           "accepted": true
         }
       ]
+    },
+    {
+      "label": "spawn-baseline-6a5c46bc",
+      "kind": "spawn",
+      "latency": 0,
+      "commit": "6a5c46bc9feb3637ce26fa18bededda6ff5614f3",
+      "note": "Unfixed baseline (the library of `dd781b6a` with the tests of `cbcff236`): refusals are the bug; 1.21.3 failed before clicking because spawn there does not wait for terrain, which `ae0ed690` handles.",
+      "attempts": [
+        {
+          "version": "1.12.2",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-6a5c46bc/1.12.2.log",
+          "sha256": "08c1faf45cac79262220c4544ed34e31d07f0153d7a963e741fc4896594394da",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-baseline-6a5c46bc/1.8.8.log",
+          "sha256": "38870a286ac08e4e76907a0f640e0faff4e47025648d20e848819e25b6a0008f",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: spawned facing nothing at undefined"
+          ],
+          "log": "runs/spawn-baseline-6a5c46bc/1.21.3.log",
+          "sha256": "6854f830a88c3de1e7238f10a6362dc5425f38caa2e4ecd951dee8c62abfbf16",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-6a5c46bc/1.21.4.log",
+          "sha256": "e1215c135e327167d97706585dc2131be56b8fbfa7f28322ececb289b06610f6",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-6a5c46bc/26.3.log",
+          "sha256": "0baa0a4f82324cac6e344d45442dd913cde5dfd171ca0ad2095fd3f38148ed5b",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "spawn-baseline-c999f2a3-a",
+      "kind": "spawn",
+      "latency": 0,
+      "commit": "c999f2a349560885d030a5e09f2e31771e61c1b0",
+      "note": "Unfixed baseline (the library of `dd781b6a` with the tests of `ae0ed690`), attempt 1 of 3: refusals are the bug.",
+      "attempts": [
+        {
+          "version": "1.12.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-baseline-c999f2a3-a/1.12.2.log",
+          "sha256": "1fc6d1f3ba18d3a290e69a38798c8f2267b1fc69b46e0c4dbf606ed2f7c1b29d",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-baseline-c999f2a3-a/1.8.8.log",
+          "sha256": "88b6b5ef7744dee0a8d0ca40896566bbb6a405f799341cfbe03e1e4b95457152",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-a/1.16.5.log",
+          "sha256": "742f177c28542ba393c396efd829522cd2d95288dff70df0573bc73e123813f8",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-a/1.20.1.log",
+          "sha256": "7a0528bd13595a7c5e9de77fe9b5efd70542415bc9a168f0663f584d9d81d090",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-a/1.21.3.log",
+          "sha256": "f03916f665acbcfa1f081a83302a111d006dd3a55328e6a418e27b4d71de1968",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-a/1.21.4.log",
+          "sha256": "45be0e9c034c70c824f027ff69c490c86e8266f68ebd20a2ccbdeb46b1ba2e82",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-a/26.3.log",
+          "sha256": "594bfb6c550ef20e1ba386c8c99ec919f7ea6153f322cce02fb1f1f0095fdd19",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "spawn-baseline-c999f2a3-b",
+      "kind": "spawn",
+      "latency": 0,
+      "commit": "c999f2a349560885d030a5e09f2e31771e61c1b0",
+      "note": "Unfixed baseline, attempt 2 of 3.",
+      "attempts": [
+        {
+          "version": "1.12.2",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-b/1.12.2.log",
+          "sha256": "3b87468f4befaf0e04cae0319608498236c080c029553fc498cd299dbfbf1ef1",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-baseline-c999f2a3-b/1.8.8.log",
+          "sha256": "cd103fd47eb59ff7b8de4218a1758093def6828ecbd74d586280279c628e682b",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-b/1.16.5.log",
+          "sha256": "a0c1573f3209f7c53f974621a2b84bd6fe21245446d73d3c43f7694fc61a073e",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-b/1.20.1.log",
+          "sha256": "8400c4b2546459516da4d1ae476e7c894df81f7b58d175f28a4d8050fc25da07",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-b/1.21.3.log",
+          "sha256": "a67e6f2b7250853dc0e8b83ab013bb5f4e6a7fcd14cdff3a88e6b15e6b31747c",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-b/1.21.4.log",
+          "sha256": "444dd63c72ed346780c6e5b042cf8a85813387805f734f2128aba3ac7fd07c15",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-b/26.3.log",
+          "sha256": "0c90ce5acf8a4cf28b93b7e9881e7510f5eafe7748bd24cbbb96a5337b976c69",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "spawn-baseline-c999f2a3-c",
+      "kind": "spawn",
+      "latency": 0,
+      "commit": "c999f2a349560885d030a5e09f2e31771e61c1b0",
+      "note": "Unfixed baseline, attempt 3 of 3.",
+      "attempts": [
+        {
+          "version": "1.12.2",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-c/1.12.2.log",
+          "sha256": "b3d168347c3df6d3bfdbb8b02d587959bfdd79fa56867b284000af9dc3984d75",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-baseline-c999f2a3-c/1.8.8.log",
+          "sha256": "77b356c663f6f5e294fc24bd902a96cac08f6e1236a487f72b79d9b8bfdb19ce",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-c/1.16.5.log",
+          "sha256": "091a74bed7bc7479437e44955a48916c03abe8b8bdcff7e75eff333e21b0f4a8",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-c/1.20.1.log",
+          "sha256": "ffe4e62e89c7bb4a02a4f7caedcd5ed5a66abd3e1019c2b5ce9902ef13836020",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-c/1.21.3.log",
+          "sha256": "befb6d8ba3a7e2680ba1a6d01abc2d44d918be24360532ff17a70efbddcc06c0",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-c/1.21.4.log",
+          "sha256": "a94445102d91cb8a8226a6f444dc401f54e53b5d4536ffa827332e34bc7608be",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-c999f2a3-c/26.3.log",
+          "sha256": "0aa5c8dee6e2e4ce08085cb0b6cb4679c193aeefeaebd15e58b503b700174a30",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "spawn-baseline-ae5a64a9",
+      "kind": "spawn",
+      "latency": 0,
+      "commit": "ae5a64a921591baf88d3f8b8aed368e57cd7250c",
+      "note": "Unfixed baseline (the library of `dd781b6a` with the tests of `cb248a03`): refusals are the bug.",
+      "attempts": [
+        {
+          "version": "1.12.2",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-ae5a64a9/1.12.2.log",
+          "sha256": "07394769064565d4e5fdf12a497ee03a384286bffda84c45667a3e2336ab7e0f",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-baseline-ae5a64a9/1.8.8.log",
+          "sha256": "7b713c9e5cc3556734f5cba8178f2a66905285721e40372a98ec8f0b933691e9",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-ae5a64a9/1.16.5.log",
+          "sha256": "e9477c04225af14263a99eea21124edf0781dbfdd7f7ae52aa1d97f5f7d22049",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-ae5a64a9/1.20.1.log",
+          "sha256": "4b9fa54dd47db9c0ef4bc8bde6f7721aaefdc54338b37ba200383183601ea1b0",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-ae5a64a9/1.21.3.log",
+          "sha256": "391950a7dcdd4e05ec31e684bd82fd73051a48e1e5fbbb0ecdccd360d884f033",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-ae5a64a9/1.21.4.log",
+          "sha256": "d353d78f5a1e06e3a342a4599d41b90de59641e066d45b1960cf97aa0e78a9cf",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: the server refused a block activated on spawn"
+          ],
+          "log": "runs/spawn-baseline-ae5a64a9/26.3.log",
+          "sha256": "f424fff1b3cf87019bb16b4dda0957e24fc600927f237435f2c2c607f1fbef18",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "spawn-ae0ed690-a",
+      "kind": "spawn",
+      "latency": 0,
+      "commit": "ae0ed690a61d02480af0e650b307eddf70e51045",
+      "note": "Superseded by the runs at `cb248a03`, whose only change is the `spawnEvent` setup.",
+      "attempts": [
+        {
+          "version": "1.12.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-a/1.12.2.log",
+          "sha256": "934183e4d89d409114dcfcd8a7fa77493f618e59ca4fad2a2bca0e2d56b2ab52",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-a/1.8.8.log",
+          "sha256": "3d0fb9c2cfb56793a6fd5c7ce8864e29c23c37f68d9a2b7a651e467d7d216062",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-a/1.16.5.log",
+          "sha256": "c6bf5e0e65674aa0e9be548bc3ed94d865da5f68d7ce04cdb9df7cc95d277ad5",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-a/1.20.1.log",
+          "sha256": "f261ad4b4ffe8e652bdfa3dca8ae32dacd93a0898df8dcfb9338950953d3ffe2",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-a/1.21.3.log",
+          "sha256": "ec176a71ffcba057d94a8685a109318b16890da1482258dab9b0c6d89785e23e",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-a/1.21.4.log",
+          "sha256": "87954132abdf2e00e0792b8f6579d7b71afe0accbbf2efe3e40dd322d8d0f19e",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-a/26.3.log",
+          "sha256": "e98fc11675958e0689f6bfee95a7e452c2935a52b54388981f799f02686f23e7",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "spawn-ae0ed690-b",
+      "kind": "spawn",
+      "latency": 0,
+      "commit": "ae0ed690a61d02480af0e650b307eddf70e51045",
+      "note": "Superseded by the runs at `cb248a03`.",
+      "attempts": [
+        {
+          "version": "1.12.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-b/1.12.2.log",
+          "sha256": "0e02cf80cc7f620fa0d8ea6395eee7beee07627b81c93d9e4a82785c966f8ae3",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-b/1.8.8.log",
+          "sha256": "a011368572afab38ab08125dd3bb77084b5c7860698bdd35a36b345f05e26fd9",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-b/1.16.5.log",
+          "sha256": "e7f6b5a05a39d227596ac748ef7bcda853d4b30f481f5904ed1d2285e839ea7c",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-b/1.20.1.log",
+          "sha256": "b53ae3eabe82af8c9c5875e8066904292c0b9fc266f6d88f0e9378bf7c266957",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-b/1.21.3.log",
+          "sha256": "f67d7d8b3f4b54daebf3574ee8da5ecd4b84456828603f5df5200100fcce33df",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-b/1.21.4.log",
+          "sha256": "70a58e06ab991ce2e6ccf9b96287bbe090fecc967c58c7e05c80fcb16b3524e4",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-b/26.3.log",
+          "sha256": "64451107a73f4ea75d1bf51b8e3a42035d0ec23188d5c73878dd13047ec06020",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "spawn-ae0ed690-c",
+      "kind": "spawn",
+      "latency": 0,
+      "commit": "ae0ed690a61d02480af0e650b307eddf70e51045",
+      "note": "Superseded by the runs at `cb248a03`.",
+      "attempts": [
+        {
+          "version": "1.12.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-c/1.12.2.log",
+          "sha256": "a310baaaa009a06bc52c5f61465d28687ffa1c558625b794de0f5f77589cdd05",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-c/1.8.8.log",
+          "sha256": "24ad521ad322f1b835f4b429164c0e329880fd45cd2139676901ba31ed6c6d42",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-c/1.16.5.log",
+          "sha256": "2867f371c85ebaf668d8bc69e9cfec051bd964cc6a6931819787f8a7543869ad",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-c/1.20.1.log",
+          "sha256": "debb239631b65822e0aae439dda12ec3602e5f54380c7df654143e4b07b790ad",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-c/1.21.3.log",
+          "sha256": "35286394a6ad7856d439fbb8527197b93893b2502b96ba9eefe904749f127238",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-c/1.21.4.log",
+          "sha256": "b021b8e82a3508f3b21465fc963a33592349e7a7fdc26ad2391abf5d7f7e35fa",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/spawn-ae0ed690-c/26.3.log",
+          "sha256": "0ad6d7764181b972335974748f9c52aa5e36cecea3a10d4adc90e3d65b0ae649",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "internal-ae0ed690",
+      "kind": "internal",
+      "latency": 0,
+      "commit": "ae0ed690a61d02480af0e650b307eddf70e51045",
+      "note": "Superseded by the run at `cb248a03`.",
+      "attempts": [
+        {
+          "version": "1.10.2",
+          "code": 0,
+          "passing": 72,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.10.2.log",
+          "sha256": "47c4d8abe67a52368aef93bc43f09831dbbca2466c489e44e6b438f6e09b703d",
+          "accepted": false
+        },
+        {
+          "version": "1.9.4",
+          "code": 0,
+          "passing": 72,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.9.4.log",
+          "sha256": "31be20744a9cfad0e10d2fbf25263ed573e2bac74e086c98f138a509cad35779",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 70,
+          "pending": 21,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.8.8.log",
+          "sha256": "989c641b4a23048eceb3f07243add01c39b8afa29b4f7f794d9a5b4ae18dd523",
+          "accepted": false
+        },
+        {
+          "version": "1.11.2",
+          "code": 0,
+          "passing": 72,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.11.2.log",
+          "sha256": "f1737b5031b118c0a7471244b78dfbe4a37b29a415613278d3e27b391181f5cd",
+          "accepted": false
+        },
+        {
+          "version": "1.12.2",
+          "code": 0,
+          "passing": 72,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.12.2.log",
+          "sha256": "be3d7636bc8b2f99ee562fe05d1f5bde858976fbb12062e05746909a489280ee",
+          "accepted": false
+        },
+        {
+          "version": "1.13.2",
+          "code": 0,
+          "passing": 72,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.13.2.log",
+          "sha256": "f35ff5cc7ce1330899e9303b22795d420f0eee55cf21b8d6d81fbe5e4b563a86",
+          "accepted": false
+        },
+        {
+          "version": "1.15.2",
+          "code": 0,
+          "passing": 72,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.15.2.log",
+          "sha256": "450afacd4d46dc5804938cd8876cb445fc44b06391ec4acd9831ca1bd8a1c89c",
+          "accepted": false
+        },
+        {
+          "version": "1.14.4",
+          "code": 0,
+          "passing": 72,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.14.4.log",
+          "sha256": "7c03f7cf13f52fa325678ff33a988fa75d8ec57af7e642171f81c3de4c367dd5",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 0,
+          "passing": 72,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.16.5.log",
+          "sha256": "2e1ab42dba805d1b53504bdbe55a1f2c832e185d92e4c005ee2f576aa4109176",
+          "accepted": false
+        },
+        {
+          "version": "1.17.1",
+          "code": 0,
+          "passing": 76,
+          "pending": 15,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.17.1.log",
+          "sha256": "faa9f820872c52c4d964a0ece492ba21b41f9fe247d07b67d1187873040938c5",
+          "accepted": false
+        },
+        {
+          "version": "1.18.2",
+          "code": 0,
+          "passing": 76,
+          "pending": 15,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.18.2.log",
+          "sha256": "2582662f2dda44f7d7c1b973ba7180d4797298658c0b66c93fa5985ded311d55",
+          "accepted": false
+        },
+        {
+          "version": "1.19",
+          "code": 0,
+          "passing": 79,
+          "pending": 12,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.19.log",
+          "sha256": "a1a1c9125324a2f6badbb60172fb13964d9e0a3af745db8f0bf92b851cb42e91",
+          "accepted": false
+        },
+        {
+          "version": "1.19.2",
+          "code": 0,
+          "passing": 79,
+          "pending": 12,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.19.2.log",
+          "sha256": "bf8466aa1648055ba49016ddc4695835fb2a4e34f5b870da54dc0a17609debde",
+          "accepted": false
+        },
+        {
+          "version": "1.19.3",
+          "code": 0,
+          "passing": 79,
+          "pending": 12,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.19.3.log",
+          "sha256": "01e729d7e8834e78fa1943830a7a3dc22608dfc9eb4a188ec3cef7ed23686699",
+          "accepted": false
+        },
+        {
+          "version": "1.19.4",
+          "code": 0,
+          "passing": 80,
+          "pending": 11,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.19.4.log",
+          "sha256": "40199c9557ff05f56d8daa922f5c50757c3bfba215a3c272288b77a7cfc701c4",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 0,
+          "passing": 80,
+          "pending": 11,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.20.1.log",
+          "sha256": "7dc65d78d1b6effc21049ef69c255e34e4fd1c2628706ba1ed9b657caf3b50db",
+          "accepted": false
+        },
+        {
+          "version": "1.20.2",
+          "code": 0,
+          "passing": 84,
+          "pending": 7,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.20.2.log",
+          "sha256": "d3386c4a6a96e48cfa61aea6b1e83966afa0c6a573575cdc11ca44cc131e6801",
+          "accepted": false
+        },
+        {
+          "version": "1.20.4",
+          "code": 0,
+          "passing": 85,
+          "pending": 6,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.20.4.log",
+          "sha256": "33e3bd3e8ed24555439a6669a70992493ee1537b285feeac7ebf526652076156",
+          "accepted": false
+        },
+        {
+          "version": "1.20.6",
+          "code": 0,
+          "passing": 84,
+          "pending": 7,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.20.6.log",
+          "sha256": "b299205eaae8a2919e4bccf3312099b0d73f66b88148bf374fb762695078bdd3",
+          "accepted": false
+        },
+        {
+          "version": "1.21.1",
+          "code": 0,
+          "passing": 85,
+          "pending": 6,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.21.1.log",
+          "sha256": "33c651df86854107b04b8bf8590671c1376fee58c903ca3f38156f50f45cab56",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 0,
+          "passing": 87,
+          "pending": 4,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.21.3.log",
+          "sha256": "feebc8f88f887b923721ab308075f863d51c3d40333531c43fe9c7a4971ecaaf",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 0,
+          "passing": 89,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.21.4.log",
+          "sha256": "c27d7e365671eb4c604f309b6e5166ce565e30ba0ac61b4f0bc5f60d87433dbd",
+          "accepted": false
+        },
+        {
+          "version": "1.21.5",
+          "code": 0,
+          "passing": 89,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.21.5.log",
+          "sha256": "a76db4521d3903ea945b66ff2b7fff79ca75f1f83b413d87c95310da6d7fdd97",
+          "accepted": false
+        },
+        {
+          "version": "1.21.6",
+          "code": 0,
+          "passing": 89,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.21.6.log",
+          "sha256": "fc7ac87b90c748182db820f0710c9bdfaeefac5049d5aec4243908c1aef7dd48",
+          "accepted": false
+        },
+        {
+          "version": "1.21.8",
+          "code": 0,
+          "passing": 89,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.21.8.log",
+          "sha256": "5d7f91414c8572ee4fce2913a4583179295f4621a6b2f81df65dbaf56f575358",
+          "accepted": false
+        },
+        {
+          "version": "1.21.9",
+          "code": 0,
+          "passing": 89,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.21.9.log",
+          "sha256": "7a21a909d9808e8f22d0caf06590bce7c5ce36c38044dd9079d4724ed953f03f",
+          "accepted": false
+        },
+        {
+          "version": "1.21.11",
+          "code": 0,
+          "passing": 89,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/1.21.11.log",
+          "sha256": "aa2a88e142af4e8aaf29f8996a418e3598dda0352642dde2c30f551e4e0b9164",
+          "accepted": false
+        },
+        {
+          "version": "26.1",
+          "code": 0,
+          "passing": 94,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/26.1.log",
+          "sha256": "991e16578482514ad281c3bf76d1646a1d34fa64d43312025e9ed26666a39732",
+          "accepted": false
+        },
+        {
+          "version": "26.2",
+          "code": 0,
+          "passing": 94,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/26.2.log",
+          "sha256": "bf18b229a2cc440375999f969873f9d1139003d7dbfc648fcc1ba3e1eaffaa71",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 0,
+          "passing": 95,
+          "pending": 1,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/internal-ae0ed690/26.3.log",
+          "sha256": "c3db3987ce95656ed8b164431a50f86691862de6fd1a096931ea09790699a9f2",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "suite-ae0ed690",
+      "kind": "suite",
+      "latency": 0,
+      "commit": "ae0ed690a61d02480af0e650b307eddf70e51045",
+      "note": "Superseded by the run at `cb248a03`.",
+      "attempts": [
+        {
+          "version": "1.9.4",
+          "code": 0,
+          "passing": 138,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.9.4.log",
+          "sha256": "867cbf42ea53f091fbf54df02c03418907bbde00a8434ef08050d14d793d00fa",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 136,
+          "pending": 21,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.8.8.log",
+          "sha256": "40a31f7270b5bf3f100d4f17d4766aa6478b496554d3162f832962b29052bc0f",
+          "accepted": false
+        },
+        {
+          "version": "1.10.2",
+          "code": 0,
+          "passing": 138,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.10.2.log",
+          "sha256": "04454c8ccf4dfb241dfcd85786a148305139e0a893a50f2dbb97d5587e9c3b16",
+          "accepted": false
+        },
+        {
+          "version": "1.11.2",
+          "code": 0,
+          "passing": 138,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.11.2.log",
+          "sha256": "dd6a791c6e6c6ff015f55d1bf8407f069234e1e9d5751dd410c316d15e53278d",
+          "accepted": false
+        },
+        {
+          "version": "1.12.2",
+          "code": 0,
+          "passing": 138,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.12.2.log",
+          "sha256": "d1f03db1aa4eada7348c597748ae922c10d74d95743fbc28e7cd68a8348f0d6e",
+          "accepted": false
+        },
+        {
+          "version": "1.13.2",
+          "code": 0,
+          "passing": 138,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.13.2.log",
+          "sha256": "c092a956b9fa26565a639365cfe955be59cfaf5c4bc8bf7b008a6e0d4bee01e1",
+          "accepted": false
+        },
+        {
+          "version": "1.14.4",
+          "code": 0,
+          "passing": 138,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.14.4.log",
+          "sha256": "7564e0107164d9e062d8db6c8f94c22123e85894acdd8408817d2531d9ac7d7b",
+          "accepted": false
+        },
+        {
+          "version": "1.15.2",
+          "code": 0,
+          "passing": 138,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.15.2.log",
+          "sha256": "56244bef67da94833b86ba7157848b26cf78b9d11c26043a149f97b5c40a9c7b",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 0,
+          "passing": 138,
+          "pending": 19,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.16.5.log",
+          "sha256": "cea51824b619c380177fbfc532794d5da74dff3fbc225f4ae7ddc070bf623669",
+          "accepted": false
+        },
+        {
+          "version": "1.17.1",
+          "code": 0,
+          "passing": 144,
+          "pending": 15,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.17.1.log",
+          "sha256": "f8755a88d5074b53837b5a3eb0bd8f36fad6c9bc7f36dd619bcbf6c22ddc732c",
+          "accepted": false
+        },
+        {
+          "version": "1.18.2",
+          "code": 0,
+          "passing": 144,
+          "pending": 15,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.18.2.log",
+          "sha256": "7dab461186d3d3c74bdf11f647703f0a2f21a6d0c9b1df990a20c91c21ec24bb",
+          "accepted": false
+        },
+        {
+          "version": "1.19",
+          "code": 0,
+          "passing": 147,
+          "pending": 12,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.19.log",
+          "sha256": "00b15e25c426543479c886e8612223be80e8c756d304ec778f2280a1c22b3d04",
+          "accepted": false
+        },
+        {
+          "version": "1.19.2",
+          "code": 0,
+          "passing": 147,
+          "pending": 12,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.19.2.log",
+          "sha256": "6e0ea8160489287f413c65c59046970a4ce9143a8a7920f79d486ab84cff2a78",
+          "accepted": false
+        },
+        {
+          "version": "1.19.3",
+          "code": 0,
+          "passing": 147,
+          "pending": 12,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.19.3.log",
+          "sha256": "fe1e55733442c17c13bb7e12aea5e794273795a3144d1025ad82767b05a21f15",
+          "accepted": false
+        },
+        {
+          "version": "1.19.4",
+          "code": 0,
+          "passing": 148,
+          "pending": 11,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.19.4.log",
+          "sha256": "afb3572cfd4ce58cc8c6bc027ab6d4e470750e874607efec8e8b37c7826c4956",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 0,
+          "passing": 149,
+          "pending": 11,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.20.1.log",
+          "sha256": "682344e99cc40b28241c5e8f4dc47eb061633673e2991277097d65149f709622",
+          "accepted": false
+        },
+        {
+          "version": "1.20.2",
+          "code": 0,
+          "passing": 153,
+          "pending": 7,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.20.2.log",
+          "sha256": "09c465aaac81e22d9a9eabe8b2215502cff7fba2c1df1d7e4b0da13d5a33bd2a",
+          "accepted": false
+        },
+        {
+          "version": "1.20.4",
+          "code": 0,
+          "passing": 154,
+          "pending": 6,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.20.4.log",
+          "sha256": "7e9b589034e6d649d7b1b859b7083ade46de347d2ee22cd19893f0f86b37e5e2",
+          "accepted": false
+        },
+        {
+          "version": "1.20.6",
+          "code": 0,
+          "passing": 153,
+          "pending": 7,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.20.6.log",
+          "sha256": "38ee35346e5b83a0504a4e87bad981b81e6ce97fab526825cfce2464701a7e5a",
+          "accepted": false
+        },
+        {
+          "version": "1.21.1",
+          "code": 0,
+          "passing": 154,
+          "pending": 6,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.21.1.log",
+          "sha256": "27f4dcdd1e8bd72c6ca465644717a046697e767b552ca58a70a200a5e1c29e17",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 0,
+          "passing": 156,
+          "pending": 4,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.21.3.log",
+          "sha256": "20e913fbb1ea438cbb9fae62633ea0937f99803c17392c0c2c6fc90058b9d07b",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 0,
+          "passing": 158,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.21.4.log",
+          "sha256": "b4b4c32d0ab283ccb2f686b2cd067488ae3453acca104a1866c01701fd4d61fe",
+          "accepted": false
+        },
+        {
+          "version": "1.21.6",
+          "code": 0,
+          "passing": 158,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.21.6.log",
+          "sha256": "b3a8ef1968897d508661321938430c9da65272861f1c6dc6e2921a0805b437af",
+          "accepted": false
+        },
+        {
+          "version": "1.21.5",
+          "code": 0,
+          "passing": 158,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.21.5.log",
+          "sha256": "2ee6f71156f90d3da430b39270331f95292354bbc9de423a5d0a1f2375c91bd5",
+          "accepted": false
+        },
+        {
+          "version": "1.21.8",
+          "code": 0,
+          "passing": 158,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.21.8.log",
+          "sha256": "c251a13b93cb733bda1ad27470e9fe0379c368b60bc443e88154125798bfac35",
+          "accepted": false
+        },
+        {
+          "version": "1.21.9",
+          "code": 0,
+          "passing": 159,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.21.9.log",
+          "sha256": "d51242942979ac53a3809f177aaa7a1d70ef5e8cd54e0852d14cd0c9f2146c6f",
+          "accepted": false
+        },
+        {
+          "version": "1.21.11",
+          "code": 0,
+          "passing": 159,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/1.21.11.log",
+          "sha256": "3a8a560a25e3ced4eb08dd33ad63361b98f5f277755a92ce653b0316611ab380",
+          "accepted": false
+        },
+        {
+          "version": "26.1",
+          "code": 0,
+          "passing": 164,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/26.1.log",
+          "sha256": "8490ed2088eead48d4d02ab9ce6d3db0c72318e0e353593bb65a500e14e5c21f",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 0,
+          "passing": 166,
+          "pending": 1,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/26.3.log",
+          "sha256": "0657c8f0ef0183eec1c5ec8752864481b67def5729e2d16b1cf96e489d6485f7",
+          "accepted": false
+        },
+        {
+          "version": "26.2",
+          "code": 0,
+          "passing": 164,
+          "pending": 2,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/suite-ae0ed690/26.2.log",
+          "sha256": "1ea9f0c23819f6974532192d8cc9602a7f63e13232435af197f13f1cd60f3017",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "lag150-ae0ed690",
+      "kind": "lag",
+      "latency": 150,
+      "commit": "ae0ed690a61d02480af0e650b307eddf70e51045",
+      "note": "Superseded: the 1.8.8 failure was a hole an earlier test left under the new chest check (fixed in `cb248a03`); the 26.3 `furnace` failure was a bed item left by the `bed` test, picked up while a creative slot set was in flight (see VALIDATION.md).",
+      "attempts": [
+        {
+          "version": "1.8.8",
+          "code": 1,
+          "passing": 65,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "spawnEvent: Error: spawned facing nothing at undefined"
+          ],
+          "log": "runs/lag150-ae0ed690/1.8.8.log",
+          "sha256": "37f11f4b4f5a8b952442994bc2ffbddbc1721c605dfc77107a0c7e77e982462c",
+          "accepted": false
+        },
+        {
+          "version": "1.21.11",
+          "code": 0,
+          "passing": 70,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/lag150-ae0ed690/1.21.11.log",
+          "sha256": "a65e29b7f91da9cbd9353250f5778b16e85363fd9d01ea913b2ace7ccbb6f32f",
+          "accepted": false
+        },
+        {
+          "version": "1.12.2",
+          "code": 0,
+          "passing": 66,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/lag150-ae0ed690/1.12.2.log",
+          "sha256": "272dade4d34d787283d76f795c69059aff3ea2e36efbf51905cef31da21b419e",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 1,
+          "passing": 70,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "furnace: Error: Server rejected"
+          ],
+          "log": "runs/lag150-ae0ed690/26.3.log",
+          "sha256": "381cc79e675bf7ab6cec62fdad5ff129660bccee31668280d4c76188bb89abc1",
+          "accepted": false
+        }
+      ]
     }
   ],
   "companions": [
@@ -4409,6 +5864,1232 @@
           "refused": 6
         }
       }
+    },
+    {
+      "mineflayer": "cb248a0370b612f1309fd8f67d094226ce38416f",
+      "note": "Spawn, and player_loaded on 1.21.4+, announced only once the latest teleport is confirmed, so a spawn listener can activate a block.",
+      "dependencies": {
+        "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-9/minecraft-data-3.117.0.tgz sha512-cyO+6YLkQbxL58jBSTVD5GuNnMxzpDqmXQEl8sAEg6PjG9w1G9WDnSdp1fdV9sc3aGF/FmbVFoSgWs7K040wUw==",
+        "minecraft-protocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23 sha512-LpSAvngdE/0i/wHMtLcYSWhvrl+B8E4ywlQC9ZHy1qU2Dhi1geBslN2la9L9hnkVUm+mz57OOZypuQ9WZOmp1Q==",
+        "prismarine-chunk": "git+ssh://git@github.com/HYPExMon5ter/prismarine-chunk.git#a9b77d8f2692832fddbf3e4bb1b23ab0fdfd62f4 sha512-cx3WCe8cPGD+jgTWHCM9i4b8pjkC34IXkcWL7wyvbgSJRrQAPYO8cnGI1Ysw/H9j84al7YHsFBI61sKZbmqwnQ==",
+        "prismarine-physics": "git+ssh://git@github.com/HYPExMon5ter/prismarine-physics.git#fafa7978dfbc10a46dc2aea5e72cbe0b480199d6 sha512-kpT4rwS42p3g5kyk9+pu/ahZ63ssZTZjchTe9A7SJleomKYhgOA6YFoRwXDwapoXscZVmdY5sV7E0lpSi6WUaw==",
+        "prismarine-item": "git+ssh://git@github.com/HYPExMon5ter/prismarine-item.git#fbef4939f9dc2ffc40ae27b0106097ba075ee1f3 sha512-qvBVSNa9bnI4SfBg71b/Q5V5jAPflqpVUh6ilAhs2Zqnl2cQumwHuj5ab+/jbl+wra5T2yy2qWfxevXN9WFfdw=="
+      },
+      "runs": [
+        {
+          "label": "internal-cb248a03",
+          "kind": "internal",
+          "latency": 0,
+          "commit": "cb248a0370b612f1309fd8f67d094226ce38416f",
+          "note": "Internal suite on all 30 versions: the health and physics plugins changed for every version.",
+          "attempts": [
+            {
+              "version": "1.10.2",
+              "code": 0,
+              "passing": 72,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.10.2.log",
+              "sha256": "fe22ffdd6afc344b659936cc9980c430ceff35d1c1566b206e411a8bce1509c4"
+            },
+            {
+              "version": "1.9.4",
+              "code": 0,
+              "passing": 72,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.9.4.log",
+              "sha256": "7211daeef49aa2a156315cc45c718c976633c7a846a5362f18985e3403decf26"
+            },
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 70,
+              "pending": 21,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.8.8.log",
+              "sha256": "7bdc49ef8b47b3d225c978c9b2f4f0eeaa70ab187579a3400660891207d92bb5"
+            },
+            {
+              "version": "1.11.2",
+              "code": 0,
+              "passing": 72,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.11.2.log",
+              "sha256": "59e9fb899c31fa6218042e5abd0b73983806f0a9a765a0c4b4a2d6352094bf6d"
+            },
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 72,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.12.2.log",
+              "sha256": "df9554e3456b71feaf190f8aaee24fda68bf722c728f3dd68d00b18dcd323d18"
+            },
+            {
+              "version": "1.13.2",
+              "code": 0,
+              "passing": 72,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.13.2.log",
+              "sha256": "59c135fbec8c1d7d2ea45f2dbf48d57e552eb3bc2083efb00e659eb823527d2a"
+            },
+            {
+              "version": "1.14.4",
+              "code": 0,
+              "passing": 72,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.14.4.log",
+              "sha256": "bd27d2068c26eaa03647984cf446872a9a1488419f9138d0c7128e7c1d19ff14"
+            },
+            {
+              "version": "1.15.2",
+              "code": 0,
+              "passing": 72,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.15.2.log",
+              "sha256": "da49d49a2e8573d0d5a0e5464319495c69822c82c0cf96e20b59d4dc7cb459fe"
+            },
+            {
+              "version": "1.16.5",
+              "code": 0,
+              "passing": 72,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.16.5.log",
+              "sha256": "26bbd69c41b74854baaa7a57a640c3e107d66c1a0a7e49b347109cefda7c5919"
+            },
+            {
+              "version": "1.18.2",
+              "code": 0,
+              "passing": 76,
+              "pending": 15,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.18.2.log",
+              "sha256": "971f1f3389da3778553efb9e8fb0c88a46d060836fb500b3fe004eefbb623af1"
+            },
+            {
+              "version": "1.17.1",
+              "code": 0,
+              "passing": 76,
+              "pending": 15,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.17.1.log",
+              "sha256": "0410200a68eed63e6e0e7c29a37c3a918a1310c296560508cd777383abe9259b"
+            },
+            {
+              "version": "1.19",
+              "code": 0,
+              "passing": 79,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.19.log",
+              "sha256": "c8748ee3de79bb3ddcfc2d947a8e461206916e6f771dd15c7c16fa7d79bf30b4"
+            },
+            {
+              "version": "1.19.2",
+              "code": 0,
+              "passing": 79,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.19.2.log",
+              "sha256": "4764c45675306423324c24b637da91fc4064a2f880e9a00a2667bb034f2f1aa9"
+            },
+            {
+              "version": "1.19.3",
+              "code": 0,
+              "passing": 79,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.19.3.log",
+              "sha256": "7b30da283982c7618fa2c3b2c9bcc0c2f262153aaa559180369db08aead4adba"
+            },
+            {
+              "version": "1.19.4",
+              "code": 0,
+              "passing": 80,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.19.4.log",
+              "sha256": "d8c2fbcb3aa50c5773c51a4b815e69cee49ae99d551f457bc1a1f2f16bb30416"
+            },
+            {
+              "version": "1.20.1",
+              "code": 0,
+              "passing": 80,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.20.1.log",
+              "sha256": "6a4a515a8dbc7bfcc1c5ebac66852e924933d380ec606bede896b3ad47b9c70e"
+            },
+            {
+              "version": "1.20.2",
+              "code": 0,
+              "passing": 84,
+              "pending": 7,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.20.2.log",
+              "sha256": "3dcfdf3ab4c8bc058b1eea017e7b37eea40b246f39e5508844e8971f9d8cc301"
+            },
+            {
+              "version": "1.20.4",
+              "code": 0,
+              "passing": 85,
+              "pending": 6,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.20.4.log",
+              "sha256": "ef3423b4f894640e718501717962a63129ea66022f14274f965bc8c8274890f2"
+            },
+            {
+              "version": "1.20.6",
+              "code": 0,
+              "passing": 84,
+              "pending": 7,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.20.6.log",
+              "sha256": "521302f64b685a7157355642c767860a9ff4941229b8fe192cf074e77d76e7ec"
+            },
+            {
+              "version": "1.21.1",
+              "code": 0,
+              "passing": 85,
+              "pending": 6,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.21.1.log",
+              "sha256": "6ecfed0d067afad46645fb40c3b53c7bffb3d3f9beda483385454250bfd16511"
+            },
+            {
+              "version": "1.21.3",
+              "code": 0,
+              "passing": 87,
+              "pending": 4,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.21.3.log",
+              "sha256": "f710f1fef96f02f9b37ecba7d59ff36bb21db3bdd53c7255fb69d8c816ae504f"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 89,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.21.4.log",
+              "sha256": "8498b3afc1b05ae5f5fa9bb9cba25acad84d370f6f661ccc9501b5b09b4bd027"
+            },
+            {
+              "version": "1.21.5",
+              "code": 0,
+              "passing": 89,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.21.5.log",
+              "sha256": "10b86939a4ccf28579803167221fa1b32e7a1e406954a77d98b1baeddcd1ee96"
+            },
+            {
+              "version": "1.21.6",
+              "code": 0,
+              "passing": 89,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.21.6.log",
+              "sha256": "99d83f7f23edf68825a5d11d101c88f8c9a417eda66378e4b468c2e600ed6879"
+            },
+            {
+              "version": "1.21.8",
+              "code": 0,
+              "passing": 89,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.21.8.log",
+              "sha256": "ad3beeba14dd02e1018f70ab6599b4dd7065ff42cd62e4f1320fd77468f8e53d"
+            },
+            {
+              "version": "1.21.9",
+              "code": 0,
+              "passing": 89,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.21.9.log",
+              "sha256": "ded6e5dca6861fccbb860764d24c0824e88834f75f9da08fdaf50bef2625a77f"
+            },
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 89,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/1.21.11.log",
+              "sha256": "94c91df0bc2503481d6be33c08bb8fba048a0d6a4fea987b0a38db49fa5058df"
+            },
+            {
+              "version": "26.1",
+              "code": 0,
+              "passing": 94,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/26.1.log",
+              "sha256": "0c5cec0d75d7be4526df91709066db1d0934096a99196beaf53092a74f365785"
+            },
+            {
+              "version": "26.2",
+              "code": 0,
+              "passing": 94,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/26.2.log",
+              "sha256": "0a24331d217cf93dcb44c02cfa3e091de81adb0baa479fb84980c643504e3a0f"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 95,
+              "pending": 1,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-cb248a03/26.3.log",
+              "sha256": "1112d514ac1d6e46091822eec545f155cc6a3a6262689b6b4a23703851708b48"
+            }
+          ]
+        },
+        {
+          "label": "suite-cb248a03",
+          "kind": "suite",
+          "latency": 0,
+          "commit": "cb248a0370b612f1309fd8f67d094226ce38416f",
+          "note": "Internal and vanilla suites on all 30 versions: spawn timing changed on every version.",
+          "attempts": [
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 136,
+              "pending": 21,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.8.8.log",
+              "sha256": "494ea3658c5247d23495fb51c8f9405a6e7036fc028c316f3c67836152da2314"
+            },
+            {
+              "version": "1.10.2",
+              "code": 0,
+              "passing": 138,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.10.2.log",
+              "sha256": "37ca947d14d2376611800255c24c95caf03b62818cd6a3a846386b91807f5e55"
+            },
+            {
+              "version": "1.9.4",
+              "code": 0,
+              "passing": 138,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.9.4.log",
+              "sha256": "0e19b3a95f2ff00020b8a1c97bd35b645332af77c9e9e2200c746f3aa17b6e07"
+            },
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 138,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.12.2.log",
+              "sha256": "5e923b3497abe7a07d0331dd4eac583ed8516cd9fa97f66a0fff1bd95ca35b12"
+            },
+            {
+              "version": "1.11.2",
+              "code": 0,
+              "passing": 138,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.11.2.log",
+              "sha256": "6eef1352f902952d03dcb93f45c2133cdb21689049e61913adc7d8817ebed55f"
+            },
+            {
+              "version": "1.13.2",
+              "code": 0,
+              "passing": 138,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.13.2.log",
+              "sha256": "8c2f10b8379a3b6991e6ac256dce8602d590ca6d3c2f940281ae91c609b27fb2"
+            },
+            {
+              "version": "1.15.2",
+              "code": 0,
+              "passing": 138,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.15.2.log",
+              "sha256": "64a29ead1186bc76c887d6bd28d1c09a4ad3ac221a67473ac83445d7b3fe44da"
+            },
+            {
+              "version": "1.14.4",
+              "code": 0,
+              "passing": 138,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.14.4.log",
+              "sha256": "88563b4d0e158108fb7947be0a8bb28606057cffc5b9dcd4d50d69fff7e7a7cb"
+            },
+            {
+              "version": "1.16.5",
+              "code": 0,
+              "passing": 138,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.16.5.log",
+              "sha256": "7f771754ae9f3fb6bab70c97b839289739763322d5540e2f0a8dcae5f8b1e472"
+            },
+            {
+              "version": "1.17.1",
+              "code": 0,
+              "passing": 144,
+              "pending": 15,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.17.1.log",
+              "sha256": "8595d65a90644ad349d44b7b81863e0388c78c0bafadc168c2f8674e80d780f7"
+            },
+            {
+              "version": "1.18.2",
+              "code": 0,
+              "passing": 144,
+              "pending": 15,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.18.2.log",
+              "sha256": "31475ac5e0679b6c5b232fcafe1f7149fa12054d20ff7198ef20a1baa782d3b8"
+            },
+            {
+              "version": "1.19",
+              "code": 0,
+              "passing": 147,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.19.log",
+              "sha256": "00edfaf9ec48adde82215d3ae085d7bf39f7676587d5ec9ad9cbeac548f1b090"
+            },
+            {
+              "version": "1.19.2",
+              "code": 0,
+              "passing": 147,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.19.2.log",
+              "sha256": "5c772af53f6a5b1028d99edf3a15d26fe76980d51962739826256758429e3566"
+            },
+            {
+              "version": "1.19.3",
+              "code": 0,
+              "passing": 147,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.19.3.log",
+              "sha256": "3f46c8d7ed6e3946ee062872cc94803fb40f818f20dcacf0dfc4c2cd7039b406"
+            },
+            {
+              "version": "1.19.4",
+              "code": 0,
+              "passing": 148,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.19.4.log",
+              "sha256": "6c206b66ed5bdf905276d838b50010f8266cfb69587f59d4627160ebb946f86b"
+            },
+            {
+              "version": "1.20.1",
+              "code": 0,
+              "passing": 149,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.20.1.log",
+              "sha256": "ebe602f3fb9fa5ff5ca2a5c329022db807bc29b39e83086d974ae8bbd628ddc0"
+            },
+            {
+              "version": "1.20.2",
+              "code": 0,
+              "passing": 153,
+              "pending": 7,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.20.2.log",
+              "sha256": "0c5d2ceeeffcf66d4d66c0e8b4158079edd3c050564f71a024f120a6099b49d9"
+            },
+            {
+              "version": "1.20.4",
+              "code": 0,
+              "passing": 154,
+              "pending": 6,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.20.4.log",
+              "sha256": "da4c2dc0d5c979aeb6277b3cc0cafc269c6f23febfb1cc02bdb051161c7e36fe"
+            },
+            {
+              "version": "1.20.6",
+              "code": 0,
+              "passing": 153,
+              "pending": 7,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.20.6.log",
+              "sha256": "7d5746152c6dfa083d318bed3253f9488089adacdb293b836d06f45c1b569124"
+            },
+            {
+              "version": "1.21.1",
+              "code": 0,
+              "passing": 154,
+              "pending": 6,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.21.1.log",
+              "sha256": "1d56b1142e6e249d4be69b07a8a0823bfc0585179f62ceaf1a0d43b02dafb77c"
+            },
+            {
+              "version": "1.21.3",
+              "code": 0,
+              "passing": 156,
+              "pending": 4,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.21.3.log",
+              "sha256": "7afa303cfd4fc3b54e6c2b00ac78623bafeafd7da5fc42620ecf962cd7bb7216"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 158,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.21.4.log",
+              "sha256": "b1a364694c783912bd6f6193ef8f7c335ad2bbb6f00c2da27dc78a554f23d357"
+            },
+            {
+              "version": "1.21.5",
+              "code": 0,
+              "passing": 158,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.21.5.log",
+              "sha256": "681b2b5a158749d2a23581d74b8fdd7a2749621593937239807da64c6702ec21"
+            },
+            {
+              "version": "1.21.6",
+              "code": 0,
+              "passing": 158,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.21.6.log",
+              "sha256": "a51f61e904b5e23c1615dc8e52192deae818278d987fc243acf8a8d1ada9509f"
+            },
+            {
+              "version": "1.21.8",
+              "code": 0,
+              "passing": 158,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.21.8.log",
+              "sha256": "2b61608489070125dd67c4261e2ee39b1c55374500e9f73264dc2ca3755b9b02"
+            },
+            {
+              "version": "1.21.9",
+              "code": 0,
+              "passing": 159,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.21.9.log",
+              "sha256": "4f78a823f42f03ac5f1754989a36619f0deb6d4a7641c3e90be4ddca138d4b96"
+            },
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 159,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/1.21.11.log",
+              "sha256": "77c7b3b7d6df9e2572188c715be40c2424228bad4a58ce2ad7f218f5803e11b7"
+            },
+            {
+              "version": "26.1",
+              "code": 0,
+              "passing": 164,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/26.1.log",
+              "sha256": "a04ab0a7bd7ef65b66b344748a72320c8c5e2556b8869017e266420927425b29"
+            },
+            {
+              "version": "26.2",
+              "code": 0,
+              "passing": 164,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/26.2.log",
+              "sha256": "29843941c55341779e6f177ccfd0ae5517e57067f8adc3e2cb8855c862dba32d"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 166,
+              "pending": 1,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-cb248a03/26.3.log",
+              "sha256": "8f1a78e56d2fbbb754212f0671d14a2d99b5cf6437f361b7980f493d87ae0848"
+            }
+          ]
+        },
+        {
+          "label": "spawn-cb248a03-a",
+          "kind": "spawn",
+          "latency": 0,
+          "commit": "cb248a0370b612f1309fd8f67d094226ce38416f",
+          "note": "The vanilla `spawnEvent` test alone on the versions of the unfixed baseline, attempt 1 of 3.",
+          "attempts": [
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-a/1.12.2.log",
+              "sha256": "125ec6ed936cc40d51133ec2be888b4cd433e3c269b640329f716c550e8e5442"
+            },
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-a/1.8.8.log",
+              "sha256": "14d693f11c5c7bcaf635e8ea7fd374a6cbc06913ba76532d203c24e29ea0c0ee"
+            },
+            {
+              "version": "1.16.5",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-a/1.16.5.log",
+              "sha256": "8954e2be394d589024e04db372c97c4fa34f64eee1b896a31832e74d52ae3d48"
+            },
+            {
+              "version": "1.21.3",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-a/1.21.3.log",
+              "sha256": "dd3f55a9d09c1beca60afc2e60f64fd537e21accda0e03b4aa016b368e5ba962"
+            },
+            {
+              "version": "1.20.1",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-a/1.20.1.log",
+              "sha256": "ac08420124cdec14051116b1e8e5563ba7d01bc990ab3b191a89a0c5068befc2"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-a/1.21.4.log",
+              "sha256": "ad70ab3362f2f122c99d8b22f77bba95b36f096032864a73c6020a5cfe263a85"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-a/26.3.log",
+              "sha256": "a48cd94050e901afe5aaf3087448d26f49ca8ca6a878a300d77cf191d78adae1"
+            }
+          ]
+        },
+        {
+          "label": "spawn-cb248a03-b",
+          "kind": "spawn",
+          "latency": 0,
+          "commit": "cb248a0370b612f1309fd8f67d094226ce38416f",
+          "note": "Attempt 2 of 3.",
+          "attempts": [
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-b/1.12.2.log",
+              "sha256": "b214a53b3feff4f8ef7fd9a9ee4de7ace92d09cc01a9ab878a806a3433750ff2"
+            },
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-b/1.8.8.log",
+              "sha256": "f0dc99c51f899a082ffa1488c77d1fa01e7c7510a69ba3d69dc45fa4aead9438"
+            },
+            {
+              "version": "1.16.5",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-b/1.16.5.log",
+              "sha256": "96b852d94c1ea98201edc5f4aec7c801d8fddcce31c248a4bb77c62cc0367b84"
+            },
+            {
+              "version": "1.20.1",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-b/1.20.1.log",
+              "sha256": "542fec90563f0b025a711d9ce700ab738b90cc18a474e0d48dce23dc6483d61b"
+            },
+            {
+              "version": "1.21.3",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-b/1.21.3.log",
+              "sha256": "0bf413ab1492297084208d8bd023930b420454457e3d56b218d60d851f01af04"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-b/1.21.4.log",
+              "sha256": "71f9dcb45d61ddb23a2125cfc2095865ec22366a339737c5b166b602315db412"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-b/26.3.log",
+              "sha256": "ca7938de7f71a0b3ef3bd3f41f5c8e5a1281e84e6a09fc5e111cb3e4964a858b"
+            }
+          ]
+        },
+        {
+          "label": "spawn-cb248a03-c",
+          "kind": "spawn",
+          "latency": 0,
+          "commit": "cb248a0370b612f1309fd8f67d094226ce38416f",
+          "note": "Attempt 3 of 3.",
+          "attempts": [
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-c/1.12.2.log",
+              "sha256": "cbed6dcdc839cc2464ebf560d66a41e298a36ae2327e27b107f2b8c14c07f585"
+            },
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-c/1.8.8.log",
+              "sha256": "4a5b48fb951ef17ce7c937fbd1cbaa06fe7f72049960b90919f5364c1ed27715"
+            },
+            {
+              "version": "1.16.5",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-c/1.16.5.log",
+              "sha256": "aec859a2862833f4fe33d55e446bb5b32ba54bef791b5692b269744ca61ab0d7"
+            },
+            {
+              "version": "1.20.1",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-c/1.20.1.log",
+              "sha256": "11164848729f1b3c482ff0b175d2b366822e4d9c393dbf9bbce1fd66d55ff7b9"
+            },
+            {
+              "version": "1.21.3",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-c/1.21.3.log",
+              "sha256": "a644ed4825ed0467cc9b41f722dac76d139b1dff381f102bf7d329a991ddd568"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-c/1.21.4.log",
+              "sha256": "cb812dd4e2d8f24e100a6e2b5a7526c1c597622c3c7ac6c180564326e6af369a"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-cb248a03-c/26.3.log",
+              "sha256": "e36cb0d45f4619a9c6123368a8178b0489b55fa4f2a760e07da873cc1bab0904"
+            }
+          ]
+        },
+        {
+          "label": "lag150-cb248a03",
+          "kind": "lag",
+          "latency": 150,
+          "commit": "cb248a0370b612f1309fd8f67d094226ce38416f",
+          "note": "Vanilla suites through the latency proxy on two legacy and two modern versions.",
+          "attempts": [
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 70,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-cb248a03/1.21.11.log",
+              "sha256": "f9980b672a1d9ab8f67e909e059f9230c32cd65c49025d096c5ff9d9b73b0d15"
+            },
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 66,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-cb248a03/1.8.8.log",
+              "sha256": "74194023116f6e11085e4393a7b96bc34dc0a43e639fb14097b8272d61f81d08"
+            },
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 66,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-cb248a03/1.12.2.log",
+              "sha256": "fbec4d95c31a9ef7a3df319b592e64a1baadeb441d50b4488a4944c2515b86be"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 71,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-cb248a03/26.3.log",
+              "sha256": "8774701c37c75aaa531ab9bc82dc9b9cacc7e0b173114802d38ec8f4502f306b"
+            }
+          ]
+        }
+      ],
+      "companions": [
+        {
+          "label": "mineflayer lint",
+          "log": "companions/mineflayer-lint-4.log",
+          "repo": "mineflayer-evidence6",
+          "commit": "cb248a0370b612f1309fd8f67d094226ce38416f",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "35f597ed8e3dbd0817cc0a43271e9819638d5f2fab12d0bba418a4dca1f84677"
+        },
+        {
+          "label": "mineflayer unit",
+          "log": "companions/mineflayer-unit-4.log",
+          "repo": "mineflayer-evidence6",
+          "commit": "cb248a0370b612f1309fd8f67d094226ce38416f",
+          "passing": 97,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "61465ce692fbe191524a2695281fc16761c3c1d321c8938e506a3c3be4770433"
+        },
+        {
+          "label": "mineflayer types",
+          "log": "companions/mineflayer-types-4.log",
+          "repo": "mineflayer-evidence6",
+          "commit": "cb248a0370b612f1309fd8f67d094226ce38416f",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "f46d1f73390b1ec419b4a0ce986d3b20204215f82d7f96c92587006e0c1b0d76"
+        }
+      ],
+      "proxy": {
+        "log": "proxy-results-cb248a03.json",
+        "sha256": "e3ea07a7613608c31cd9ade1c07bc0b8dd80b0772e599ef39f49054faa834aa6",
+        "velocity": {
+          "jar": "velocity-4.3.0-44.jar",
+          "sha256": "85be73b90f295acd8d5d45a00ad10bac791d4b72b7554172612a89565ebaaa8f"
+        },
+        "scenarios": [
+          {
+            "scenario": "legacy-offline",
+            "proxy": {
+              "port": 25601,
+              "forwarding": "legacy",
+              "online": false
+            },
+            "backends": {
+              "p188a": "Paper 1.8.8",
+              "p188b": "Paper 1.8.8",
+              "p1122": "Paper 1.12.2"
+            },
+            "clients": [
+              {
+                "version": "1.8.8",
+                "via": "velocity",
+                "backend": "p188a",
+                "ok": true,
+                "serverLogins": {
+                  "p188a": 2,
+                  "p188b": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk",
+                  "switch to p188b",
+                  "settle after switch",
+                  "chat after switch",
+                  "walk after switch",
+                  "switch back",
+                  "chat after switching back",
+                  "brand"
+                ]
+              },
+              {
+                "version": "1.12.2",
+                "via": "velocity",
+                "backend": "p1122",
+                "ok": true,
+                "serverLogins": {
+                  "p1122": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk"
+                ]
+              }
+            ],
+            "refusals": []
+          },
+          {
+            "scenario": "modern-offline",
+            "proxy": {
+              "port": 25602,
+              "forwarding": "modern",
+              "online": false
+            },
+            "backends": {
+              "p263a": "Paper 26.3",
+              "p263b": "Paper 26.3",
+              "p12111": "Paper 1.21.11",
+              "p1204": "Paper 1.20.4"
+            },
+            "clients": [
+              {
+                "version": "26.3",
+                "via": "velocity",
+                "backend": "p263a",
+                "ok": true,
+                "serverLogins": {
+                  "p263a": 2,
+                  "p263b": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk",
+                  "switch to p263b",
+                  "settle after switch",
+                  "chat after switch",
+                  "walk after switch",
+                  "switch back",
+                  "chat after switching back",
+                  "brand",
+                  "isAlive"
+                ]
+              },
+              {
+                "version": "1.21.11",
+                "via": "velocity",
+                "backend": "p12111",
+                "ok": true,
+                "serverLogins": {
+                  "p12111": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk",
+                  "isAlive"
+                ]
+              },
+              {
+                "version": "1.20.4",
+                "via": "velocity",
+                "backend": "p1204",
+                "ok": true,
+                "serverLogins": {
+                  "p1204": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk"
+                ]
+              }
+            ],
+            "refusals": []
+          },
+          {
+            "scenario": "legacy-online",
+            "proxy": {
+              "port": 25603,
+              "forwarding": "legacy",
+              "online": true
+            },
+            "backends": {
+              "p188a": "Paper 1.8.8",
+              "p188b": "Paper 1.8.8"
+            },
+            "clients": [
+              {
+                "version": "1.8.8",
+                "via": "velocity",
+                "backend": "p188a",
+                "ok": true,
+                "serverLogins": {
+                  "p188a": 2,
+                  "p188b": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk",
+                  "switch to p188b",
+                  "settle after switch",
+                  "chat after switch",
+                  "walk after switch",
+                  "switch back",
+                  "chat after switching back",
+                  "brand"
+                ]
+              }
+            ],
+            "refusals": [
+              {
+                "label": "no session (offline client)",
+                "ok": true,
+                "reason": "{\"color\":\"red\",\"text\":\"You are not logged into your Minecraft account. If you are logged into your Minecraft account, try restarting your Minecraft client.\"}"
+              },
+              {
+                "label": "rejected access token",
+                "ok": true,
+                "reason": "Invalid token."
+              }
+            ]
+          },
+          {
+            "scenario": "modern-online",
+            "proxy": {
+              "port": 25604,
+              "forwarding": "modern",
+              "online": true
+            },
+            "backends": {
+              "p263a": "Paper 26.3",
+              "p263b": "Paper 26.3"
+            },
+            "clients": [
+              {
+                "version": "26.3",
+                "via": "velocity",
+                "backend": "p263a",
+                "ok": true,
+                "serverLogins": {
+                  "p263a": 2,
+                  "p263b": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk",
+                  "switch to p263b",
+                  "settle after switch",
+                  "chat after switch",
+                  "walk after switch",
+                  "switch back",
+                  "chat after switching back",
+                  "brand",
+                  "isAlive"
+                ]
+              }
+            ],
+            "refusals": [
+              {
+                "label": "no session (offline client)",
+                "ok": true,
+                "reason": "{\"color\":\"red\",\"text\":\"You are not logged into your Minecraft account. If you are logged into your Minecraft account, try restarting your Minecraft client.\"}"
+              },
+              {
+                "label": "rejected access token",
+                "ok": true,
+                "reason": "Invalid token."
+              }
+            ]
+          },
+          {
+            "scenario": "vanilla-online-direct",
+            "proxy": null,
+            "backends": {
+              "v1204": "vanilla 1.20.4"
+            },
+            "clients": [
+              {
+                "version": "1.20.4",
+                "via": "direct",
+                "backend": "v1204",
+                "ok": true,
+                "serverLogins": {
+                  "v1204": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk"
+                ]
+              }
+            ],
+            "refusals": [
+              {
+                "label": "no session (offline client)",
+                "ok": true,
+                "reason": "{\"translate\":\"multiplayer.disconnect.unverified_username\"}"
+              },
+              {
+                "label": "rejected access token",
+                "ok": true,
+                "reason": "Invalid token."
+              }
+            ]
+          }
+        ],
+        "stub": {
+          "requests": 13,
+          "joins": 3,
+          "verified": 3,
+          "refused": 6
+        }
+      }
     }
   ],
   "liveAuth": [
@@ -5436,6 +8117,82 @@
       "serverLog": {
         "log": "live-auth/server-1.21.4-970eba23.log",
         "sha256": "fd0daf5f8cad757b52918ec50a1f468f039b442653c97516785852c9e28406df"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "cb248a0370b612f1309fd8f67d094226ce38416f",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Teleport confirmation follow-up, clean worktree.",
+      "result": {
+        "log": "live-auth/result-26.3-cb248a03.json",
+        "sha256": "f96d6103af823fe01449a1d9a53515d6216e5b881a4c0f7362c5d111f0629809"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-cb248a03.log",
+        "sha256": "705683543e277709d1e966db917f57c40e93227ea9a54d1c5fca95cef4e58ee6"
+      }
+    },
+    {
+      "version": "1.21.11",
+      "mineflayer": "cb248a0370b612f1309fd8f67d094226ce38416f",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Teleport confirmation follow-up, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.11-cb248a03.json",
+        "sha256": "25ef7907334c7a161ef3eb39486275cef75a5a70c80e697ddff37a0cbf96af6c"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.11-cb248a03.log",
+        "sha256": "5889f973ecf506a8a4aacd47556988941a01eaec6848ab34e37e05e3b9d1c179"
+      }
+    },
+    {
+      "version": "1.21.4",
+      "mineflayer": "cb248a0370b612f1309fd8f67d094226ce38416f",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Teleport confirmation follow-up, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.4-cb248a03.json",
+        "sha256": "7f95a867b969c752036753fcceaa4cbf5187c0fa016ab1cdc225fa760586fd20"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.4-cb248a03.log",
+        "sha256": "10d7959f28121c91c44a49e3ccaef192a47e0e0a5cd5858bc5f2e147e76495d1"
+      }
+    },
+    {
+      "version": "1.20.4",
+      "mineflayer": "cb248a0370b612f1309fd8f67d094226ce38416f",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Teleport confirmation follow-up, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.20.4-cb248a03.json",
+        "sha256": "fc58961aedfe2e7e827c3897ecc5214109cd068d9af796a9d33257264e524ed2"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.20.4-cb248a03.log",
+        "sha256": "cbb565151e897558ea5b97e32985af4e59e746112746ec571a71a0e82a7b2e8c"
       }
     }
   ]

@@ -1299,6 +1299,14 @@ if it never does, the timeout after which the server treats the client as loaded
 A new login, a respawn or a disconnect before then cancels it; a death while loading is
 reported with `death` and no `spawn`. Earlier versions emit spawn on the health update.
 
+On every version the server also refuses block interactions until the client has
+confirmed its latest teleport, which the bot does on the next tick (1.9+ with
+`teleport_confirm`, 1.8 with the position packet answering it). If a teleport is still
+unconfirmed when the player is ready, spawn (and `player_loaded`) waits for that
+confirmation; a teleport confirmed earlier adds no wait. As a result `forcedMove` for the
+spawn teleport is emitted before `spawn`, except on 1.9 to 26.2 after a death, where the
+position reply that emits `forcedMove` is deferred 1.5 seconds but `teleport_confirm` is not.
+
 #### "respawn"
 
 Emitted when you change dimensions and just before you spawn.
