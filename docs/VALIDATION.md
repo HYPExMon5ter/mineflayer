@@ -10,7 +10,7 @@ Every attempt runs into a new run directory and is never overwritten, so a rerun
 
 ## Hosted CI
 
-Hosted CI [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) passed at `ffc2bb45`: all 30 version jobs, lint, and Node.js 22/24 unit and type checks, with the required gate green. The commits of the second and third follow-ups have not been run on hosted CI.
+Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`.
 
 ## Results
 

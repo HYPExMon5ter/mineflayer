@@ -186,7 +186,7 @@ MC_VERSION=26.3 npm run mocha_test -- test/internalTest.js test/externalTest.js
 MC_LATENCY_MS=150 MC_VERSION=26.3 npm run mocha_test -- test/externalTest.js
 ```
 
-On PowerShell, use `$env:MC_VERSION='26.3'` before the test command. Put Java 25 on PATH for modern servers. CI separately checks Node.js 22 and 24; local results do not establish hosted CI success for a commit. Hosted CI passed for `ffc2bb45` (see VALIDATION.md); the commits of the second and third follow-ups have not been run there yet.
+On PowerShell, use `$env:MC_VERSION='26.3'` before the test command. Put Java 25 on PATH for modern servers. CI separately checks Node.js 22 and 24; local results do not establish hosted CI success for a commit. Hosted CI passed for published commit `ee776144`, including the second and third follow-ups and the real signed-chat ordering fix: all 30 Minecraft test versions, lint, unit and type checks, and the required gate passed (see VALIDATION.md).
 
 ## Remaining limitations
 
