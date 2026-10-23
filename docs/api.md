@@ -2012,6 +2012,8 @@ dig any other blocks until the block has been broken, or you call
 
 If you call bot.dig twice before the first dig is finished, you will get a fatal 'diggingAborted' error.
 
+The promise resolves once the bot has finished digging and updated its own world, before the server confirms the break. On 26.1–26.3 the server handles digging packets at its next tick but runs commands as they arrive, so a command sent right after `await bot.dig(block)` can still see the block. If that matters, wait for the server's update, for example `` await once(bot.world, `blockUpdate:${block.position}`) ``.
+
 #### bot.stopDigging()
 
 #### bot.digTime(block)

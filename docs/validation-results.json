@@ -1,466 +1,1022 @@
 {
   "date": "2026-10-22",
   "platform": "Windows",
-  "node": "v26.12.0",
+  "node": "v26.12.1",
   "java": "openjdk version \"25.0.3\" 2026-04-21 LTS",
   "upstreamBase": "7b4bb8d2b56be9cdb832474af873acd37e609746",
-  "mineflayer": "0ebe4c7abf62f7135f79c3829eb7b0121b2e2dc1",
+  "mineflayer": "a26a40f95d588a0b6ae8854695092eaaa94f42fd",
+  "digEverything": {
+    "commit": "a26a40f95d588a0b6ae8854695092eaaa94f42fd",
+    "changedSince": []
+  },
   "dependencies": {
-    "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-2/minecraft-data-3.117.0.tgz",
-    "minecraft-protocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#cbcee01724045e770b8a441700b2781b3dc67bb6",
-    "prismarine-chunk": "git+ssh://git@github.com/HYPExMon5ter/prismarine-chunk.git#84461090b8f6469b7eaa0a4aea35acca023a08d7",
-    "prismarine-physics": "git+ssh://git@github.com/HYPExMon5ter/prismarine-physics.git#31b5117038860844eddd5824aacaedaeaf0ff1c0"
+    "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-8/minecraft-data-3.117.0.tgz",
+    "minecraft-protocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#c76f8958ec480f5ab007ef55b3d6d690e69ed433",
+    "prismarine-chunk": "git+ssh://git@github.com/HYPExMon5ter/prismarine-chunk.git#25895d11a21b4ef192a0bf870a2e9a69eae6129c",
+    "prismarine-physics": "git+ssh://git@github.com/HYPExMon5ter/prismarine-physics.git#dd981f529c62fc4052b75bdcadb0626dbee0b30f",
+    "prismarine-item": "git+ssh://git@github.com/HYPExMon5ter/prismarine-item.git#7a7b72dc0f86550f66f89a60d60d5cb2800a449f"
   },
   "rows": [
     {
       "version": "1.8.8",
       "internal": {
         "log": "evidence-internal-1.8.8.log",
-        "passing": 64,
+        "passing": 65,
         "pending": 20,
-        "sha256": "6a13c03741c59de5e43fec2ce4c27bf41814d8bd76cb5ba084828bdf9a7fd580"
+        "sha256": "7a92ae0f6509776470930e9414622bded54a4745a45b1ed1ce03745c52bd821a"
       },
       "serverSuite": {
         "log": "evidence-1.8.8.log",
-        "passing": 120,
+        "passing": 129,
         "pending": 20,
-        "sha256": "946a0e8a19f57ad0a549bfbd0a3e7bdf2ef0b7ff2d4d91d87798c577ab540d8c"
+        "sha256": "0e5423d648b1d7d9f5f71dc9fd6ff4817a6aef88c7082bdc19ca16f39fc128b2"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.8.8.log",
+        "passing": 150,
+        "sha256": "a2e2337ae223dceedd47e236dd2b127927c3d43e42501c317d7a89e90974fcb3"
       }
     },
     {
       "version": "1.9.4",
       "internal": {
         "log": "evidence-internal-1.9.4.log",
-        "passing": 66,
+        "passing": 67,
         "pending": 18,
-        "sha256": "faa93a2a5d4c8c3460ea4297bfa15987ddaa00f008a02a6d7c68c81723a855a3"
+        "sha256": "1af53fab9b543c9bdcbd7cb928e9fee54656cf65483798abec5f23d71ec04ad7"
       },
       "serverSuite": {
         "log": "evidence-1.9.4.log",
-        "passing": 122,
+        "passing": 131,
         "pending": 18,
-        "sha256": "95fe6202ca8d6a9ffdacd389a07f5851f82d722429c2828616e7891ce228b09c"
+        "sha256": "5724c31968467bf3dad363d9ab5c520c986e339e6d2cb8c5eedf17d1dc92973d"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.9.4.log",
+        "passing": 160,
+        "sha256": "13d74fb81365935365ea54b35af7d3e254a467cf957d7183faf0757d49aa75b0"
       }
     },
     {
       "version": "1.10.2",
       "internal": {
         "log": "evidence-internal-1.10.2.log",
-        "passing": 66,
+        "passing": 67,
         "pending": 18,
-        "sha256": "a6ba1410acc6c0e89bc6da21f246c0173720ebbef433306e6ec0e1f95aaada72"
+        "sha256": "d2fbb2e3406e3c646e86d34776a1f4a68dc8d78eac7ed3e0a5a29620e80a4443"
       },
       "serverSuite": {
         "log": "evidence-1.10.2.log",
-        "passing": 122,
+        "passing": 131,
         "pending": 18,
-        "sha256": "da7d724e1ea3dc43582f340aa638a9b547badefe61db0efcfe402842250f0f4d"
+        "sha256": "4165231e2a7eceb4a85c2a5a1233088f55d2c5ed8417d3cbda61a470f4a9e79b"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.10.2.log",
+        "passing": 160,
+        "sha256": "e9c493d5b2eab270de82825aba1f52c20e244e226223a12682e5730893c1ec6f"
       }
     },
     {
       "version": "1.11.2",
       "internal": {
         "log": "evidence-internal-1.11.2.log",
-        "passing": 66,
+        "passing": 67,
         "pending": 18,
-        "sha256": "be360f2e5a66e881577cc73f555e7b56ebf201cf25ae65d3d35656e970673432"
+        "sha256": "19e83199e04494622cda9a4172e664da4fbce768de99b392b8897cbe39e8d588"
       },
       "serverSuite": {
         "log": "evidence-1.11.2.log",
-        "passing": 122,
+        "passing": 131,
         "pending": 18,
-        "sha256": "6e069ed565912d43b9ffafcd44c3fbe33c43c3c1573d701a3030b2580a92bb16"
+        "sha256": "bfc6a2cefb7ab3d2088c537da1b1cb63a99c85aecb5dd4738f3edacce66b416c"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.11.2.log",
+        "passing": 182,
+        "sha256": "961cf8d4f19a1166ce78a8500c8184f174dcec8d56a53943a157701ce829a4dc"
       }
     },
     {
       "version": "1.12.2",
       "internal": {
         "log": "evidence-internal-1.12.2.log",
-        "passing": 66,
+        "passing": 67,
         "pending": 18,
-        "sha256": "894a5a801df18bebc5b4b2a3d972cfef6b7df81e92d120319b28df88e0494e4b"
+        "sha256": "9e7272c4424e180e1acd144f8491db19ea37ba9f37d66fc574e856f43d99883a"
       },
       "serverSuite": {
         "log": "evidence-1.12.2.log",
-        "passing": 122,
+        "passing": 131,
         "pending": 18,
-        "sha256": "d4a9887f35df364befa06ecee633ca284da2b03c6cc87cc2bf800cb4c1243a2c"
+        "sha256": "be926afe9c59da9f30bd665cc14f3c1dfa791f4174c63f3c3bc7627921b9deb4"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.12.2.log",
+        "passing": 200,
+        "sha256": "04e5e6f0756e6a81885d6acbcca43dc7ff9c11cef1b0808d654ccdc1f05f9034"
       }
     },
     {
       "version": "1.13.2",
       "internal": {
         "log": "evidence-internal-1.13.2.log",
-        "passing": 66,
+        "passing": 67,
         "pending": 18,
-        "sha256": "e7b1141367bb66811f9d214f36d2f697b87398df5098fef0ee35c25ddc9f8853"
+        "sha256": "b428f21335b20a93168d489cbdbae91d569edd4ae91386150c8240120f3009d3"
       },
       "serverSuite": {
         "log": "evidence-1.13.2.log",
-        "passing": 122,
+        "passing": 131,
         "pending": 18,
-        "sha256": "437de30540f616fac8e41a2fe2c80e78ed13eb072b08241eb607dbecd80dc59a"
+        "sha256": "047d0ed062a19e4dfa4ee1ac9fdc9c9896bf05edc7d38c25b6075cf2aed69f7d"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.13.2.log",
+        "passing": 547,
+        "sha256": "4ef350f1522ad894736531f52058ab4829205617fde76fb09a73609c3628691f"
       }
     },
     {
       "version": "1.14.4",
       "internal": {
         "log": "evidence-internal-1.14.4.log",
-        "passing": 66,
+        "passing": 67,
         "pending": 18,
-        "sha256": "240fa7b8ee3ceb937e20cb80cd33c6a4400c4df6b84caeee1ce4fc2aad11a6da"
+        "sha256": "61a4a2861fffe7139cd5f2211dae16a2ccc7d42e6921f517f08d74718ac50332"
       },
       "serverSuite": {
         "log": "evidence-1.14.4.log",
-        "passing": 122,
+        "passing": 131,
         "pending": 18,
-        "sha256": "78877fd73cb58b540e7b9b857823efdcf5b6b99ea02599c182bfeef27c373447"
+        "sha256": "c385ae5148f3bfaf51b7617fe9067aca6ec7961608336db7e1b1b70ea993855b"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.14.4.log",
+        "passing": 624,
+        "sha256": "8823fb6bf9b6e9271e301b6c0ffb59996525cc28206ca85d4840ae0fe98776cc"
       }
     },
     {
       "version": "1.15.2",
       "internal": {
         "log": "evidence-internal-1.15.2.log",
-        "passing": 66,
+        "passing": 67,
         "pending": 18,
-        "sha256": "fac8cd226dea3860645b1fab13a7b5550116a4e493dba9ef2587661be8e97e14"
+        "sha256": "5514827a31593a4ff5e7d51c6a5aab646a9d708c0d7b57c2b3d7728b1966a0e5"
       },
       "serverSuite": {
         "log": "evidence-1.15.2.log",
-        "passing": 122,
+        "passing": 131,
         "pending": 18,
-        "sha256": "2838bbdeec763b79a4372854634151af03e610324966e73b93dda9826ba7c713"
+        "sha256": "8d038a50928f112447527fe7aa64604a50def101a9a8397c9bedaee479e8b567"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.15.2.log",
+        "passing": 628,
+        "sha256": "532144dfd2023b6e89802e3453c5ca5c271103245721adbf91559c1164d7d7a7"
       }
     },
     {
       "version": "1.16.5",
       "internal": {
         "log": "evidence-internal-1.16.5.log",
-        "passing": 66,
+        "passing": 67,
         "pending": 18,
-        "sha256": "827b7a20b7b2d7261f1189e38b4b8a865087b735bd32b3b0ae2e76de626d808a"
+        "sha256": "710ffc946ca8caf36f2ae2960e6a012f981899d23ff91f0b7629f71b721f469d"
       },
       "serverSuite": {
         "log": "evidence-1.16.5.log",
-        "passing": 122,
+        "passing": 131,
         "pending": 18,
-        "sha256": "e77ca5143907d0e49e6480a8f22c39decf15169f18f8ed8f3f1db5b3e5070507"
+        "sha256": "d9471f3759fc18eed14ad997700341b9e32f87c96dabf7443edb440fe91c196f"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.16.5.log",
+        "passing": 707,
+        "sha256": "179dc8557e316b9c029aa2ef5a5b35e3febb264a478761fc21abe5e1c8669c15"
       }
     },
     {
       "version": "1.17.1",
       "internal": {
         "log": "evidence-internal-1.17.1.log",
-        "passing": 70,
+        "passing": 71,
         "pending": 14,
-        "sha256": "d02b9964a1388fdd3ac9c4cf6e3b1a0a597e1b74799063a0d10126f232c4ab7e"
+        "sha256": "7b443b42fadec0193f5726949a23dfdbde5f7ac11b99942a6bea7613ea734932"
       },
       "serverSuite": {
         "log": "evidence-1.17.1.log",
-        "passing": 126,
+        "passing": 135,
         "pending": 14,
-        "sha256": "479c109af3d7530f0558d6cfe5adc8ed8c4e93e9e0d97f208540cadb68557ca3"
+        "sha256": "22b7ab3191934f6b6fa41b05121147efbc7bc30ca7e8dfe0fd95a869c6c0a71c"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.17.1.log",
+        "passing": 838,
+        "sha256": "bdf5c2ffd1804520172812b3edbf5d75388c2090bcca72f5f5be37ee0bbcc242"
       }
     },
     {
       "version": "1.18.2",
       "internal": {
         "log": "evidence-internal-1.18.2.log",
-        "passing": 70,
+        "passing": 71,
         "pending": 14,
-        "sha256": "58fd39eab2559825850fdefc7af7e1b747e54105a563416762df78610a361d23"
+        "sha256": "a7db50c7e9cbe87e23fd6de217eded307e09036f000af6dbe97fd8f44584c99f"
       },
       "serverSuite": {
         "log": "evidence-1.18.2.log",
-        "passing": 126,
+        "passing": 135,
         "pending": 14,
-        "sha256": "775dc0de01d2650648df107a454d82b9891820fe37b330bdbcf3cdafe7faa104"
+        "sha256": "2ae5ea4019e05ad07bc64de3cc3f0bfbe8f097fd56275eb7ae258103d3734dab"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.18.2.log",
+        "passing": 838,
+        "sha256": "32550612e80d401c1a7ed1a1c3117f5c0b94634bdf1221702569856bd95986a6"
       }
     },
     {
       "version": "1.19",
       "internal": {
         "log": "evidence-internal-1.19.log",
-        "passing": 73,
+        "passing": 74,
         "pending": 11,
-        "sha256": "a4cfc884b4df38830ca5b2ecb09e6696b7d290163db4fa977a88749a1dda0aa0"
+        "sha256": "f0d9f1f1a95995fc08a4b86e47061aed7377414d38c9e5b74ddfe3920e177e2b"
       },
       "serverSuite": {
         "log": "evidence-1.19.log",
-        "passing": 129,
+        "passing": 138,
         "pending": 11,
-        "sha256": "a1a1c9c8ea7f78e7e991c56bb70bdbf51cee373ad17cfc2b12cbb02026ac7b9c"
+        "sha256": "68a8101eb1f21e877d8fea9d006208c21506b7aca37c942244c5ced57db46b13"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.19.log",
+        "passing": 873,
+        "sha256": "1e62e9c3e16fb859f37194e2ba894337706565dd99eadbb76eb59bfa9831afe4"
       }
     },
     {
       "version": "1.19.2",
       "internal": {
         "log": "evidence-internal-1.19.2.log",
-        "passing": 73,
+        "passing": 74,
         "pending": 11,
-        "sha256": "3d3cf487b5e6d9de7cb9fcf7e340c859ea100a02ef45ef01917ca08dc0a5607a"
+        "sha256": "ed0e2733c18281e58e806a368c0ecdab9f119ca571f238d8abb9adb2b1f9a33d"
       },
       "serverSuite": {
         "log": "evidence-1.19.2.log",
-        "passing": 129,
+        "passing": 138,
         "pending": 11,
-        "sha256": "188e502495c817bb411c203a5771f3e236800b97fc7653a10f630ee2a40ac04b"
+        "sha256": "3d33c3b871d6636b3d3f7b94dd0b36ae7aacf53d1e7180b66cb6cbc297173554"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.19.2.log",
+        "passing": 873,
+        "sha256": "aa5708653aff32cb11656e684b09b423657b6ddb21dbf0d3cc563da4843b82c6"
       }
     },
     {
       "version": "1.19.3",
       "internal": {
         "log": "evidence-internal-1.19.3.log",
-        "passing": 73,
+        "passing": 74,
         "pending": 11,
-        "sha256": "b306f546e73f312f946422979bc59c1f990793f69e078a95d4dd066338c788a6"
+        "sha256": "d62d78515c834e6c6e355283789f8c9919551f6f0d09a10ee0dd273c2f356353"
       },
       "serverSuite": {
         "log": "evidence-1.19.3.log",
-        "passing": 129,
+        "passing": 138,
         "pending": 11,
-        "sha256": "63d239530ae0a784814c8c386c864ae9a0a29357cf52aa85d1c7cfc43f151e46"
+        "sha256": "fd9e08a5a797b8c8e0a0d00e273bbebc8824085e3058028188288846e5a5b5f7"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.19.3.log",
+        "passing": 873,
+        "sha256": "509123e0c66bf3c86df4d95e9bf21dc976142138ffe278d4c287f245106ae6e5"
       }
     },
     {
       "version": "1.19.4",
       "internal": {
         "log": "evidence-internal-1.19.4.log",
-        "passing": 74,
+        "passing": 75,
         "pending": 10,
-        "sha256": "521d2d0f245be37909ed47d25d29a40efd540d8595a3401590971fd40492ed54"
+        "sha256": "01ea8446390c633f740aa82c3b60c7ac12e8d764f3878bec3c4c65a9d6f37336"
       },
       "serverSuite": {
         "log": "evidence-1.19.4.log",
-        "passing": 130,
+        "passing": 139,
         "pending": 10,
-        "sha256": "9506bd09d53991afea980a6648b580dc9a93a018900e2d6e4ff1a42d265a14f4"
+        "sha256": "b77a9f7e46456c5279a073a638a5852fa70f263bf0c29638db1231a503cd7384"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.19.4.log",
+        "passing": 873,
+        "sha256": "657f560046e8707fc96b8528bc2f4e17f4ee3c3afb108f5a7d3489a2f940c7a4"
       }
     },
     {
       "version": "1.20.1",
       "internal": {
         "log": "evidence-internal-1.20.1.log",
-        "passing": 74,
+        "passing": 75,
         "pending": 10,
-        "sha256": "57ed7f82dd6c9378f3c37d3f496fc95d99b956b17293ac548974623bff8d3b72"
+        "sha256": "878503f45a84213ce7753140a2e94de50a1dfb57ae3649505ea9053d23170292"
       },
       "serverSuite": {
         "log": "evidence-1.20.1.log",
-        "passing": 130,
+        "passing": 139,
         "pending": 10,
-        "sha256": "9437086096b35b8e30181890bffb3ecd871b761641bb3580a0b0687862cbd859"
+        "sha256": "97158f1b9557b2de080e4d06aa7988b0eb1fffc33eb6232269e651dbadc41d3b"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.20.1.log",
+        "passing": 943,
+        "sha256": "fd2b5979ceb1732f70a525644e1b897386c7cb71ee99dac7d1838b536124b327"
       }
     },
     {
       "version": "1.20.2",
       "internal": {
         "log": "evidence-internal-1.20.2.log",
-        "passing": 77,
+        "passing": 78,
         "pending": 7,
-        "sha256": "d7e01b3e2082474698685a79bdd7fd59ea193678f12b09d46720b8cd7b47ca7e"
+        "sha256": "8c8ae6b79f4241b804b703cf794895898d96b7b2568a2c4719106b920a0120cc"
       },
       "serverSuite": {
         "log": "evidence-1.20.2.log",
-        "passing": 133,
+        "passing": 142,
         "pending": 7,
-        "sha256": "b1f677af1a22496691d63a34f3c890d598e5a43c7da44c654ad25bf12c7f862b"
+        "sha256": "07eb6bdcaab5ebdce4666d33e49ff0e6cd22cc156bd3872e06a1e14abf78521d"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.20.2.log",
+        "passing": 943,
+        "sha256": "7fd8b694832b48281b00d23566daef6f8d627b6f01bbeac3455e1c9f9f272f8e"
       }
     },
     {
       "version": "1.20.4",
       "internal": {
         "log": "evidence-internal-1.20.4.log",
-        "passing": 78,
+        "passing": 79,
         "pending": 6,
-        "sha256": "e937ecd7a2110fdd243fbd9fc442607edd038a951d59e40054f00f01af8e576b"
+        "sha256": "e489d0ef8dc189ceefda7b0dfc26e3236f7162383488c91b5e3091b4a99fad73"
       },
       "serverSuite": {
         "log": "evidence-1.20.4.log",
-        "passing": 134,
+        "passing": 143,
         "pending": 6,
-        "sha256": "ffe1c509fdb50278309147e2be9c7b2eb2ca3f2d1386d4f6b296ea7997f62b0b"
+        "sha256": "e46d5d17575e4217fb9281e2fee60358013239691c3475ba0d08821bb92ca712"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.20.4.log",
+        "passing": 943,
+        "sha256": "55d025e1236190d4aa49b49daed60f96237d5fcd8ca94bd43eb90f4a8600aeb0"
       }
     },
     {
       "version": "1.20.6",
       "internal": {
         "log": "evidence-internal-1.20.6.log",
-        "passing": 77,
+        "passing": 78,
         "pending": 7,
-        "sha256": "229b1bc3e32dc213a31a4d7d8c74295f47ddefb74c7bc99f2b36e7ab7a532313"
+        "sha256": "cd988f5b9763bbfe2821973c9162b6e21faef3fa7eaf6280c53be6eb379ec44c"
       },
       "serverSuite": {
         "log": "evidence-1.20.6.log",
-        "passing": 133,
+        "passing": 142,
         "pending": 7,
-        "sha256": "aa1e31650679c7c5dde4110865a1f19311a6c4a93cc9b9a482145e7df032cea1"
+        "sha256": "35b9f7554195bda7d78620c8e496dc50bb53ab0711f437f34c353e321c412834"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.20.6.log",
+        "passing": 943,
+        "sha256": "e7a0b9ba4310b5644c2e67046bf5aeb3f66a3161409785609dc5290870489926"
       }
     },
     {
       "version": "1.21.1",
       "internal": {
         "log": "evidence-internal-1.21.1.log",
-        "passing": 78,
+        "passing": 79,
         "pending": 6,
-        "sha256": "573e505fa0366be108594265ec8cbd9dfc6107d67172d84e2e25811721775e90"
+        "sha256": "29e3dbdecf93625c87de46929106797ced556ae44c90aa3e2cb4522d1917caf7"
       },
       "serverSuite": {
         "log": "evidence-1.21.1.log",
-        "passing": 134,
+        "passing": 143,
         "pending": 6,
-        "sha256": "46f67e651c236a7acd2eb748f223acadc800ea0bede4a9870bdd1c03a2e96952"
+        "sha256": "7ada69d7ae031d478aa523b250fd791d7532999bfddf9088571e34a25e19f5f7"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.21.1.log",
+        "passing": 1000,
+        "sha256": "944364a1c430e5768c8289da2381813f3e6f36f69e90b7d018d5c9506c8ac210"
       }
     },
     {
       "version": "1.21.3",
       "internal": {
         "log": "evidence-internal-1.21.3.log",
-        "passing": 80,
+        "passing": 81,
         "pending": 4,
-        "sha256": "eae05f93052293db92f733da4f61470c49afe497291de7413ee9bd97bde8c63e"
+        "sha256": "cfc30e0b2abb2c8c4a8723d0cf08467779a4296a8741a132657ae6a4cfe65c63"
       },
       "serverSuite": {
         "log": "evidence-1.21.3.log",
-        "passing": 136,
+        "passing": 145,
         "pending": 4,
-        "sha256": "0468b1e6503a772f55a96f27f82b5c16a9cb3a004bcbb762a2c01e606f68b7bd"
+        "sha256": "aa8a42cab57d3dba19bc22ce0ea671a9994d558203823255c6151497fa45a5ee"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.21.3.log",
+        "passing": 1000,
+        "sha256": "b69c6e95049fce3df10816b4e7908a71b7b9992129f2460f63a152ae6f37d51c"
       }
     },
     {
       "version": "1.21.4",
       "internal": {
         "log": "evidence-internal-1.21.4.log",
-        "passing": 82,
+        "passing": 83,
         "pending": 2,
-        "sha256": "3e196237602621b6afce51b173f68e2f14d405fd4d7b01a6f0d1bc2d750f13d6"
+        "sha256": "3ec9d5783325e5695b61c4cf06b7122f45f4f1707196f6fdf17a7e0cdb6a9a0a"
       },
       "serverSuite": {
         "log": "evidence-1.21.4.log",
-        "passing": 138,
+        "passing": 147,
         "pending": 2,
-        "sha256": "60ff1df88cf7a2a5279a5f074a0645d4d603b19908191fe5b6eb708ff60c46b3"
+        "sha256": "c0c31d31c3b4f83a74cd819dd0cc47411faa85be5126247fa24dc9e7cba9bc6c"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.21.4.log",
+        "passing": 1034,
+        "sha256": "b8db46844ddd3bafffb0c753c35de63a60cb70ce923a7dec9ac8dcd2a945203b"
       }
     },
     {
       "version": "1.21.5",
       "internal": {
         "log": "evidence-internal-1.21.5.log",
-        "passing": 82,
+        "passing": 83,
         "pending": 2,
-        "sha256": "4a79b3020f9f1e06e50a3854ca22789e9bb2b35ce8336d039841ac4e9e093c2f"
+        "sha256": "d13e3b1fb57223a7ef6eac084d8ccd74fa7082edd96a61bf7714223c38fc791e"
       },
       "serverSuite": {
         "log": "evidence-1.21.5.log",
-        "passing": 138,
+        "passing": 147,
         "pending": 2,
-        "sha256": "6785d3298b326befe999ddf9a4cf68c8ec9915a7514f830c1d8e6b97b9c10f8a"
+        "sha256": "df7b87be5dc8b4eb505470b94510d8c4d179c9d107cfb878ba39ee3893b963d3"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.21.5.log",
+        "passing": 1041,
+        "sha256": "bd95bacb5ba77eee33068ff0ad6901e827c92b2fd17c1be7304e00be1868cb73"
       }
     },
     {
       "version": "1.21.6",
       "internal": {
         "log": "evidence-internal-1.21.6.log",
-        "passing": 82,
+        "passing": 83,
         "pending": 2,
-        "sha256": "82af6c4f32d1061efab8ad54d6d8fdf3a53df0cb8e60bfc46fc8e92029a4ea2b"
+        "sha256": "07603380f55a00a06d662cacac9cc6eaaf765d44c0e47c260abbc42032a4bd7b"
       },
       "serverSuite": {
         "log": "evidence-1.21.6.log",
-        "passing": 138,
+        "passing": 147,
         "pending": 2,
-        "sha256": "3c86daa4a32c70d0e53dd5dfca09518303a4d9b3a0809d74a3d4d67eef3d97d5"
+        "sha256": "fd6506cece357e8abd7ac9dcdae6a0fa9aaaf7353b8ad12af133fd43f2993996"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.21.6.log",
+        "passing": 1042,
+        "sha256": "c7fccc0d1b6b8dc771e47f9227711d34143d5d8872fa97650679a5b240d4dd1d"
       }
     },
     {
       "version": "1.21.8",
       "internal": {
         "log": "evidence-internal-1.21.8.log",
-        "passing": 82,
+        "passing": 83,
         "pending": 2,
-        "sha256": "20d019f274611bf4b397f4176f6b85e2d5edfe4deadac1b9c36b9e2549f2fb35"
+        "sha256": "2ec287ceda19c840e1f79784f08484f8a60807f0ae215f02bfa3077dd6c4100e"
       },
       "serverSuite": {
         "log": "evidence-1.21.8.log",
-        "passing": 138,
+        "passing": 147,
         "pending": 2,
-        "sha256": "77f88e6d8547b727bc9fbf1bfb15311f859504a7da3411da2db51f669213f03a"
+        "sha256": "0999e691436b45990cfe210220f1f0d695d3e95e079dba2fe0bde273b8ca818e"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.21.8.log",
+        "passing": 1042,
+        "sha256": "d8092cd8b0cb0152b8252d4c31c3a134454d87b5640e3121c294557633706b8f"
       }
     },
     {
       "version": "1.21.9",
       "internal": {
         "log": "evidence-internal-1.21.9.log",
-        "passing": 82,
+        "passing": 83,
         "pending": 2,
-        "sha256": "242477996611aeba85b10b4746e3f4beabccca99b6ce989feb75a4a808055905"
+        "sha256": "6812ae7982252750e4770ef4818c7cb71698df61980662f3e92e05e8db93efbb"
       },
       "serverSuite": {
         "log": "evidence-1.21.9.log",
-        "passing": 138,
+        "passing": 147,
         "pending": 2,
-        "sha256": "df369dd6842ad51d85ff2837b60d6c849660515496352706e28dd91e783eed00"
+        "sha256": "a0ae6e56cdaa79a1198d3f8ba5690cff40f543a3b2c7f216b0edf23702ae0d85"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.21.9.log",
+        "passing": 1103,
+        "sha256": "fb11d48c574c7e0566521a62bdff425572f82f80dc0b0fdd8f59a12aec01fd5c"
       }
     },
     {
       "version": "1.21.11",
       "internal": {
         "log": "evidence-internal-1.21.11.log",
-        "passing": 82,
+        "passing": 83,
         "pending": 2,
-        "sha256": "28f73a6f65624bb26767f6fc2f8efd01dd069b101a3a03a6d1b4ab5a5da11ae7"
+        "sha256": "a01c3377b808262ac61fd497ac819c0dda2c3179a644c5c3887f53c6e1bd0048"
       },
       "serverSuite": {
         "log": "evidence-1.21.11.log",
-        "passing": 138,
+        "passing": 147,
         "pending": 2,
-        "sha256": "1a415a7d40385315acb17a2062a1f673ce8a1b95a570e4a1763e01db5d813d8a"
+        "sha256": "34a3d40196fac796ecb12a139a0babf86ce9dec56282be9c48f46a68e9d13ea8"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/1.21.11.log",
+        "passing": 1103,
+        "sha256": "e04fb564e43bbea13f0697f349de10040ad74682ad093d5ba2575db42ccfa904"
       }
     },
     {
       "version": "26.1",
       "internal": {
         "log": "evidence-internal-26.1.log",
-        "passing": 87,
+        "passing": 88,
         "pending": 2,
-        "sha256": "f47cde06b8caf08fe82e88dd3e49b1de983c6ce0795ce51429e2fb6d44e4d6e8"
+        "sha256": "c32da54fc3e0ec9a18463dede6d25111ff06162292b1488d1e19dfec5da6b8f3"
       },
       "serverSuite": {
         "log": "evidence-26.1.log",
-        "passing": 143,
+        "passing": 152,
         "pending": 2,
-        "sha256": "974dbd8183101ec7a0bd19bb1f8f88f3afe1895432cca5bb515b4f959ecbfa31"
+        "sha256": "89156d132f937037ffe8ee3cf77dd0933e971ddaababd8d64caf52d6ab69f74e"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/26.1.log",
+        "passing": 1105,
+        "sha256": "785b7857f043881da6eb5911c099cd7fd2026753724e5e2a011a751eaf1cf46e"
       }
     },
     {
       "version": "26.2",
       "internal": {
         "log": "evidence-internal-26.2.log",
-        "passing": 87,
+        "passing": 88,
         "pending": 2,
-        "sha256": "80839a0032d3ea1cc52e69ee306a0953806bd2a719d244d1730e515950fe8dfb"
+        "sha256": "7e267d81de1efcb35a978695bef168cbd1bba68c733ab5b5d461dea71b45a3c1"
       },
       "serverSuite": {
         "log": "evidence-26.2.log",
-        "passing": 143,
+        "passing": 152,
         "pending": 2,
-        "sha256": "6bf5268cfdc06c65b0e206739085189981b5318ab3ff69f49dde105d55fda7a5"
+        "sha256": "3eac6174d14921050175c0a17f8616cbdfc1b9694106b5b6f909fa2f904c693d"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/26.2.log",
+        "passing": 1133,
+        "sha256": "d8f5af3f6b4d076ca03948ee8e7b5a01a81385c0ac6a406a44e263e978a6fb72"
       }
     },
     {
       "version": "26.3",
       "internal": {
         "log": "evidence-internal-26.3.log",
-        "passing": 88,
+        "passing": 89,
         "pending": 1,
-        "sha256": "5c8e9b7ac4f8a5f26e460a0040db0ce660544dce8505508d5a9be8a94fec36cf"
+        "sha256": "42b87c38a5ad1917689abe24f6d074a6beb016e41147d680cbff1a0ca3089e5d"
       },
       "serverSuite": {
         "log": "evidence-26.3.log",
-        "passing": 144,
+        "passing": 153,
         "pending": 1,
-        "sha256": "53c3ddd151be01ae87aa171c2dfec6b850ef273bbaf5b072079a90d9ceff8cac"
+        "sha256": "eddae7e68bf9d88412f6b276b7abfd3323d654c88ed262dfdc83a56aa2052aea"
+      },
+      "digEverything": {
+        "log": "dig-final-a26a40f9/26.3.log",
+        "passing": 1223,
+        "sha256": "c70c10cc01ca06c6aea84d5214a0f640ba06d48c89866eececce51c0d8a9c38e"
       }
     }
-  ]
+  ],
+  "companions": [
+    {
+      "log": "mineflayer-lint.log",
+      "repo": "mineflayer-final",
+      "commit": "a26a40f95d588a0b6ae8854695092eaaa94f42fd",
+      "passing": 0,
+      "pending": 0,
+      "failing": 0,
+      "sha256": "ce900bb462ecf2c93ad6c60e32aa4fea428fb9b4eff33b3db4694bc107bb23a3"
+    },
+    {
+      "log": "mineflayer-unit.log",
+      "repo": "mineflayer-final",
+      "commit": "a26a40f95d588a0b6ae8854695092eaaa94f42fd",
+      "passing": 85,
+      "pending": 0,
+      "failing": 0,
+      "sha256": "eebd15cf9dac798dfacb4abcfbc7d1285b8d408f71c37bff4b9aafeb3e2d6a9e"
+    },
+    {
+      "log": "mineflayer-types.log",
+      "repo": "mineflayer-final",
+      "commit": "a26a40f95d588a0b6ae8854695092eaaa94f42fd",
+      "passing": 0,
+      "pending": 0,
+      "failing": 0,
+      "sha256": "797808af8d4cf5fada26facbb519926b3b118c392f5c04aaee1e8a3eec5c595b"
+    },
+    {
+      "log": "protocol-lint.log",
+      "repo": "node-minecraft-protocol",
+      "commit": "842c681c8096e72abe8fbb886fc2b621bc78147a",
+      "passing": 0,
+      "pending": 0,
+      "failing": 0,
+      "sha256": "0915489612e400b728ae71493dcfe93d809b0fb08a1c224ff2abd93964a60c13"
+    },
+    {
+      "log": "protocol-focused.log",
+      "repo": "node-minecraft-protocol",
+      "commit": "842c681c8096e72abe8fbb886fc2b621bc78147a",
+      "passing": 1143,
+      "pending": 15,
+      "failing": 0,
+      "sha256": "5da37b8aeea619827c0efd840cf4e935dc37196761aa9cc4871203ceff62f3a7"
+    },
+    {
+      "log": "protocol-packets.log",
+      "repo": "node-minecraft-protocol",
+      "commit": "842c681c8096e72abe8fbb886fc2b621bc78147a",
+      "passing": 5680,
+      "pending": 0,
+      "failing": 0,
+      "sha256": "acc6b3b06f25a2bf5c5a9044a698cde92ef6db9d4d1e5ff37ac456aa6eacd692"
+    },
+    {
+      "log": "protocol-server.log",
+      "repo": "node-minecraft-protocol",
+      "commit": "842c681c8096e72abe8fbb886fc2b621bc78147a",
+      "passing": 384,
+      "pending": 0,
+      "failing": 0,
+      "sha256": "e8955ffe497049a0dc528924e914166dc92be96d221c06361fc9043f68bab4d0"
+    },
+    {
+      "log": "protocol-client-realservers.log",
+      "repo": "node-minecraft-protocol",
+      "commit": "842c681c8096e72abe8fbb886fc2b621bc78147a",
+      "passing": 128,
+      "pending": 64,
+      "failing": 0,
+      "sha256": "581119e0370596c6c20d82e1b7bb3982bb190baf28e119feb2401dc619e867d1"
+    },
+    {
+      "log": "chunk-tests.log",
+      "repo": "prismarine-chunk",
+      "commit": "25895d11a21b4ef192a0bf870a2e9a69eae6129c",
+      "passing": 333,
+      "pending": 0,
+      "failing": 0,
+      "sha256": "9fb82918cf4b3fa9a9588ca55dc870c90d843e1e238193891c82f7bddb5cbe09"
+    },
+    {
+      "log": "physics-tests.log",
+      "repo": "prismarine-physics",
+      "commit": "dd981f529c62fc4052b75bdcadb0626dbee0b30f",
+      "passing": 57,
+      "pending": 0,
+      "failing": 0,
+      "sha256": "d19a40c18c44cbbf948cfabefbb05da3ecbc440ac71a238e66fadf14bb8b427d"
+    },
+    {
+      "log": "item-tests.log",
+      "repo": "prismarine-item",
+      "commit": "7a7b72dc0f86550f66f89a60d60d5cb2800a449f",
+      "passing": 152,
+      "pending": 0,
+      "failing": 0,
+      "sha256": "00fb672eab84c3eb9fb0a090f020226319ed98d89129a39fc3b32856bfe5cfa8"
+    },
+    {
+      "log": "data-tests.log",
+      "repo": "js",
+      "commit": "2f86c42297ad135adfb2335565c391ebc7db7d5b",
+      "passing": 1906,
+      "pending": 1,
+      "failing": 1,
+      "sha256": "ddce7b29e71dca93bc8d6e225c2ce22c4a9c7e754b03cc153fcf1dfcf0227514",
+      "note": "every test passed; the suite's wall-clock guard reported 50 s against 40 s"
+    },
+    {
+      "log": "data-wrapper-tests.log",
+      "repo": "node-minecraft-data",
+      "commit": "51ee6d150e8d5acb23e2889a2913141c0a11dc3d",
+      "passing": 902,
+      "pending": 0,
+      "failing": 0,
+      "sha256": "75c0356ae0cc303acb4aec9dfb37ab004bd93fd9c7145d690d9efbd35c42f003"
+    }
+  ],
+  "proxy": {
+    "log": "results-2026-10-23T08-38-55-698Z.json",
+    "sha256": "8502d5c1aa410e52696767960cd809283d218e02dd1c325a708c91b5127ae5b3",
+    "velocity": {
+      "jar": "velocity-4.3.0-44.jar",
+      "sha256": "85be73b90f295acd8d5d45a00ad10bac791d4b72b7554172612a89565ebaaa8f"
+    },
+    "scenarios": [
+      {
+        "scenario": "legacy-offline",
+        "proxy": {
+          "port": 25601,
+          "forwarding": "legacy",
+          "online": false
+        },
+        "backends": {
+          "p188a": "Paper 1.8.8",
+          "p188b": "Paper 1.8.8",
+          "p1122": "Paper 1.12.2"
+        },
+        "clients": [
+          {
+            "version": "1.8.8",
+            "via": "velocity",
+            "backend": "p188a",
+            "ok": true,
+            "serverLogins": {
+              "p188a": 2,
+              "p188b": 1
+            },
+            "steps": [
+              "spawn",
+              "settle",
+              "chat",
+              "walk",
+              "switch to p188b",
+              "settle after switch",
+              "chat after switch",
+              "walk after switch",
+              "switch back",
+              "chat after switching back",
+              "brand"
+            ]
+          },
+          {
+            "version": "1.12.2",
+            "via": "velocity",
+            "backend": "p1122",
+            "ok": true,
+            "serverLogins": {
+              "p1122": 1
+            },
+            "steps": [
+              "spawn",
+              "settle",
+              "chat",
+              "walk"
+            ]
+          }
+        ],
+        "refusals": []
+      },
+      {
+        "scenario": "modern-offline",
+        "proxy": {
+          "port": 25602,
+          "forwarding": "modern",
+          "online": false
+        },
+        "backends": {
+          "p263a": "Paper 26.3",
+          "p263b": "Paper 26.3",
+          "p12111": "Paper 1.21.11",
+          "p1204": "Paper 1.20.4"
+        },
+        "clients": [
+          {
+            "version": "26.3",
+            "via": "velocity",
+            "backend": "p263a",
+            "ok": true,
+            "serverLogins": {
+              "p263a": 2,
+              "p263b": 1
+            },
+            "steps": [
+              "spawn",
+              "settle",
+              "chat",
+              "walk",
+              "switch to p263b",
+              "settle after switch",
+              "chat after switch",
+              "walk after switch",
+              "switch back",
+              "chat after switching back",
+              "brand",
+              "isAlive"
+            ]
+          },
+          {
+            "version": "1.21.11",
+            "via": "velocity",
+            "backend": "p12111",
+            "ok": true,
+            "serverLogins": {
+              "p12111": 1
+            },
+            "steps": [
+              "spawn",
+              "settle",
+              "chat",
+              "walk",
+              "isAlive"
+            ]
+          },
+          {
+            "version": "1.20.4",
+            "via": "velocity",
+            "backend": "p1204",
+            "ok": true,
+            "serverLogins": {
+              "p1204": 1
+            },
+            "steps": [
+              "spawn",
+              "settle",
+              "chat",
+              "walk"
+            ]
+          }
+        ],
+        "refusals": []
+      },
+      {
+        "scenario": "legacy-online",
+        "proxy": {
+          "port": 25603,
+          "forwarding": "legacy",
+          "online": true
+        },
+        "backends": {
+          "p188a": "Paper 1.8.8",
+          "p188b": "Paper 1.8.8"
+        },
+        "clients": [
+          {
+            "version": "1.8.8",
+            "via": "velocity",
+            "backend": "p188a",
+            "ok": true,
+            "serverLogins": {
+              "p188a": 2,
+              "p188b": 1
+            },
+            "steps": [
+              "spawn",
+              "settle",
+              "chat",
+              "walk",
+              "switch to p188b",
+              "settle after switch",
+              "chat after switch",
+              "walk after switch",
+              "switch back",
+              "chat after switching back",
+              "brand"
+            ]
+          }
+        ],
+        "refusals": [
+          {
+            "label": "no session (offline client)",
+            "ok": true,
+            "reason": "{\"color\":\"red\",\"text\":\"You are not logged into your Minecraft account. If you are logged into your Minecraft account, try restarting your Minecraft client.\"}"
+          },
+          {
+            "label": "rejected access token",
+            "ok": true,
+            "reason": "Invalid token."
+          }
+        ]
+      },
+      {
+        "scenario": "modern-online",
+        "proxy": {
+          "port": 25604,
+          "forwarding": "modern",
+          "online": true
+        },
+        "backends": {
+          "p263a": "Paper 26.3",
+          "p263b": "Paper 26.3"
+        },
+        "clients": [
+          {
+            "version": "26.3",
+            "via": "velocity",
+            "backend": "p263a",
+            "ok": true,
+            "serverLogins": {
+              "p263a": 2,
+              "p263b": 1
+            },
+            "steps": [
+              "spawn",
+              "settle",
+              "chat",
+              "walk",
+              "switch to p263b",
+              "settle after switch",
+              "chat after switch",
+              "walk after switch",
+              "switch back",
+              "chat after switching back",
+              "brand",
+              "isAlive"
+            ]
+          }
+        ],
+        "refusals": [
+          {
+            "label": "no session (offline client)",
+            "ok": true,
+            "reason": "{\"color\":\"red\",\"text\":\"You are not logged into your Minecraft account. If you are logged into your Minecraft account, try restarting your Minecraft client.\"}"
+          },
+          {
+            "label": "rejected access token",
+            "ok": true,
+            "reason": "Invalid token."
+          }
+        ]
+      },
+      {
+        "scenario": "vanilla-online-direct",
+        "proxy": null,
+        "backends": {
+          "v1204": "vanilla 1.20.4"
+        },
+        "clients": [
+          {
+            "version": "1.20.4",
+            "via": "direct",
+            "backend": "v1204",
+            "ok": true,
+            "serverLogins": {
+              "v1204": 1
+            },
+            "steps": [
+              "spawn",
+              "settle",
+              "chat",
+              "walk"
+            ]
+          }
+        ],
+        "refusals": [
+          {
+            "label": "no session (offline client)",
+            "ok": true,
+            "reason": "{\"translate\":\"multiplayer.disconnect.unverified_username\"}"
+          },
+          {
+            "label": "rejected access token",
+            "ok": true,
+            "reason": "Invalid token."
+          }
+        ]
+      }
+    ],
+    "stub": {
+      "requests": 13,
+      "joins": 3,
+      "verified": 3,
+      "refused": 6
+    }
+  },
+  "consumer": {
+    "log": "consumer-check.log",
+    "sha256": "a7a1bdd6f26f8bd9c13a65b9d7c1f43f2f2d600d431dbdfccb94d761ebfd66a6"
+  }
 }
