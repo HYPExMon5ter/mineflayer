@@ -36,6 +36,7 @@ function inject (bot, wrap) {
   bot.test.teleport = teleport
   bot.test.resetState = resetState
   bot.test.awaitCommandsProcessed = awaitCommandsProcessed
+  bot.test.waitForServerTick = waitForServerTick
   bot.test.setInventorySlot = setInventorySlot
   bot.test.placeBlock = placeBlock
   bot.test.runExample = runExample
@@ -44,6 +45,7 @@ function inject (bot, wrap) {
   bot.test.killEntity = killEntity
   bot.test.digChecked = digChecked
   bot.test.removeDrops = removeDrops
+  bot.test.isDroppedItem = isDroppedItem
   bot.test.wait = function (ms) {
     return new Promise((resolve) => { setTimeout(resolve, ms) })
   }
@@ -189,6 +191,9 @@ function inject (bot, wrap) {
       await resetBlocksToSuperflat()
       worldDirty = false
     }
+    // After the fills, which drop items themselves: from 1.13, removing one half of a bed breaks the
+    // other, which drops the bed item.
+    await removeAllDrops()
     // Clear after the fills: they destroy the previous test's containers,
     // and those deferred closes return items into the inventory — the clear's
     // give-retry converges over those late returns.
@@ -467,15 +472,35 @@ function inject (bot, wrap) {
     return state
   }
 
+  // The server's entity type for commands, and the names Mineflayer gives a dropped item (those
+  // prismarine-entity's getDroppedItem accepts: 1.13 names the item object item_stack)
+  const itemEntityType = bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Item' : 'item'
+  function isDroppedItem (entity) {
+    return ['item', 'Item', 'item_stack'].includes(entity.name)
+  }
+  const awaitGone = entities => Promise.all(entities.map(entity => onceWithCleanup(bot, 'entityGone', { timeout, checkCondition: gone => gone.id === entity.id })))
+
   // A drop can only be picked up after a delay, which can land it in the hotbar after the reset
   // while the next test sets its slots
   async function removeDrops (position) {
-    const itemName = bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Item' : 'item'
-    const drops = Object.values(bot.entities).filter(entity => entity.name === itemName && entity.position.distanceTo(position) < 3)
+    const drops = Object.values(bot.entities).filter(entity => isDroppedItem(entity) && entity.position.distanceTo(position) < 3)
     if (!drops.length) return
-    const gone = Promise.all(drops.map(drop => onceWithCleanup(bot, 'entityGone', { timeout, checkCondition: entity => entity.id === drop.id })))
-    bot.chat(`/kill @e[type=${itemName}]`)
+    const gone = awaitGone(drops)
+    bot.chat(`/kill @e[type=${itemEntityType}]`)
     await gone
+  }
+
+  // Removes every dropped item before a test. One left by an earlier test (a tossed stack, the bed
+  // item a reset fill drops) is picked up once anything moves it within reach of the bot: a block
+  // the test places on it pushes it out, and fishing's water carries it. Landing in the hotbar while
+  // a creative slot set is in flight, it makes the server report that slot holding it. The kill also
+  // reaches drops the client has not been sent yet, so the marker confirms that it ran; the drops
+  // the client does show are awaited until it is told they are gone, so a test never finds one the
+  // server no longer has.
+  async function removeAllDrops () {
+    bot.chat(`/kill @e[type=${itemEntityType}]`)
+    await awaitCommandsProcessed('drops-removed')
+    await awaitGone(Object.values(bot.entities).filter(isDroppedItem))
   }
 
   function selfKill () {
