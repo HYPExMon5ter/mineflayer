@@ -2,7 +2,7 @@
 
 Executed locally on 2026-10-23 with Windows, Node.js 26.12.1 and Java 25 (OpenJDK 25.0.3). See [AUDIT.md](AUDIT.md) for scope, exclusions, dependency revisions and limitations. The [machine-readable record](validation-results.json) lists every attempt of this round, failed ones included, with its exit status and the SHA-256 of its log; the logs themselves are local and not published.
 
-This record replaces the one for `a26a40f9` (the second follow-up), which is superseded, not rewritten; its text and record remain in the history of this file. It covers Mineflayer `912e8ca2` with the dependency revisions in AUDIT.md, installed from the pinned published commits and the `java-26.3-data-9` release. Every Mineflayer log of this round ran that one commit from a separate clean worktree; companion logs each name their clean commit.
+This record replaces the one for `a26a40f9` (the second follow-up), which is superseded, not rewritten; its text and record remain in the history of this file. It covers Mineflayer `912e8ca2` with the dependency revisions it pins (those in AUDIT.md, except minecraft-protocol `41e6cd2`), installed from the pinned published commits and the `java-26.3-data-9` release. Every Mineflayer log of this round's matrices ran that one commit from a separate clean worktree; companion logs each name their clean commit. The follow-up `ec5885d6`, which pins minecraft-protocol `005d953`, was checked with the targeted runs under [Follow-up at `ec5885d6`](#follow-up-at-ec5885d6).
 
 ## Evidence format
 
@@ -67,7 +67,94 @@ Live local runs with Velocity 4.3.0 (build 44, SHA-256 `85be73b90f295acd8d5d45a0
 
 Online-mode scenarios authenticate against a local stub of the Mojang session service (3 client joins, 3 server-side verifications, 6 refusals): the encryption handshake, the client's join and the proxy's or server's `hasJoined` check are real, the account authority is not. Each online scenario also confirms two refusals with their expected cause: an offline client without a session, and a client whose access token the session service rejects.
 
-Separately, the account owner signed in once with a real Microsoft account (`audit-artifacts/live-auth/run.js`) at Mineflayer `4ff8872c` (the second follow-up's dependencies, data-8) against a fresh vanilla 26.3 server with `online-mode=true` and `enforce-secure-profile=true`: the sign-in succeeded, the server's authenticator verified the account's UUID, the bot spawned, and its signed chat message was echoed without the server's "Not Secure" mark (`result-26.3.json`, SHA-256 `fa90e94128ae84c2ea243509e574535c78675736aafaef051eb3c56de12a656c`; server log `fa6a2ffc43e4733137fb49bef8632963d83e8c61e2c91fcf3114b17745d07074`). It has not been repeated at `912e8ca2`, whose chat timestamp change applies to signed chat.
+### Real Microsoft account
+
+The account owner signed in with a real Microsoft account once, with the device code flow; every later run reused that cached session through Mineflayer's normal `auth: 'microsoft'` login (`audit-artifacts/live-auth/run.js`). Each run starts a fresh vanilla server with `online-mode=true` and `enforce-secure-profile=true` on loopback; the server's authenticator verifies the account, the bot must spawn, and its chat must come back as signed player chat, which the server logs without a "Not Secure" mark. Result files record packet names, times and booleans only, no keys, signatures or tokens. Every attempt, failed ones included (51):
+
+| # | Mineflayer | minecraft-protocol | Server | Chat sent at | Ticks/s | Result | Note |
+|---:|---|---|---|---|---:|---|---|
+| 1 | `4ff8872c` | `c76f895` | 26.3 | spawn | 20 | echoed | Second follow-up dependencies (data-8, minecraft-protocol c76f895). |
+| 2 | `7b3a5ae8` | `41e6cd2` | 26.3 | spawn | 20 | **failed**: no chat echo (server: missing profile public key) | First run at the third follow-up (minecraft-protocol 41e6cd2). |
+| 3 | `7b3a5ae8` | `41e6cd2` | 26.3 | spawn | 20 | **failed**: no chat echo (server: missing profile public key) | Repeated with the certificate request logged: HTTP 200, keys and a chat session present. |
+| 4 | `7b3a5ae8` | `41e6cd2` | 26.3 | spawn | 20 | **failed**: no chat echo (server: missing profile public key) | Traced: the chat left before the server applied the session. |
+| 5 | `7b3a5ae8` | `41e6cd2` | 26.3 | spawn | 2 | **failed**: no chat echo (server: missing profile public key) | Traced at 2 ticks per second. |
+| 6 | `7b3a5ae8` | – | 26.3 | spawn | 2 | echoed | Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules. |
+| 7 | `7b3a5ae8` | – | 26.3 | spawn | 20 | echoed | Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules. |
+| 8 | `7b3a5ae8` | – | 26.3 | spawn | 20 | echoed | Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules. |
+| 9 | `7b3a5ae8` | – | 26.3 | spawn | 20 | echoed | Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules. |
+| 10 | `7b3a5ae8` | – | 26.1 | spawn | 20 | echoed | Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules. |
+| 11 | `7b3a5ae8` | – | 26.2 | spawn | 20 | echoed | Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules. |
+| 12 | `7b3a5ae8` | – | 1.21.11 | spawn | 20 | echoed | Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules. |
+| 13 | `7b3a5ae8` | – | 1.20.4 | spawn | 20 | echoed | Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules. |
+| 14 | `7b3a5ae8` | – | 1.19.3 | spawn | 20 | echoed | Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules. |
+| 15 | `076df25d` | `e4e60be` | 26.3 | spawn | 20 | echoed | Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions. |
+| 16 | `076df25d` | `e4e60be` | 26.3 | spawn | 20 | echoed | Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions. |
+| 17 | `076df25d` | `e4e60be` | 26.3 | spawn | 20 | echoed | Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions. |
+| 18 | `076df25d` | `e4e60be` | 26.3 | spawn | 2 | echoed | Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions. |
+| 19 | `076df25d` | `e4e60be` | 26.1 | spawn | 20 | echoed | Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions. |
+| 20 | `076df25d` | `e4e60be` | 26.2 | spawn | 20 | echoed | Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions. |
+| 21 | `076df25d` | `e4e60be` | 1.21.11 | spawn | 20 | echoed | Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions. |
+| 22 | `076df25d` | `e4e60be` | 1.20.4 | spawn | 20 | echoed | Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions. |
+| 23 | `076df25d` | `e4e60be` | 1.19.3 | spawn | 20 | echoed | Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions. |
+| 24 | `912e8ca2` | `41e6cd2` | 26.1 | spawn | 20 | **failed**: no chat echo (server: missing profile public key) | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 25 | `912e8ca2` | `41e6cd2` | 26.2 | spawn | 20 | **failed**: no chat echo (server: missing profile public key) | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 26 | `912e8ca2` | `41e6cd2` | 1.21.11 | spawn | 20 | **failed**: no chat echo (server: missing profile public key) | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 27 | `912e8ca2` | `41e6cd2` | 1.20.4 | spawn | 20 | echoed | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 28 | `912e8ca2` | `41e6cd2` | 1.19.3 | spawn | 20 | echoed | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 29 | `912e8ca2` | `41e6cd2` | 1.21.9 | spawn | 20 | echoed | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 30 | `912e8ca2` | `41e6cd2` | 1.21.8 | spawn | 20 | echoed | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 31 | `912e8ca2` | `41e6cd2` | 1.21.9 | spawn | 2 | echoed | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 32 | `912e8ca2` | `41e6cd2` | 1.21.8 | spawn | 2 | echoed | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 33 | `912e8ca2` | `41e6cd2` | 1.21.9 | login | 20 | echoed | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 34 | `912e8ca2` | `41e6cd2` | 1.21.8 | login | 20 | echoed | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 35 | `912e8ca2` | `41e6cd2` | 26.3 | login | 20 | **failed**: no chat echo (server: missing profile public key) | Without the fix, from the clean 912e8ca2 evidence worktree. |
+| 36 | `ec5885d6` | `005d953` | 26.3 | spawn | 20 | echoed | Follow-up commit, clean worktree. |
+| 37 | `ec5885d6` | `005d953` | 26.3 | spawn | 20 | echoed | Follow-up commit, clean worktree. |
+| 38 | `ec5885d6` | `005d953` | 26.3 | spawn | 20 | echoed | Follow-up commit, clean worktree. |
+| 39 | `ec5885d6` | `005d953` | 26.3 | spawn | 2 | echoed | Follow-up commit, clean worktree. |
+| 40 | `ec5885d6` | `005d953` | 26.1 | spawn | 20 | echoed | Follow-up commit, clean worktree. |
+| 41 | `ec5885d6` | `005d953` | 26.2 | spawn | 20 | echoed | Follow-up commit, clean worktree. |
+| 42 | `ec5885d6` | `005d953` | 1.21.11 | spawn | 20 | echoed | Follow-up commit, clean worktree. |
+| 43 | `ec5885d6` | `005d953` | 1.21.9 | spawn | 20 | echoed | Follow-up commit, clean worktree. |
+| 44 | `ec5885d6` | `005d953` | 1.21.8 | spawn | 20 | echoed | Follow-up commit, clean worktree. |
+| 45 | `ec5885d6` | `005d953` | 1.20.4 | spawn | 20 | echoed | Follow-up commit, clean worktree. |
+| 46 | `ec5885d6` | `005d953` | 1.19.3 | spawn | 20 | echoed | Follow-up commit, clean worktree. |
+| 47 | `ec5885d6` | `005d953` | 26.3 | login | 20 | echoed | Follow-up commit, clean worktree. |
+| 48 | `ec5885d6` | `005d953` | 1.21.11 | login | 20 | echoed | Follow-up commit, clean worktree. |
+| 49 | `ec5885d6` | `005d953` | 1.21.9 | login | 20 | echoed | Follow-up commit, clean worktree. |
+| 50 | `ec5885d6` | `005d953` | 1.21.8 | login | 20 | echoed | Follow-up commit, clean worktree. |
+| 51 | `ec5885d6` | `005d953` | 1.19.3 | login | 20 | echoed | Follow-up commit, clean worktree. |
+
+The first sign-in passed at `4ff8872c`. At `7b3a5ae8` (the dependencies of `912e8ca2`) the chat failed: the server logged "Failed to update secure chat state for HYPExMon5ter: 'Chat disabled due to missing profile public key. Please try reconnecting.'" and dropped it, although the certificate request returned HTTP 200 and the client held its keys and a chat session. The packet trace showed the cause: the client announced its chat session (`chat_session_update`) on the login packet and chatted about 80 ms later on spawn; the server's rejection arrived about 20 ms after that, 2 ms before the server echoed the session back as applied (`player_info` with this player's chat session). From 1.21.9 the server hands the session update to a packet queue it drains once per tick, but handles chat from its main task queue, which also runs between ticks (`PacketUtils.ensureRunningOnSameThread` and `ServerGamePacketListenerImpl.tryHandleChat`, checked in the 1.21.9, 1.21.11 and 26.1–26.3 jars; 1.20.6–1.21.8 run both from the main task queue in arrival order). Without the fix the race was lost on 1.21.11 and 26.1–26.3 in every run, and not on 1.21.9 in three runs, one sending the chat on the login packet; why 1.21.9 handled the chat after its next tick was not established. 1.21.8, 1.20.4 and 1.19.3 passed without the fix. No change between `4ff8872c` and `912e8ca2` is in the session or chat sending code (the protocol changes were a bundle test and chat timestamps), and the outcome depends on where the chat falls in the server's tick, so the first pass is consistent with having won the same race; that was not shown.
+
+minecraft-protocol `005d953` holds chat until the server has answered a statistics request written after the session update, which the server answers from the queue that applies the session (see AUDIT.md). With it every run passed, including chat sent on the login packet, which fails on 26.3 without it, and runs with the server slowed to 2 ticks per second.
+
+## Follow-up at `ec5885d6`
+
+`ec5885d6` pins minecraft-protocol `005d953` (signed chat held until the server has applied the chat session) and confirms creative slots through the protocol's statistics requests (see AUDIT.md). It was checked with targeted runs, not the full matrices of this record: the internal and vanilla suites on the 10 versions whose creative slot confirmation uses statistics requests, from a clean worktree whose logs name that commit and its shrinkwrap's dependencies; the companion checks below; and the real Microsoft account runs above. The same protocol checks at `e4e60be`, whose code differs from `005d953` only in a comment, also passed (`companions/protocol-*-2.log`, not part of this record).
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.21.3 | 150 | 4 |
+| 1.21.4 | 152 | 2 |
+| 1.21.5 | 152 | 2 |
+| 1.21.6 | 152 | 2 |
+| 1.21.8 | 152 | 2 |
+| 1.21.9 | 153 | 2 |
+| 1.21.11 | 153 | 2 |
+| 26.1 | 158 | 2 |
+| 26.2 | 158 | 2 |
+| 26.3 | 160 | 1 |
+
+| Package | Commit | Result |
+|---|---|---|
+| mineflayer lint | `ec5885d` | passes |
+| mineflayer unit | `ec5885d` | 88 passing |
+| mineflayer types | `ec5885d` | passes |
+| minecraft-protocol lint | `005d953` | passes |
+| minecraft-protocol focused suites | `005d953` | 1166 passing, 15 pending |
+| minecraft-protocol packet round trip (32 versions) | `005d953` | 5680 passing |
+| minecraft-protocol server suite (32 versions) | `005d953` | 384 passing |
 
 ## Attempts of this round
 

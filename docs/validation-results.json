@@ -3146,22 +3146,1168 @@
     "log": "consumer-check.log",
     "sha256": "fd37512831d5cfabb317b4ca9075725950a08a2a803801a5646adb8e58dd0bf7"
   },
-  "liveAuth": {
-    "mineflayer": "4ff8872c",
-    "version": "26.3",
-    "server": "vanilla 26.3, online-mode=true, enforce-secure-profile=true",
-    "result": {
-      "log": "live-auth/result-26.3.json",
-      "sha256": "fa90e94128ae84c2ea243509e574535c78675736aafaef051eb3c56de12a656c"
+  "followUp": {
+    "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+    "dependencies": {
+      "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-9/minecraft-data-3.117.0.tgz sha512-cyO+6YLkQbxL58jBSTVD5GuNnMxzpDqmXQEl8sAEg6PjG9w1G9WDnSdp1fdV9sc3aGF/FmbVFoSgWs7K040wUw==",
+      "minecraft-protocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23 sha512-LpSAvngdE/0i/wHMtLcYSWhvrl+B8E4ywlQC9ZHy1qU2Dhi1geBslN2la9L9hnkVUm+mz57OOZypuQ9WZOmp1Q==",
+      "prismarine-chunk": "git+ssh://git@github.com/HYPExMon5ter/prismarine-chunk.git#a9b77d8f2692832fddbf3e4bb1b23ab0fdfd62f4 sha512-cx3WCe8cPGD+jgTWHCM9i4b8pjkC34IXkcWL7wyvbgSJRrQAPYO8cnGI1Ysw/H9j84al7YHsFBI61sKZbmqwnQ==",
+      "prismarine-physics": "git+ssh://git@github.com/HYPExMon5ter/prismarine-physics.git#fafa7978dfbc10a46dc2aea5e72cbe0b480199d6 sha512-kpT4rwS42p3g5kyk9+pu/ahZ63ssZTZjchTe9A7SJleomKYhgOA6YFoRwXDwapoXscZVmdY5sV7E0lpSi6WUaw==",
+      "prismarine-item": "git+ssh://git@github.com/HYPExMon5ter/prismarine-item.git#fbef4939f9dc2ffc40ae27b0106097ba075ee1f3 sha512-qvBVSNa9bnI4SfBg71b/Q5V5jAPflqpVUh6ilAhs2Zqnl2cQumwHuj5ab+/jbl+wra5T2yy2qWfxevXN9WFfdw=="
     },
-    "serverLog": {
-      "log": "live-auth/server-26.3.log",
-      "sha256": "fa6a2ffc43e4733137fb49bef8632963d83e8c61e2c91fcf3114b17745d07074"
-    },
-    "steps": [
-      "Microsoft sign-in",
-      "spawned as HYPExMon5ter",
-      "signed chat echoed without the Not Secure mark"
+    "runs": [
+      {
+        "label": "suite-ec5885d6",
+        "kind": "suite",
+        "latency": 0,
+        "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+        "note": "Internal and vanilla suites on the versions whose creative slot confirmation uses statistics requests (1.21.3+).",
+        "attempts": [
+          {
+            "version": "1.21.6",
+            "code": 0,
+            "passing": 152,
+            "pending": 2,
+            "failing": 0,
+            "failures": [],
+            "log": "runs/suite-ec5885d6/1.21.6.log",
+            "sha256": "03f1b8bccffe0b42cffd7f8d19942a965fe7e2475729a033192fa941887708ff"
+          },
+          {
+            "version": "1.21.5",
+            "code": 0,
+            "passing": 152,
+            "pending": 2,
+            "failing": 0,
+            "failures": [],
+            "log": "runs/suite-ec5885d6/1.21.5.log",
+            "sha256": "c4931a1f2b767746fb36c752acd98959e99d4a357bdceac71a1a8e2656e5410c"
+          },
+          {
+            "version": "1.21.4",
+            "code": 0,
+            "passing": 152,
+            "pending": 2,
+            "failing": 0,
+            "failures": [],
+            "log": "runs/suite-ec5885d6/1.21.4.log",
+            "sha256": "bb74055ea11f92fd3fd8537f083536a41e04ca7e03d68565d8ac783935fab6be"
+          },
+          {
+            "version": "1.21.3",
+            "code": 0,
+            "passing": 150,
+            "pending": 4,
+            "failing": 0,
+            "failures": [],
+            "log": "runs/suite-ec5885d6/1.21.3.log",
+            "sha256": "99e2e6e86e572a0b8b864bb48aa1803975372b4cb292b37109f35b529b9039c8"
+          },
+          {
+            "version": "1.21.8",
+            "code": 0,
+            "passing": 152,
+            "pending": 2,
+            "failing": 0,
+            "failures": [],
+            "log": "runs/suite-ec5885d6/1.21.8.log",
+            "sha256": "11ddcf610d97dac614763ffcf0bdb89d5172cd2aece55d474cf7ecea7cb4ee3c"
+          },
+          {
+            "version": "26.1",
+            "code": 0,
+            "passing": 158,
+            "pending": 2,
+            "failing": 0,
+            "failures": [],
+            "log": "runs/suite-ec5885d6/26.1.log",
+            "sha256": "432dadfce8a84a5d6765549244d9fa00af99deaedcf4b49d71fc75b0f87a381a"
+          },
+          {
+            "version": "1.21.9",
+            "code": 0,
+            "passing": 153,
+            "pending": 2,
+            "failing": 0,
+            "failures": [],
+            "log": "runs/suite-ec5885d6/1.21.9.log",
+            "sha256": "266c466b8f68ba900e6c0fb6714777b9b6fc822c4e15a344f0d9a574a3c2600e"
+          },
+          {
+            "version": "1.21.11",
+            "code": 0,
+            "passing": 153,
+            "pending": 2,
+            "failing": 0,
+            "failures": [],
+            "log": "runs/suite-ec5885d6/1.21.11.log",
+            "sha256": "258f827c33f7b465f28148b2b930d0112e463a4bc1c34ac0283ca6c637df97ed"
+          },
+          {
+            "version": "26.2",
+            "code": 0,
+            "passing": 158,
+            "pending": 2,
+            "failing": 0,
+            "failures": [],
+            "log": "runs/suite-ec5885d6/26.2.log",
+            "sha256": "bdda4d507bc588da64af0cbf69ece806ef2348413ea39d162de05671b84bd4cc"
+          },
+          {
+            "version": "26.3",
+            "code": 0,
+            "passing": 160,
+            "pending": 1,
+            "failing": 0,
+            "failures": [],
+            "log": "runs/suite-ec5885d6/26.3.log",
+            "sha256": "679c8340f3de2c946ff30132591fb348c712f47ccc4df868782145ee5b66e7c7"
+          }
+        ]
+      }
+    ],
+    "companions": [
+      {
+        "label": "mineflayer lint",
+        "log": "companions/mineflayer-lint-2.log",
+        "repo": "mineflayer-evidence4",
+        "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+        "passing": 0,
+        "pending": 0,
+        "failing": 0,
+        "sha256": "08ce3063038147cbf8c46da69bcc278142fc3a39b30eb1b4a1bdeb56164baaab"
+      },
+      {
+        "label": "mineflayer unit",
+        "log": "companions/mineflayer-unit-2.log",
+        "repo": "mineflayer-evidence4",
+        "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+        "passing": 88,
+        "pending": 0,
+        "failing": 0,
+        "sha256": "3389e9e4d3c8d1f8348db2987c25e21ebb346ff0bcd299dffce76a823c81c702"
+      },
+      {
+        "label": "mineflayer types",
+        "log": "companions/mineflayer-types-2.log",
+        "repo": "mineflayer-evidence4",
+        "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+        "passing": 0,
+        "pending": 0,
+        "failing": 0,
+        "sha256": "b4bca6ffcf2429e96c80716aa2c725966def03816d703ec889cbc82a52884d1e"
+      },
+      {
+        "label": "minecraft-protocol lint",
+        "log": "companions/protocol-lint-3.log",
+        "repo": "node-minecraft-protocol",
+        "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
+        "passing": 0,
+        "pending": 0,
+        "failing": 0,
+        "sha256": "8ca9e921ce2410734f7c8616dc9fe37efcbe695515cd0cb3affe30ec5d991e22"
+      },
+      {
+        "label": "minecraft-protocol focused suites",
+        "log": "companions/protocol-focused-3.log",
+        "repo": "node-minecraft-protocol",
+        "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
+        "passing": 1166,
+        "pending": 15,
+        "failing": 0,
+        "sha256": "52739315b3e9534bb23b42bd7b299fe17dea720c8fc29d3c946b9a80be20bc89"
+      },
+      {
+        "label": "minecraft-protocol packet round trip (32 versions)",
+        "log": "companions/protocol-packets-3.log",
+        "repo": "node-minecraft-protocol",
+        "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
+        "passing": 5680,
+        "pending": 0,
+        "failing": 0,
+        "sha256": "8574e6abd316d219593dd342a764a93d8af479821bc5e326964c2a2dab7b394f"
+      },
+      {
+        "label": "minecraft-protocol server suite (32 versions)",
+        "log": "companions/protocol-server-3.log",
+        "repo": "node-minecraft-protocol",
+        "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
+        "passing": 384,
+        "pending": 0,
+        "failing": 0,
+        "sha256": "c26adbd8336b54da1dff3666b53009a8720e037c643701ec4b7b078cf03cc0c1"
+      }
     ]
-  }
+  },
+  "liveAuth": [
+    {
+      "version": "26.3",
+      "mineflayer": "4ff8872c",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#c76f8958ec480f5ab007ef55b3d6d690e69ed433",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Second follow-up dependencies (data-8, minecraft-protocol c76f895).",
+      "result": {
+        "log": "live-auth/result-26.3.json",
+        "sha256": "fa90e94128ae84c2ea243509e574535c78675736aafaef051eb3c56de12a656c"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3.log",
+        "sha256": "fa6a2ffc43e4733137fb49bef8632963d83e8c61e2c91fcf3114b17745d07074"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": false,
+      "failure": "no chat echo",
+      "rejectedAsMissingKey": true,
+      "note": "First run at the third follow-up (minecraft-protocol 41e6cd2).",
+      "result": {
+        "log": "live-auth/result-26.3-7b3a5ae8-attempt1.json",
+        "sha256": "8c375ea14f6f14d16a48f614c0b6a1a449f139ee1661f421c5c5ef31d08f28e5"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-7b3a5ae8-attempt1.log",
+        "sha256": "a246950b26f2babd173b7e7f1838a90710b50f2759c35469e47e2e2c7abf4fa6"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": false,
+      "failure": "no chat echo",
+      "rejectedAsMissingKey": true,
+      "note": "Repeated with the certificate request logged: HTTP 200, keys and a chat session present.",
+      "result": {
+        "log": "live-auth/result-26.3-7b3a5ae8-attempt2.json",
+        "sha256": "18be91d6ba6343ac5895a3984b4480b6e28dca25c59c06ccb6dffb0f95330d5c"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-7b3a5ae8-attempt2.log",
+        "sha256": "81cb4ecc76a27dfc0bd22832b74baf46fd59ffdf05f49112ad51d3a88466cdd5"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": false,
+      "failure": "no chat echo",
+      "rejectedAsMissingKey": true,
+      "note": "Traced: the chat left before the server applied the session.",
+      "result": {
+        "log": "live-auth/result-26.3-7b3a5ae8-attempt3-traced.json",
+        "sha256": "c2667465252adab48c5eb6c280673b4e2100a7bab8ccfbd4744cea8c2591ccf0"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-7b3a5ae8-attempt3-traced.log",
+        "sha256": "91e3d85e25dd1c0d832ac64109c078afb21d80b4d8e1a59332331e072f6ec033"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 2,
+      "ok": false,
+      "failure": "no chat echo",
+      "rejectedAsMissingKey": true,
+      "note": "Traced at 2 ticks per second.",
+      "result": {
+        "log": "live-auth/result-26.3-7b3a5ae8-unfixed-tick2.json",
+        "sha256": "055555078acaddcde8178da14332d80e109ee8d71f9aad1b55cc935590bb29ec"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-7b3a5ae8-unfixed-tick2.log",
+        "sha256": "5defb850c5e5e4f466ad386d3d7d26282bffbdadd52407e63e19ec23e617fadb"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": null,
+      "chatAt": "spawn",
+      "tickRate": 2,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules.",
+      "result": {
+        "log": "live-auth/result-26.3-overlay-fix-tick2.json",
+        "sha256": "5688b2853fab8f23584192994974202c2c02b6bbb7936839ddcc0a4589884a7d"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-overlay-fix-tick2.log",
+        "sha256": "1d0d8e0e8eb97c435dd5bccc7a1a876e4d32cbb54daffba12f582be95d362c48"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": null,
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules.",
+      "result": {
+        "log": "live-auth/result-26.3-overlay-fix-tick20-1.json",
+        "sha256": "da5cfaf2cc59a0c13c2207518b6f1f810d99dd8b5b0e6f4e1de80c8dffd9e08d"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-overlay-fix-tick20-1.log",
+        "sha256": "755f3bcece65646894f0ca36412e9f12b339a616c20c4c06cfee2aa0a2507ea5"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": null,
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules.",
+      "result": {
+        "log": "live-auth/result-26.3-overlay-fix-tick20-2.json",
+        "sha256": "dfc20655b908b6891333c65ce59cd4459f43cc662dadd1b4ec4ce99057d0b449"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-overlay-fix-tick20-2.log",
+        "sha256": "39331d47684e19f220915c4511c4c3a4a71dea329a27ef09137eedec2f2e3d77"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": null,
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules.",
+      "result": {
+        "log": "live-auth/result-26.3-overlay-fix-tick20-3.json",
+        "sha256": "e29f5f36c03d8ec7fceadd7a7bae4c1ad3cd25a5434075a5490a2ca620287d43"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-overlay-fix-tick20-3.log",
+        "sha256": "30321be65f67b57eda4b67d6effe20a7d55a54deade4422b4628fa74e68a3c81"
+      }
+    },
+    {
+      "version": "26.1",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": null,
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules.",
+      "result": {
+        "log": "live-auth/result-26.1-overlay-fix.json",
+        "sha256": "cf5dff707f869254cae4c9283378cb82628220e6e5ec61f8b61d13bc18190faf"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.1-overlay-fix.log",
+        "sha256": "02abb239284acd10800be9c3eb5fa6d3b8fa789572323374ce3bc1fecfe17b19"
+      }
+    },
+    {
+      "version": "26.2",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": null,
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules.",
+      "result": {
+        "log": "live-auth/result-26.2-overlay-fix.json",
+        "sha256": "8b55c9891db333c3c1631f31e7944279050d7ff78fdba1c5e40e9c52d3607e90"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.2-overlay-fix.log",
+        "sha256": "ef8686b84c56ab09716d95a0315ea248e7cb44d978ff2c23779c95556d2f5505"
+      }
+    },
+    {
+      "version": "1.21.11",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": null,
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules.",
+      "result": {
+        "log": "live-auth/result-1.21.11-overlay-fix.json",
+        "sha256": "844f364d13b6e319909fbef4bf7346c4577f28a7ee1d6af14d7cd163493a1aa3"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.11-overlay-fix.log",
+        "sha256": "23826bb7092042973b25a34bc7f549c49e7e72e35cab4565e47a2151bb65f60a"
+      }
+    },
+    {
+      "version": "1.20.4",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": null,
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules.",
+      "result": {
+        "log": "live-auth/result-1.20.4-overlay-fix.json",
+        "sha256": "a1edf263203f3efc294ca2fd182bde9d8f4b9ee194a9b9cc489ff18953135577"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.20.4-overlay-fix.log",
+        "sha256": "87f962fff5d20105b69ee69efc54e9980ac4b73244fc7d5f44674e05fb4b6357"
+      }
+    },
+    {
+      "version": "1.19.3",
+      "mineflayer": "7b3a5ae8",
+      "minecraftProtocol": null,
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Development check before the fix was committed: minecraft-protocol 41e6cd2 with the fixed files copied into node_modules.",
+      "result": {
+        "log": "live-auth/result-1.19.3-overlay-fix.json",
+        "sha256": "c31c1e55c43a68b2f021830eb078744f832d745e3d524efac040fa374a0e588d"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.19.3-overlay-fix.log",
+        "sha256": "d45a506c1f7e35bee4b985fb97e040dc703bddf5d5ed2000d729869a5744dd73"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "076df25d9b646be7e64f54ba4d0e2cc0be5c32da",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#e4e60bef08b6b3c3c4dee91b5e394756c8484b57",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions.",
+      "result": {
+        "log": "live-auth/result-26.3-076df25d-1.json",
+        "sha256": "ee11eaf13cfccc592b8df04299d5b7ce775362910daf7db6ba99b012e2007529"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-076df25d-1.log",
+        "sha256": "3c04ba949069531848d7c51f163672044aaab2081a1f50bad4ada0886ec92395"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "076df25d9b646be7e64f54ba4d0e2cc0be5c32da",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#e4e60bef08b6b3c3c4dee91b5e394756c8484b57",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions.",
+      "result": {
+        "log": "live-auth/result-26.3-076df25d-2.json",
+        "sha256": "de229dd57012a9dfac079e96945c0e6bc39687e9fadce7eff5949340274e33b2"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-076df25d-2.log",
+        "sha256": "f56c527c072571454acda12a0cc2c7645f57934286eb139186ee611847bdee8a"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "076df25d9b646be7e64f54ba4d0e2cc0be5c32da",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#e4e60bef08b6b3c3c4dee91b5e394756c8484b57",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions.",
+      "result": {
+        "log": "live-auth/result-26.3-076df25d-3.json",
+        "sha256": "05d0e852891934dcc457a9e8fc3ede5dbe150fe644267ce92de84977176bcf17"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-076df25d-3.log",
+        "sha256": "c60deae4810c16e096550f76b2a82d304959ef8c9f999d0c96df29228af97e39"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "076df25d9b646be7e64f54ba4d0e2cc0be5c32da",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#e4e60bef08b6b3c3c4dee91b5e394756c8484b57",
+      "chatAt": "spawn",
+      "tickRate": 2,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions.",
+      "result": {
+        "log": "live-auth/result-26.3-076df25d-tick2.json",
+        "sha256": "a4da72ba997e7024d37b86c7d8bf6d5ed0d618072c009a3eb7520c25c8bb1f61"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-076df25d-tick2.log",
+        "sha256": "558bb03906c656184d3ac1a03dfcb379da1e9d3ab09af033426ae326a5a369b5"
+      }
+    },
+    {
+      "version": "26.1",
+      "mineflayer": "076df25d9b646be7e64f54ba4d0e2cc0be5c32da",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#e4e60bef08b6b3c3c4dee91b5e394756c8484b57",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions.",
+      "result": {
+        "log": "live-auth/result-26.1-076df25d.json",
+        "sha256": "f75570c71e662b9c454bb71c5d6e30a57b5f8eed67b38ff04e34d768e9bb0250"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.1-076df25d.log",
+        "sha256": "b17f248944f1b4b7253c2ea345045cbeaf815ba83219549b6aeae693375d2482"
+      }
+    },
+    {
+      "version": "26.2",
+      "mineflayer": "076df25d9b646be7e64f54ba4d0e2cc0be5c32da",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#e4e60bef08b6b3c3c4dee91b5e394756c8484b57",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions.",
+      "result": {
+        "log": "live-auth/result-26.2-076df25d.json",
+        "sha256": "a229c6fa4c9747f677b7e226800036400734531bc6abbb756e3465a34eb8abf1"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.2-076df25d.log",
+        "sha256": "d7f136e4a88e5f915aee1f153b07b485cafe3842e58abf4b2334fdd5792edbc1"
+      }
+    },
+    {
+      "version": "1.21.11",
+      "mineflayer": "076df25d9b646be7e64f54ba4d0e2cc0be5c32da",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#e4e60bef08b6b3c3c4dee91b5e394756c8484b57",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions.",
+      "result": {
+        "log": "live-auth/result-1.21.11-076df25d.json",
+        "sha256": "83372da197fa053aaefd5935fd91b6b957dfdc55365e5d66a42db1e859f39388"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.11-076df25d.log",
+        "sha256": "92d0b4fea29dcbec4844ad060cb87df66cbb3100d7fe863a5b4395d1e77010d6"
+      }
+    },
+    {
+      "version": "1.20.4",
+      "mineflayer": "076df25d9b646be7e64f54ba4d0e2cc0be5c32da",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#e4e60bef08b6b3c3c4dee91b5e394756c8484b57",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions.",
+      "result": {
+        "log": "live-auth/result-1.20.4-076df25d.json",
+        "sha256": "a74bc4591858ab068b72531c1d18f28ce68116786366f7b9561bf073c24c8077"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.20.4-076df25d.log",
+        "sha256": "79cde1c0e840d110eac9f433d9971a560d5531dd467be0cc038ec7c0243879b8"
+      }
+    },
+    {
+      "version": "1.19.3",
+      "mineflayer": "076df25d9b646be7e64f54ba4d0e2cc0be5c32da",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#e4e60bef08b6b3c3c4dee91b5e394756c8484b57",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Superseded commit pinning minecraft-protocol e4e60be, whose code is that of 005d953 except a comment naming the affected versions.",
+      "result": {
+        "log": "live-auth/result-1.19.3-076df25d.json",
+        "sha256": "36a15f5f71967e4525f3d62c6acd7f2e7116e65fe8e8b1f32fb51fd58c298703"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.19.3-076df25d.log",
+        "sha256": "cd63453d9033cd18d634dcf294847e4afec4ac6a4b78011603e9e5bf2ee80ceb"
+      }
+    },
+    {
+      "version": "26.1",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": false,
+      "failure": "no chat echo",
+      "rejectedAsMissingKey": true,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-26.1-912e8ca2-unfixed.json",
+        "sha256": "5e20d2598e36994bd4304e61f3a74b3c0d6eef204a8580d5d09fee7ff34801cd"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.1-912e8ca2-unfixed.log",
+        "sha256": "d86a117bdd72c70c0b069e4935655de383b336fb2373dc734fc5c3fb9da3acfe"
+      }
+    },
+    {
+      "version": "26.2",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": false,
+      "failure": "no chat echo",
+      "rejectedAsMissingKey": true,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-26.2-912e8ca2-unfixed.json",
+        "sha256": "9179e424f9bd51a4e0474e1d10e4766a2d15c6f444b088a6a77f5f13c27ffb86"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.2-912e8ca2-unfixed.log",
+        "sha256": "170928fda6716bf4a7360506b11d88db0d17af756bc3a9ddc44e0bc7e0479fb0"
+      }
+    },
+    {
+      "version": "1.21.11",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": false,
+      "failure": "no chat echo",
+      "rejectedAsMissingKey": true,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.11-912e8ca2-unfixed.json",
+        "sha256": "88183a0c47e0d39a69e79e4a395b06f2d9b6ff18b19c48f0a2c7ecb51e1f5a50"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.11-912e8ca2-unfixed.log",
+        "sha256": "0420f1fa90e8a72a3b826193fd86769139e56d61c7cd86165f6b4612551fa529"
+      }
+    },
+    {
+      "version": "1.20.4",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-1.20.4-912e8ca2-unfixed.json",
+        "sha256": "1f550ecaa38fd55f7fcb24331ce62ac603b530d5a204b8703a6a2199d09c7de3"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.20.4-912e8ca2-unfixed.log",
+        "sha256": "5b7952503aec7d7ab07e381fd6fe4ad30591444333fa67988bb98a0b4a2ff6c1"
+      }
+    },
+    {
+      "version": "1.19.3",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-1.19.3-912e8ca2-unfixed.json",
+        "sha256": "559bd40a2cd2ac063efc1938e4ca1d57ffa62f40f8ae7f524e65a3fcfddc4595"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.19.3-912e8ca2-unfixed.log",
+        "sha256": "2487edb4457bd0a0ed0a0b0ed89c8175d9d3a1e279e51ba8ad6f33952f031ae5"
+      }
+    },
+    {
+      "version": "1.21.9",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.9-912e8ca2-unfixed.json",
+        "sha256": "36b96b29ed4ed75b6c67cbda6b83bb4e1035bb680956a689ec4b4dfbab0c047c"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.9-912e8ca2-unfixed.log",
+        "sha256": "df45fa09a648cb773a5b013dc8a0de224973af5893561572d01d8f2190484685"
+      }
+    },
+    {
+      "version": "1.21.8",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.8-912e8ca2-unfixed.json",
+        "sha256": "6fb40d9297e806949c1e11b6857a617f401c557140c2da3dc8ecf84c33b965d9"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.8-912e8ca2-unfixed.log",
+        "sha256": "454946603a37666987070b0a3b70760e0077b48b0903105c9cddbb6ab360ee51"
+      }
+    },
+    {
+      "version": "1.21.9",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 2,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.9-912e8ca2-unfixed-tick2.json",
+        "sha256": "98b872f0f2566f0fcf7c9846c090beec0e7562876b83bf3789dcf9465af24816"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.9-912e8ca2-unfixed-tick2.log",
+        "sha256": "610e5320af9cea9f12b8fd40e7d9d7beff5165477349198f12e04972fa8b81e2"
+      }
+    },
+    {
+      "version": "1.21.8",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "spawn",
+      "tickRate": 2,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.8-912e8ca2-unfixed-tick2.json",
+        "sha256": "ea82e6383c568e901a86bc75867c84363e710beffa08d78408ab76373310f3e2"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.8-912e8ca2-unfixed-tick2.log",
+        "sha256": "0f8da2a6510d556d30213fadd506aee8bc2fd10644b9f77518740dcf529ce223"
+      }
+    },
+    {
+      "version": "1.21.9",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "login",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.9-912e8ca2-unfixed-chatatlogin.json",
+        "sha256": "ac057853aff57c5c72686093dfbbaf8ddeed51565cc7035f236cde5343755c66"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.9-912e8ca2-unfixed-chatatlogin.log",
+        "sha256": "ec02a82adc45b78abf1806736716499766d2cb86cf4122cfa0dfcdde790bba45"
+      }
+    },
+    {
+      "version": "1.21.8",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "login",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.8-912e8ca2-unfixed-chatatlogin.json",
+        "sha256": "c7628edf0214933e88c27d11d54f854533b3aea3207d9c86ffe0faba11b11fdb"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.8-912e8ca2-unfixed-chatatlogin.log",
+        "sha256": "baf5e36783ee128cd24e4969d4d3b04b555f276b6e939bee4fd1304ac810e2dc"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "912e8ca2dbe84780c4fa88e4991ba4ab75005ae5",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+      "chatAt": "login",
+      "tickRate": 20,
+      "ok": false,
+      "failure": "no chat echo",
+      "rejectedAsMissingKey": true,
+      "note": "Without the fix, from the clean 912e8ca2 evidence worktree.",
+      "result": {
+        "log": "live-auth/result-26.3-912e8ca2-unfixed-chatatlogin.json",
+        "sha256": "58dfc265005d2104fdfaef83d8413809c059cb768b747bfddaa8c722c66cbe26"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-912e8ca2-unfixed-chatatlogin.log",
+        "sha256": "fa801044ece2e57ce0a910ef1170b98b3b176004e1cf59dcd1178ec419c5fc83"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-26.3-ec5885d6-1.json",
+        "sha256": "319ed3ff314c92e6758d57a95a42cd5b56c91615701ea89c7b4ba53c04383ef2"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-ec5885d6-1.log",
+        "sha256": "2a83c7d8f2710aff072489593e8d31968fcc4fb1e5b56d8303b2862a2286c619"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-26.3-ec5885d6-2.json",
+        "sha256": "77f2e38a6285aac3b6e593b6ac895f5ef21eda5a77e6ffb7fb0da666fa483406"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-ec5885d6-2.log",
+        "sha256": "a0b89bc23867285303d61b2eb5163a2b1c1bb6202fbc765fa863762d8b050b69"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-26.3-ec5885d6-3.json",
+        "sha256": "83af4f14d4a1814c4ba28d7aebe84f680b808bedc03ce4d79ae31e2ff47daff2"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-ec5885d6-3.log",
+        "sha256": "c20e36db47b9d7be626f4c335553e0d9af656cef21f3e0032f3573eaab1a299b"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 2,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-26.3-ec5885d6-tick2.json",
+        "sha256": "e2d139216ef8eced22a9549a3bc1056201431db58abc1aa9494b400a3919c2c6"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-ec5885d6-tick2.log",
+        "sha256": "055fde585118c4f69d75d36179fc2b2ca17f756ca2b4b1cbc5089a1e8b6e01de"
+      }
+    },
+    {
+      "version": "26.1",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-26.1-ec5885d6.json",
+        "sha256": "33b79819a017fa592407b33caff45d74e78aa97df10cd5d3a2330847c1a0dc06"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.1-ec5885d6.log",
+        "sha256": "cc7cc3b62f8c675b50f3e258c7ad894114de6d942bbc329ce15d5cabfd07d395"
+      }
+    },
+    {
+      "version": "26.2",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-26.2-ec5885d6.json",
+        "sha256": "403b41582f6140a45a99d349512ca56e56bc64713b5e303b67d7cdba75d87880"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.2-ec5885d6.log",
+        "sha256": "aac1e5efc39152cb3722ffcce0365a4e4bc685329feef0196c7002d8a4000ba3"
+      }
+    },
+    {
+      "version": "1.21.11",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.11-ec5885d6.json",
+        "sha256": "879ff862138b06e72d97178943a8c65ac5dc27161cda4defafcd674975a05c68"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.11-ec5885d6.log",
+        "sha256": "2608945d616870bc92b571cad69fb166e4d6099a275cecca3398c8560fbdf8fd"
+      }
+    },
+    {
+      "version": "1.21.9",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.9-ec5885d6.json",
+        "sha256": "ef19381dc1550a575286d3e3f029795ee3a94a480ed0bd74d30470228c118308"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.9-ec5885d6.log",
+        "sha256": "9dae2fbf6fbbc572b8754d3f248d0fb35b003c1a7cdd07fc9ed4bbde3ef3fb41"
+      }
+    },
+    {
+      "version": "1.21.8",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.8-ec5885d6.json",
+        "sha256": "4cfaf425440f8225583228911900e17221948b1470b0807c403edac0ab7437ca"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.8-ec5885d6.log",
+        "sha256": "d696edeb6a4bd3395795098ddec4b1ea44667080f2322767b0215a078615eba7"
+      }
+    },
+    {
+      "version": "1.20.4",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.20.4-ec5885d6.json",
+        "sha256": "0b45f4e670f9897d7fdfe541c79a5da72798f098f3cbe48fab43540eb0f7fa3d"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.20.4-ec5885d6.log",
+        "sha256": "5522c830adfd415a3b4b9ac8c1f199df2dde1526e95acbbacce847de609f4113"
+      }
+    },
+    {
+      "version": "1.19.3",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.19.3-ec5885d6.json",
+        "sha256": "e2f36fb0734be45ddedd12bb3f03165469403929c80ade84c8a71cd78e7d3ec7"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.19.3-ec5885d6.log",
+        "sha256": "0f8e7db6915ca10f16ea29cfb7e7f5147beff3ebadd07062644af0d90c7cf9b9"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "login",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-26.3-ec5885d6-chatatlogin.json",
+        "sha256": "4786d8c60e49c38bd57625cf29e24a1c233458d574f835d33926df829e3acdc4"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-ec5885d6-chatatlogin.log",
+        "sha256": "3cadaff5b31560df28ff0a3cbf0987b805174390fdafb26fa0567931b7fb5b89"
+      }
+    },
+    {
+      "version": "1.21.11",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "login",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.11-ec5885d6-chatatlogin.json",
+        "sha256": "3b5bdc80a5b5208608f13f0d4d33bc49de6e2b824e988be856af707f33a07727"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.11-ec5885d6-chatatlogin.log",
+        "sha256": "9f0bb4acba8f751b8176993ea21db13047ededa6163fbe878f9e81a04522448c"
+      }
+    },
+    {
+      "version": "1.21.9",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "login",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.9-ec5885d6-chatatlogin.json",
+        "sha256": "e2df5e814b052bc3398962e0153ba553d383f0fc236671398c4433bdd3dd0e00"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.9-ec5885d6-chatatlogin.log",
+        "sha256": "79c6453b7f387c89df001f312dd38ac861104a7478a8188e8541aae61e7d9257"
+      }
+    },
+    {
+      "version": "1.21.8",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "login",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.8-ec5885d6-chatatlogin.json",
+        "sha256": "e036462dd0023f91188cf78cc7d27219b5d532935ee0f4ee55c227ff80b9849f"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.8-ec5885d6-chatatlogin.log",
+        "sha256": "7bf0541fa956705dd9f757d1896f8b71ba433f0ba9460a56259bee261ebc5159"
+      }
+    },
+    {
+      "version": "1.19.3",
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "login",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Follow-up commit, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.19.3-ec5885d6-chatatlogin.json",
+        "sha256": "f0139670d8c53ce0f10b4146141f34162fa67c5916aed6c210fb3ddc430ae2f6"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.19.3-ec5885d6-chatatlogin.log",
+        "sha256": "29d9ae2d2a4388998a4c78a1bf7fd7acf8fc7320c4f2b55ab95d1c3e76fc9891"
+      }
+    }
+  ]
 }
