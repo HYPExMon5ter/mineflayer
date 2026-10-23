@@ -32,7 +32,7 @@
   "license": "MIT",
   "dependencies": {
     "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-9/minecraft-data-3.117.0.tgz",
-    "minecraft-protocol": "git+https://github.com/HYPExMon5ter/node-minecraft-protocol.git#41e6cd2f05077a132d811729ec51d32a0e20d26f",
+    "minecraft-protocol": "git+https://github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
     "mojangson": "^2.0.4",
     "prismarine-biome": "^1.1.1",
     "prismarine-block": "^1.22.0",

@@ -320,6 +320,9 @@ describe('audit regressions', () => {
   function creativeBot (version = '1.21.3') {
     const bot = makeBot(version)
     const Item = require('prismarine-item')(bot.registry)
+    // The client's own statistics requests, which creative uses to confirm slots
+    bot._client.version = version
+    require('minecraft-protocol/src/client/play')(bot._client, {})
     bot.inventory = new EventEmitter()
     bot.inventory.slots = new Array(46).fill(null)
     bot._setSlot = (slot, item) => {
