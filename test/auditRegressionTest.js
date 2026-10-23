@@ -300,6 +300,135 @@ describe('audit regressions', () => {
     }
   })
 
+  describe('spawn readiness on 1.21.4+', () => {
+    const healthy = { health: 20, food: 20, foodSaturation: 5 }
+    let timers
+    beforeEach(() => {
+      timers = require('node:test').mock.timers
+      timers.enable({ apis: ['setTimeout'] })
+    })
+    afterEach(() => timers.reset())
+
+    function loadingBot (version = '1.21.4') {
+      const bot = makeBot(version)
+      bot._client.state = 'play'
+      bot.game = { minY: -64, height: 384, gameMode: 'survival' }
+      bot.entity = { position: { x: 0, y: 64, z: 0 } }
+      bot.terrain = false
+      bot.blockAt = () => bot.terrain ? {} : null
+      require('../lib/plugins/health')(bot, { respawn: false })
+      bot.spawns = 0
+      bot.on('spawn', () => {
+        bot.spawns++
+        // What a spawn listener calling bot.activateItem() sends
+        bot._client.write('use_item', {})
+      })
+      bot.emit('login')
+      return bot
+    }
+    const names = bot => bot.packets.map(packet => packet.name)
+    const loadTerrain = bot => { bot.terrain = true; bot.emit('chunkColumnLoad') }
+
+    it('sends player_loaded before spawn listeners can interact', () => {
+      for (const version of ['1.21.4', '26.3']) {
+        const bot = loadingBot(version)
+        bot._client.emit('update_health', healthy)
+        bot._client.emit('update_health', healthy)
+        assert.strictEqual(bot.spawns, 0, `${version}: spawn announced while the server still ignores interactions`)
+        assert.deepStrictEqual(names(bot), [], version)
+        loadTerrain(bot)
+        loadTerrain(bot)
+        assert.deepStrictEqual(names(bot), ['player_loaded', 'use_item'], version)
+        assert.strictEqual(bot.spawns, 1, version)
+      }
+    })
+
+    it('announces spawn at once when the terrain is already loaded or not needed', () => {
+      const loaded = loadingBot()
+      loaded.terrain = true
+      loaded._client.emit('update_health', healthy)
+      assert.deepStrictEqual(names(loaded), ['player_loaded', 'use_item'])
+      const above = loadingBot()
+      above.entity.position.y = 320
+      above._client.emit('update_health', healthy)
+      assert.deepStrictEqual(names(above), ['player_loaded', 'use_item'])
+      const spectator = loadingBot()
+      spectator.game.gameMode = 'spectator'
+      spectator._client.emit('update_health', healthy)
+      assert.deepStrictEqual(names(spectator), ['player_loaded', 'use_item'])
+    })
+
+    it('falls back to the server timeout when the terrain never arrives', () => {
+      const bot = loadingBot()
+      bot._client.emit('update_health', healthy)
+      timers.tick(2999)
+      assert.strictEqual(bot.spawns, 0)
+      timers.tick(1)
+      assert.deepStrictEqual(names(bot), ['player_loaded', 'use_item'])
+      assert.strictEqual(bot.spawns, 1)
+      timers.tick(10000)
+      loadTerrain(bot)
+      assert.strictEqual(bot.spawns, 1)
+    })
+
+    it('never announces a spawn for a world that was left before it loaded', () => {
+      const transitions = {
+        login: bot => bot.emit('login'),
+        respawn: bot => bot._client.emit('respawn', { copyMetadata: true }),
+        configuration: bot => { bot._client.state = 'configuration'; bot._client.emit('state', 'configuration') },
+        disconnect: bot => { bot._client.state = 'disconnected'; bot._client.emit('end', 'socketClosed') }
+      }
+      for (const [name, leave] of Object.entries(transitions)) {
+        const bot = loadingBot()
+        bot._client.emit('update_health', healthy)
+        leave(bot)
+        loadTerrain(bot)
+        timers.tick(3000)
+        assert.deepStrictEqual(names(bot), [], name)
+        assert.strictEqual(bot.spawns, 0, name)
+      }
+      // The next world announces its own spawn once, with no stale wait answering too
+      const bot = loadingBot()
+      bot._client.emit('update_health', healthy)
+      bot.emit('login')
+      bot._client.emit('update_health', healthy)
+      timers.tick(1500)
+      bot.emit('login')
+      bot._client.emit('update_health', healthy)
+      timers.tick(2999)
+      assert.strictEqual(bot.spawns, 0)
+      loadTerrain(bot)
+      timers.tick(10000)
+      assert.deepStrictEqual(names(bot), ['player_loaded', 'use_item'])
+    })
+
+    it('reports a death while loading without a spawn, then spawns after the respawn', () => {
+      const bot = loadingBot()
+      let deaths = 0
+      bot.on('death', () => deaths++)
+      bot._client.emit('update_health', healthy)
+      bot._client.emit('update_health', { ...healthy, health: 0 })
+      loadTerrain(bot)
+      assert.strictEqual(deaths, 1)
+      assert.strictEqual(bot.spawns, 0)
+      // Vanilla still reports the level as loaded; the server ignores it until the respawn
+      assert.deepStrictEqual(names(bot), ['player_loaded'])
+      bot._client.emit('respawn', { copyMetadata: false })
+      bot._client.emit('update_health', healthy)
+      assert.deepStrictEqual(names(bot), ['player_loaded', 'player_loaded', 'use_item'])
+      assert.strictEqual(bot.spawns, 1)
+    })
+
+    it('keeps announcing spawn on the health update before 1.21.4', () => {
+      for (const version of ['1.8.8', '1.21.3']) {
+        const bot = loadingBot(version)
+        bot._client.emit('update_health', healthy)
+        assert.strictEqual(bot.spawns, 1, version)
+        assert.deepStrictEqual(names(bot), ['use_item'], version)
+      }
+    })
+  })
+
   it('sets and removes modern scores without changing the public string title', () => {
     const bot = makeBot()
     bot.teamMap = {}

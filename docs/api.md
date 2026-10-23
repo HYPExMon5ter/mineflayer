@@ -1291,6 +1291,14 @@ and then emitted when you respawn after death.
 This is usually the event that you want to listen to
 before doing anything on the server.
 
+On 1.21.4 and later the server ignores block, item and entity interactions until the
+client reports that its level has loaded (`player_loaded`). Spawn is therefore emitted
+right after that report, which is sent once the chunk at the player's position has
+arrived (immediately outside the build height or in spectator mode), or after 3 seconds
+if it never does, the timeout after which the server treats the client as loaded anyway.
+A new login, a respawn or a disconnect before then cancels it; a death while loading is
+reported with `death` and no `spawn`. Earlier versions emit spawn on the health update.
+
 #### "respawn"
 
 Emitted when you change dimensions and just before you spawn.

@@ -2865,36 +2865,44 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
         teleportId: 0,
         flags: bot.registry.version['>=']('1.21.3') ? {} : 0
       })
-      it('sends player_loaded once the chunk under the player is loaded on 1.21.4+', function (done) {
+      it('announces spawn after player_loaded, once the chunk under the player is loaded on 1.21.4+', function (done) {
         if (!bot.supportFeature('sendsPlayerLoadedPacket')) return this.skip()
         server.on('playerJoin', (client) => {
           client.write('login', bot.test.generateLoginPacket())
           client.write('position', basePosition())
+          client.write('set_slot', { windowId: 0, stateId: 1, slot: bot.QUICK_BAR_START, item: Item.toNotch(new Item(registry.itemsByName.stone.id, 1)) })
           let chunkSent = false
+          let loaded = false
+          let failure = null
           client.on('player_loaded', () => {
-            assert.ok(chunkSent, 'player_loaded sent before any chunk arrived')
-            done()
+            if (!chunkSent) failure = failure ?? new Error('player_loaded sent before any chunk arrived')
+            loaded = true
           })
-          bot.once('spawn', () => {
-            setTimeout(() => {
-              chunkSent = true
-              client.write('map_chunk', generateChunkPacket(bot.test.buildChunk()))
-            }, 300)
-          })
+          // 1.21.4+ servers ignore item use until player_loaded, so a spawn listener must be able to use items
+          bot.once('spawn', () => bot.activateItem())
+          client.once('use_item', () => done(failure ?? (loaded ? undefined : new Error('use_item sent before player_loaded'))))
           client.write('update_health', { health: 20, food: 20, foodSaturation: 5 })
+          setTimeout(() => {
+            chunkSent = true
+            client.write('map_chunk', generateChunkPacket(bot.test.buildChunk()))
+          }, 300)
         })
       })
-      it('sends player_loaded only once when respawning before the terrain arrives on 1.21.4+', function (done) {
+      it('sends player_loaded and spawns only once when respawning before the terrain arrives on 1.21.4+', function (done) {
         if (!bot.supportFeature('sendsPlayerLoadedPacket')) return this.skip()
         server.on('playerJoin', (client) => {
           const loginPacket = bot.test.generateLoginPacket()
           client.write('login', loginPacket)
           client.write('position', basePosition())
           let count = 0
+          let spawns = 0
           client.on('player_loaded', () => { count++ })
-          bot.once('spawn', () => {
+          bot.on('spawn', () => { spawns++ })
+          client.write('update_health', { health: 20, food: 20, foodSaturation: 5 }) // first spawn, waiting for terrain
+          setTimeout(() => {
             // No chunk has arrived yet: respawn and spawn again while the first terrain wait is still pending. Only the
             // latest wait may answer - the old code left both listeners and sent player_loaded twice.
+            assert.strictEqual(spawns, 0, 'spawn announced before player_loaded')
             loginPacket.worldName = 'minecraft:overworld'; loginPacket.hashedSeed = [0, 0]; loginPacket.entityId = 0
             let respawn = {
               dimension: bot.supportFeature('dimensionDataInCodec') ? 'minecraft:overworld' : loginPacket.dimension,
@@ -2913,10 +2921,13 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             client.write('update_health', { health: 20, food: 20, foodSaturation: 5 }) // triggers the second spawn
             setTimeout(() => {
               client.write('map_chunk', generateChunkPacket(bot.test.buildChunk()))
-              setTimeout(() => { assert.strictEqual(count, 1, `player_loaded sent ${count} time(s) after a respawn-before-terrain`); done() }, 250)
+              setTimeout(() => {
+                assert.strictEqual(count, 1, `player_loaded sent ${count} time(s) after a respawn-before-terrain`)
+                assert.strictEqual(spawns, 1, `spawn emitted ${spawns} time(s) after a respawn-before-terrain`)
+                done()
+              }, 250)
             }, 100)
-          })
-          client.write('update_health', { health: 20, food: 20, foodSaturation: 5 }) // first spawn
+          }, 100)
         })
       })
     })
