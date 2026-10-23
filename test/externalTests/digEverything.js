@@ -68,7 +68,8 @@ const excludedBlocks = [
   'cave_air',
   'void_air',
   'water',
-  'lava'
+  'lava',
+  'bubble_column'
 ]
 
 // Coral wall fans need the wall they face
