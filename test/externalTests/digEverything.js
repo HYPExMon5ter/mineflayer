@@ -113,10 +113,14 @@ async function digSomething (blockName, bot) {
   const position = bot.entity.position.floored().offset(1, 0, 0)
 
   // Blocks placed waterlogged (conduit, corals, sea pickles) would let water push the bot and
-  // slow its digging, so create them dry
+  // slow its digging, so create them dry. Leaves away from logs can decay as soon as they are
+  // set, so create them persistent, as player-placed leaves are.
   const Block = require('prismarine-block')(bot.registry)
-  const waterlogged = Block.fromStateId(bot.registry.blocksByName[blockName].defaultState, 0).getProperties().waterlogged === true
-  await bot.test.setBlock({ x: 1, relative: true, blockName, states: waterlogged ? '[waterlogged=false]' : '' })
+  const properties = Block.fromStateId(bot.registry.blocksByName[blockName].defaultState, 0).getProperties()
+  const states = []
+  if (properties.waterlogged === true) states.push('waterlogged=false')
+  if (properties.persistent === false) states.push('persistent=true')
+  await bot.test.setBlock({ x: 1, relative: true, blockName, states: states.length ? `[${states.join(',')}]` : '' })
   assert.strictEqual(bot.blockAt(position).name, blockName, `could not create ${blockName}`)
   await bot.test.setInventorySlot(36, new Item(bot.registry.itemsByName.diamond_pickaxe.id, 1, 0))
   bot.setQuickBarSlot(0)
