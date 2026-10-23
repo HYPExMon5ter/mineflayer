@@ -264,12 +264,27 @@ function inject (bot, wrap) {
     bot.chat('/clear')
     await finalClear
     // The server confirms a command while handling it, but sends the emptied slots with the
-    // inventory broadcast later in that tick: a test that set a slot in between saw it cleared
-    // under it. A command sent after this confirmation is handled in a later tick, so its own
-    // confirmation follows that broadcast.
-    const settled = clearSuccess()
-    bot.chat('/clear')
-    await settled
+    // inventory broadcast of its next tick: a test that set a slot in between saw it cleared under
+    // it. A later command can still run before that tick (26.x runs commands as they arrive), so
+    // wait until the game time has advanced, i.e. a whole tick ran after the clear.
+    await waitForServerTick()
+  }
+
+  async function gameTime () {
+    // Read the translation argument: 1.8's "Time is %d" is not rendered with the number
+    const reply = onceWithCleanup(bot, 'message', { timeout: 5000, checkCondition: message => /^commands\.time\.query(\.gametime)?$/.test(message.translate ?? '') })
+    bot.chat('/time query gametime')
+    const [message] = await reply
+    return Number(message.with[0].toString())
+  }
+
+  async function waitForServerTick () {
+    const start = await gameTime()
+    for (let attempt = 0; attempt < 100; attempt++) {
+      await bot.waitForTicks(1)
+      if (await gameTime() !== start) return
+    }
+    throw new Error('the server game time did not advance')
   }
 
   // you need to be in creative mode for this to work
