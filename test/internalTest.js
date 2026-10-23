@@ -2852,19 +2852,19 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
       })
     })
 
+    const basePosition = () => ({
+      x: 1.5,
+      y: 66,
+      z: 1.5,
+      dx: 0,
+      dy: 0,
+      dz: 0,
+      pitch: 0,
+      yaw: 0,
+      teleportId: 0,
+      flags: bot.registry.version['>=']('1.21.3') ? {} : 0
+    })
     describe('player_loaded', () => {
-      const basePosition = () => ({
-        x: 1.5,
-        y: 66,
-        z: 1.5,
-        dx: 0,
-        dy: 0,
-        dz: 0,
-        pitch: 0,
-        yaw: 0,
-        teleportId: 0,
-        flags: bot.registry.version['>=']('1.21.3') ? {} : 0
-      })
       it('announces spawn after player_loaded, once the chunk under the player is loaded on 1.21.4+', function (done) {
         if (!bot.supportFeature('sendsPlayerLoadedPacket')) return this.skip()
         server.on('playerJoin', (client) => {
@@ -2928,6 +2928,162 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
               }, 250)
             }, 100)
           }, 100)
+        })
+      })
+    })
+
+    describe('spawn after the teleport confirmation', () => {
+      // Servers refuse block interactions until the client confirms their latest teleport: 1.9+
+      // with teleport_confirm, 1.8 with the position packet answering it. The bot confirms on the
+      // next tick, so spawn must wait for that even when nothing else is left to load.
+      const answer = () => bot.supportFeature('teleportUsesOwnPacket') ? 'teleport_confirm' : 'position_look'
+      const confirmed = (teleportId) => bot.supportFeature('teleportUsesOwnPacket') ? `teleport_confirm ${teleportId}` : 'position_look'
+      const loaded = () => bot.supportFeature('sendsPlayerLoadedPacket') ? ['player_loaded'] : []
+      const healthy = { health: 20, food: 20, foodSaturation: 5 }
+      // The bot spawns facing this chest, so activating the face under its crosshair needs no turn
+      // and the click is written as soon as a spawn listener asks for it.
+      const chestPosition = vec3(1, 67, 0)
+      const facingChest = (teleportId = 0) => ({ ...basePosition(), yaw: 180, teleportId })
+      function chestChunk () {
+        const chunk = bot.test.buildChunk()
+        chunk.setBlockStateId(chestPosition, registry.blocksByName.chest.defaultState)
+        return generateChunkPacket(chunk)
+      }
+      function record (client) {
+        const seen = []
+        client.on('packet', (data, meta) => {
+          if (meta.name === answer()) seen.push(confirmed(data.teleportId))
+          else if (['player_loaded', 'block_place'].includes(meta.name)) seen.push(meta.name)
+        })
+        return seen
+      }
+      function expectOnBlockPlace (client, seen, expected, done) {
+        client.once('block_place', () => {
+          try {
+            assert.deepStrictEqual(seen, expected)
+            done()
+          } catch (err) { done(err) }
+        })
+      }
+      function activateChestOnSpawn (done) {
+        bot.once('spawn', () => bot.activateBlock(bot.blockAt(chestPosition), vec3(0, 0, 1), vec3(0.5, 0.62, 1)).catch(done))
+      }
+
+      it('confirms the initial teleport before a spawn listener activates a block, with the terrain already loaded', function (done) {
+        server.on('playerJoin', (client) => {
+          expectOnBlockPlace(client, record(client), [confirmed(0), ...loaded(), 'block_place'], done)
+          activateChestOnSpawn(done)
+          client.write('login', bot.test.generateLoginPacket())
+          client.write('position', facingChest())
+          client.write('map_chunk', chestChunk())
+          client.write('update_health', healthy)
+        })
+      })
+
+      it('waits for every queued teleport to be confirmed', function (done) {
+        server.on('playerJoin', (client) => {
+          expectOnBlockPlace(client, record(client), [confirmed(0), confirmed(1), ...loaded(), 'block_place'], done)
+          activateChestOnSpawn(done)
+          client.write('login', bot.test.generateLoginPacket())
+          client.write('position', facingChest(0))
+          client.write('position', facingChest(1))
+          client.write('map_chunk', chestChunk())
+          client.write('update_health', healthy)
+        })
+      })
+
+      it('does not wait again for a teleport confirmed before the terrain arrived', function (done) {
+        server.on('playerJoin', async (client) => {
+          try {
+            client.write('login', bot.test.generateLoginPacket())
+            const answered = once(client, answer())
+            client.write('position', facingChest())
+            await answered
+            let spawned = false
+            bot.once('spawn', () => { spawned = true })
+            // Readiness completes while the bot handles the chunk (1.21.4+) or the health update
+            // (earlier). This listener runs after the bot's own, in the same packet handling.
+            bot._client.once('map_chunk', () => {
+              try {
+                assert.ok(spawned, 'spawn waited for another tick although the teleport was confirmed')
+                done()
+              } catch (err) { done(err) }
+            })
+            client.write('update_health', healthy)
+            client.write('map_chunk', chestChunk())
+          } catch (err) { done(err) }
+        })
+      })
+
+      it('waits for the teleport that follows a respawn, not one the respawn superseded', function (done) {
+        server.on('playerJoin', async (client) => {
+          try {
+            // The reply to teleport 1 is still queued when the respawn arrives, so it is dropped
+            expectOnBlockPlace(client, record(client), [confirmed(0), ...loaded(), confirmed(2), ...loaded(), 'block_place'], done)
+            client.write('login', bot.test.generateLoginPacket())
+            client.write('position', facingChest(0))
+            client.write('map_chunk', chestChunk())
+            const spawned = once(bot, 'spawn')
+            client.write('update_health', healthy)
+            await spawned
+            activateChestOnSpawn(done)
+            await bot.waitForTicks(1)
+            client.write('position', facingChest(1))
+            client.write('respawn', bot.test.generateRespawnPacket())
+            client.write('position', facingChest(2))
+            client.write('update_health', healthy)
+          } catch (err) { done(err) }
+        })
+      })
+
+      it('waits for the confirmation a death defers before announcing the respawn', function (done) {
+        // Before 26.3 the position reply to the teleport after a death is deferred 1.5 s. 1.9+
+        // confirm it with teleport_confirm at once; 1.8 has to wait for the deferred reply.
+        server.on('playerJoin', async (client) => {
+          try {
+            expectOnBlockPlace(client, record(client), [confirmed(0), ...loaded(), confirmed(1), ...loaded(), 'block_place'], done)
+            client.write('login', bot.test.generateLoginPacket())
+            client.write('position', facingChest(0))
+            client.write('map_chunk', chestChunk())
+            const spawned = once(bot, 'spawn')
+            client.write('update_health', healthy)
+            await spawned
+            const respawnRequested = once(client, 'client_command')
+            client.write('update_health', { ...healthy, health: 0 })
+            await respawnRequested
+            activateChestOnSpawn(done)
+            const respawn = bot.test.generateRespawnPacket()
+            if (respawn.worldState) respawn.worldState.copyMetadata = false
+            else respawn.copyMetadata = false
+            client.write('respawn', respawn)
+            client.write('position', facingChest(1))
+            // Like a server after a respawn: 1.16-1.20.4 clients drop the world on a respawn that keeps no data
+            client.write('map_chunk', chestChunk())
+            client.write('update_health', healthy)
+          } catch (err) { done(err) }
+        })
+      })
+
+      it('never announces a spawn after the client left play before confirming its teleport', function (done) {
+        if (!bot.supportFeature('hasConfigurationState')) return this.skip()
+        server.on('playerJoin', async (client) => {
+          try {
+            const seen = record(client)
+            let spawns = 0
+            bot.on('spawn', () => { spawns++ })
+            client.write('login', bot.test.generateLoginPacket())
+            client.write('position', facingChest())
+            client.write('map_chunk', chestChunk())
+            client.write('update_health', healthy)
+            // The transfer to configuration arrives before the tick that would confirm the teleport
+            client.once('configuration_acknowledged', () => { client.state = 'configuration' })
+            client.write('start_configuration', {})
+            if (bot._client.state !== 'configuration') await once(bot._client, 'state')
+            await sleep(200)
+            assert.strictEqual(spawns, 0)
+            assert.deepStrictEqual(seen, [])
+            done()
+          } catch (err) { done(err) }
         })
       })
     })

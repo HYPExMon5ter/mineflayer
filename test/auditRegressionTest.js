@@ -300,7 +300,7 @@ describe('audit regressions', () => {
     }
   })
 
-  describe('spawn readiness on 1.21.4+', () => {
+  describe('spawn readiness', () => {
     const healthy = { health: 20, food: 20, foodSaturation: 5 }
     let timers
     beforeEach(() => {
@@ -425,6 +425,69 @@ describe('audit regressions', () => {
         bot._client.emit('update_health', healthy)
         assert.strictEqual(bot.spawns, 1, version)
         assert.deepStrictEqual(names(bot), ['use_item'], version)
+      }
+    })
+
+    // Servers refuse block interactions until the client confirms their latest teleport, which the
+    // physics plugin sends on the next tick. Its bot._afterTeleportsConfirmed runs an action at once
+    // when no confirmation is owed, otherwise once the last one is sent.
+    function confirmingBot (version) {
+      const bot = loadingBot(version)
+      bot.terrain = true
+      bot.owed = []
+      bot._afterTeleportsConfirmed = action => { if (bot.owed) bot.owed.push(action); else action() }
+      bot.confirm = () => { const owed = bot.owed; bot.owed = null; for (const action of owed) action() }
+      return bot
+    }
+
+    it('announces spawn only once the teleports the physics plugin owes are confirmed', () => {
+      for (const version of ['1.8.8', '1.21.3', '1.21.4', '26.3']) {
+        const bot = confirmingBot(version)
+        bot._client.emit('update_health', healthy)
+        bot._client.emit('update_health', healthy)
+        assert.strictEqual(bot.spawns, 0, `${version}: spawn announced while a teleport is unconfirmed`)
+        assert.deepStrictEqual(names(bot), [], version)
+        bot.confirm()
+        const loaded = bot.supportFeature('sendsPlayerLoadedPacket') ? ['player_loaded'] : []
+        assert.deepStrictEqual(names(bot), [...loaded, 'use_item'], version)
+        assert.strictEqual(bot.spawns, 1, version)
+        // Already confirmed: the next spawn does not wait
+        bot._client.emit('respawn', { copyMetadata: true })
+        bot._client.emit('update_health', healthy)
+        assert.strictEqual(bot.spawns, 2, version)
+      }
+    })
+
+    it('never announces a spawn whose world was left while its teleport was unconfirmed', () => {
+      const transitions = {
+        login: bot => bot.emit('login'),
+        respawn: bot => bot._client.emit('respawn', { copyMetadata: true }),
+        configuration: bot => { bot._client.state = 'configuration'; bot._client.emit('state', 'configuration') },
+        disconnect: bot => { bot._client.state = 'disconnected'; bot._client.emit('end', 'socketClosed') }
+      }
+      for (const version of ['1.21.3', '26.3']) {
+        for (const [name, leave] of Object.entries(transitions)) {
+          const bot = confirmingBot(version)
+          bot._client.emit('update_health', healthy)
+          leave(bot)
+          bot.confirm()
+          assert.deepStrictEqual(names(bot), [], `${version} ${name}`)
+          assert.strictEqual(bot.spawns, 0, `${version} ${name}`)
+        }
+      }
+    })
+
+    it('reports a death before the teleport is confirmed without a spawn', () => {
+      for (const version of ['1.21.3', '26.3']) {
+        const bot = confirmingBot(version)
+        let deaths = 0
+        bot.on('death', () => deaths++)
+        bot._client.emit('update_health', healthy)
+        bot._client.emit('update_health', { ...healthy, health: 0 })
+        bot.confirm()
+        assert.strictEqual(deaths, 1, version)
+        assert.strictEqual(bot.spawns, 0, version)
+        assert.deepStrictEqual(names(bot), bot.supportFeature('sendsPlayerLoadedPacket') ? ['player_loaded'] : [], version)
       }
     })
   })
