@@ -1,6 +1,6 @@
 const assert = require('assert')
 const Vec3 = require('vec3')
-const { once, sleep, onceWithCleanup } = require('../../lib/promise_utils')
+const { sleep, onceWithCleanup } = require('../../lib/promise_utils')
 
 module.exports = () => async (bot) => {
   // Test spawn event on death
@@ -48,7 +48,9 @@ module.exports = () => async (bot) => {
   // Acknowledge the dimension-arrival position before issuing another move.
   bot.test.sayEverywhere('/tp 0 128 0')
 
-  await once(bot, 'forcedMove')
+  // Wait for the teleport to 0 128 0 itself: 26.3 can send the arrival position again after the
+  // client reports it has loaded, which under latency arrives after the command was sent.
+  await onceWithCleanup(bot, 'forcedMove', { timeout: 10000, checkCondition: () => bot.entity.position.distanceTo(new Vec3(0.5, 128, 0.5)) < 1 })
   // The teleport took the bot out of the exit portal.
   cooldown = portalCooldown()
   await bot.waitForChunksToLoad()
