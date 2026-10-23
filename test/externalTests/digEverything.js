@@ -133,59 +133,10 @@ async function digSomething (blockName, bot) {
     ? onceWithCleanup(bot, 'entitySpawn', { timeout: 5000, checkCondition: entity => entity.name === silverfishName })
     : null
   released?.catch(() => {}) // awaited below; only keeps a failed dig from leaving it unhandled
-  const acknowledgements = digAcknowledgements(bot)
-  await bot.dig(bot.blockAt(position))
-  // bot.dig resolves on the client's own prediction, before the server has handled the finish.
-  // 26.3 queues digging packets for its next tick but runs commands as they arrive, so the next
-  // test's /setblock could run first and the late break would remove that block. From 1.19 the
-  // server acknowledges each digging packet's sequence once handled; earlier servers handle
-  // commands and digging packets in order, so a command round trip is enough. A block the server
-  // kept has been resent by then, so this checks the server's result, not the prediction.
-  if (acknowledgements) {
-    await acknowledgements.handled()
-    // A break the server found too fast is delayed without a block update, and the bot keeps its
-    // prediction, so ask the server whether the block is still there.
-    const feedback = onceWithCleanup(bot, 'messagestr', { timeout: 5000, checkCondition: message => /^Test (passed|failed)/.test(message) })
-    bot.chat(`/execute unless block ${position.x} ${position.y} ${position.z} minecraft:${blockName}`)
-    const [result] = await feedback
-    assert.match(result, /^Test passed/, `the server still has ${blockName} after the dig`)
-  } else {
-    await bot.test.awaitCommandsProcessed(`dug ${blockName}`)
-  }
-  assert.notStrictEqual(bot.blockAt(position).name, blockName)
-  // The drop can only be picked up after a delay, which can land it in the hotbar after the reset
-  // while the next test sets its slots
-  const itemName = bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Item' : 'item'
-  const drops = Object.values(bot.entities).filter(entity => entity.name === itemName && entity.position.distanceTo(position) < 3)
-  if (drops.length) {
-    const gone = Promise.all(drops.map(drop => onceWithCleanup(bot, 'entityGone', { timeout: 5000, checkCondition: entity => entity.id === drop.id })))
-    bot.chat(`/kill @e[type=${itemName}]`)
-    await gone
-  }
+  await bot.test.digChecked(position, blockName)
+  await bot.test.removeDrops(position)
   if (released) {
     const [silverfish] = await released
     await bot.test.killEntity(silverfish)
   }
-}
-
-// Tracks the last block prediction sequence the bot sent and the highest one the server
-// acknowledged, so a wait can tell whether everything sent so far has been handled (1.19+).
-function digAcknowledgements (bot) {
-  const ack = bot.registry.protocol?.play?.toClient?.types?.packet_acknowledge_player_digging
-  if (!ack?.[1]?.some(field => field.name === 'sequenceId')) return null
-  if (bot.test.digAcknowledgements) return bot.test.digAcknowledgements
-
-  const state = { sent: 0, acknowledged: 0 }
-  const nextSequence = bot._nextSequence
-  bot._nextSequence = () => (state.sent = nextSequence())
-  bot._client.on('acknowledge_player_digging', ({ sequenceId }) => {
-    state.acknowledged = Math.max(state.acknowledged, sequenceId)
-  })
-  state.handled = async () => {
-    if (state.acknowledged >= state.sent) return
-    const sent = state.sent
-    await onceWithCleanup(bot._client, 'acknowledge_player_digging', { timeout: 5000, checkCondition: ({ sequenceId }) => sequenceId >= sent })
-  }
-  bot.test.digAcknowledgements = state
-  return state
 }
