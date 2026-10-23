@@ -2,7 +2,7 @@
 
 Executed locally on 2026-10-23 with Windows, Node.js 26.12.1 and Java 25 (OpenJDK 25.0.3). See [AUDIT.md](AUDIT.md) for scope, exclusions, dependency revisions and limitations. The [machine-readable record](validation-results.json) lists every attempt of this round, failed ones included, with its exit status and the SHA-256 of its log; the logs themselves are local and not published.
 
-This record replaces the one for `a26a40f9` (the second follow-up), which is superseded, not rewritten; its text and record remain in the history of this file. It covers Mineflayer `912e8ca2` with the dependency revisions it pins (those in AUDIT.md, except minecraft-protocol `41e6cd2`), installed from the pinned published commits and the `java-26.3-data-9` release. Every Mineflayer log of this round's matrices ran that one commit from a separate clean worktree; companion logs each name their clean commit. The follow-up `ec5885d6`, which pins minecraft-protocol `005d953`, was checked with the targeted runs under [Follow-up at `ec5885d6`](#follow-up-at-ec5885d6).
+This record replaces the one for `a26a40f9` (the second follow-up), which is superseded, not rewritten; its text and record remain in the history of this file. It covers Mineflayer `912e8ca2` with the dependency revisions it pins (those in AUDIT.md, except minecraft-protocol `41e6cd2`), installed from the pinned published commits and the `java-26.3-data-9` release. Every Mineflayer log of this round's matrices ran that one commit from a separate clean worktree; companion logs each name their clean commit. The follow-up `ec5885d6`, which pins minecraft-protocol `005d953`, was checked with the targeted runs under [Follow-up at `ec5885d6`](#follow-up-at-ec5885d6), and the spawn readiness fix `970eba23` with those under [Follow-up at `970eba23`](#follow-up-at-970eba23).
 
 ## Evidence format
 
@@ -10,7 +10,7 @@ Every attempt runs into a new run directory and is never overwritten, so a rerun
 
 ## Hosted CI
 
-Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`.
+Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23` had not run on hosted CI when this record was written.
 
 ## Results
 
@@ -69,7 +69,7 @@ Online-mode scenarios authenticate against a local stub of the Mojang session se
 
 ### Real Microsoft account
 
-The account owner signed in with a real Microsoft account once, with the device code flow; every later run reused that cached session through Mineflayer's normal `auth: 'microsoft'` login (`audit-artifacts/live-auth/run.js`). Each run starts a fresh vanilla server with `online-mode=true` and `enforce-secure-profile=true` on loopback; the server's authenticator verifies the account, the bot must spawn, and its chat must come back as signed player chat, which the server logs without a "Not Secure" mark. Result files record packet names, times and booleans only, no keys, signatures or tokens. Every attempt, failed ones included (51):
+The account owner signed in with a real Microsoft account once, with the device code flow; every later run reused that cached session through Mineflayer's normal `auth: 'microsoft'` login (`audit-artifacts/live-auth/run.js`). Each run starts a fresh vanilla server with `online-mode=true` and `enforce-secure-profile=true` on loopback; the server's authenticator verifies the account, the bot must spawn, and its chat must come back as signed player chat, which the server logs without a "Not Secure" mark. Result files record packet names, times and booleans only, no keys, signatures or tokens. Every attempt, failed ones included (54):
 
 | # | Mineflayer | minecraft-protocol | Server | Chat sent at | Ticks/s | Result | Note |
 |---:|---|---|---|---|---:|---|---|
@@ -124,6 +124,9 @@ The account owner signed in with a real Microsoft account once, with the device 
 | 49 | `ec5885d6` | `005d953` | 1.21.9 | login | 20 | echoed | Follow-up commit, clean worktree. |
 | 50 | `ec5885d6` | `005d953` | 1.21.8 | login | 20 | echoed | Follow-up commit, clean worktree. |
 | 51 | `ec5885d6` | `005d953` | 1.19.3 | login | 20 | echoed | Follow-up commit, clean worktree. |
+| 52 | `970eba23` | `005d953` | 26.3 | spawn | 20 | echoed | Spawn readiness follow-up, clean worktree. |
+| 53 | `970eba23` | `005d953` | 1.21.11 | spawn | 20 | echoed | Spawn readiness follow-up, clean worktree. |
+| 54 | `970eba23` | `005d953` | 1.21.4 | spawn | 20 | echoed | Spawn readiness follow-up, clean worktree. |
 
 The first sign-in passed at `4ff8872c`. At `7b3a5ae8` (the dependencies of `912e8ca2`) the chat failed: the server logged "Failed to update secure chat state for HYPExMon5ter: 'Chat disabled due to missing profile public key. Please try reconnecting.'" and dropped it, although the certificate request returned HTTP 200 and the client held its keys and a chat session. The packet trace showed the cause: the client announced its chat session (`chat_session_update`) on the login packet and chatted about 80 ms later on spawn; the server's rejection arrived about 20 ms after that, 2 ms before the server echoed the session back as applied (`player_info` with this player's chat session). From 1.21.9 the server hands the session update to a packet queue it drains once per tick, but handles chat from its main task queue, which also runs between ticks (`PacketUtils.ensureRunningOnSameThread` and `ServerGamePacketListenerImpl.tryHandleChat`, checked in the 1.21.9, 1.21.11 and 26.1–26.3 jars; 1.20.6–1.21.8 run both from the main task queue in arrival order). Without the fix the race was lost on 1.21.11 and 26.1–26.3 in every run, and not on 1.21.9 in three runs, one sending the chat on the login packet; why 1.21.9 handled the chat after its next tick was not established. 1.21.8, 1.20.4 and 1.19.3 passed without the fix. No change between `4ff8872c` and `912e8ca2` is in the session or chat sending code (the protocol changes were a bundle test and chat timestamps), and the outcome depends on where the chat falls in the server's tick, so the first pass is consistent with having won the same race; that was not shown.
 
@@ -155,6 +158,117 @@ minecraft-protocol `005d953` holds chat until the server has answered a statisti
 | minecraft-protocol focused suites | `005d953` | 1166 passing, 15 pending |
 | minecraft-protocol packet round trip (32 versions) | `005d953` | 5680 passing |
 | minecraft-protocol server suite (32 versions) | `005d953` | 384 passing |
+
+## Follow-up at `970eba23`
+
+`970eba23` emits `spawn` on 1.21.4+ only after `player_loaded`, so a spawn listener's interactions are no longer dropped by the server (see AUDIT.md, Spawn readiness); it pins the same dependencies as `ec5885d6`. The change is in a plugin every version loads and the vanilla `spawnEvent` test changed for every version, so it was checked with targeted runs from a clean worktree whose logs name that commit and its shrinkwrap's dependencies: the internal suite on all 30 versions; the internal and vanilla suites on the versions that send `player_loaded`; `spawnEvent` alone on all 30 versions; the vanilla suites through the latency proxy on 1.21.11 and 26.3, since spawn now waits for terrain; the Velocity scenarios, whose server switches log in again without a respawn; the companion checks below; and real Microsoft account runs (listed above).
+
+`internal-970eba23` (internal suite): Internal suite on all 30 versions: the health plugin changed for every version.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 65 | 20 |
+| 1.9.4 | 67 | 18 |
+| 1.10.2 | 67 | 18 |
+| 1.11.2 | 67 | 18 |
+| 1.12.2 | 67 | 18 |
+| 1.13.2 | 67 | 18 |
+| 1.14.4 | 67 | 18 |
+| 1.15.2 | 67 | 18 |
+| 1.16.5 | 67 | 18 |
+| 1.17.1 | 71 | 14 |
+| 1.18.2 | 71 | 14 |
+| 1.19 | 74 | 11 |
+| 1.19.2 | 74 | 11 |
+| 1.19.3 | 74 | 11 |
+| 1.19.4 | 75 | 10 |
+| 1.20.1 | 75 | 10 |
+| 1.20.2 | 78 | 7 |
+| 1.20.4 | 79 | 6 |
+| 1.20.6 | 78 | 7 |
+| 1.21.1 | 79 | 6 |
+| 1.21.3 | 81 | 4 |
+| 1.21.4 | 83 | 2 |
+| 1.21.5 | 83 | 2 |
+| 1.21.6 | 83 | 2 |
+| 1.21.8 | 83 | 2 |
+| 1.21.9 | 83 | 2 |
+| 1.21.11 | 83 | 2 |
+| 26.1 | 88 | 2 |
+| 26.2 | 88 | 2 |
+| 26.3 | 89 | 1 |
+
+`suite-970eba23` (server suites): Internal and vanilla suites on the versions that send `player_loaded` (1.21.4+).
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.21.4 | 152 | 2 |
+| 1.21.5 | 152 | 2 |
+| 1.21.6 | 152 | 2 |
+| 1.21.8 | 152 | 2 |
+| 1.21.9 | 153 | 2 |
+| 1.21.11 | 153 | 2 |
+| 26.1 | 158 | 2 |
+| 26.2 | 158 | 2 |
+| 26.3 | 160 | 1 |
+
+`spawn-970eba23` (vanilla `spawnEvent`): The changed vanilla `spawnEvent` test alone on all 30 versions.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 1 | 0 |
+| 1.9.4 | 1 | 0 |
+| 1.10.2 | 1 | 0 |
+| 1.11.2 | 1 | 0 |
+| 1.12.2 | 1 | 0 |
+| 1.13.2 | 1 | 0 |
+| 1.14.4 | 1 | 0 |
+| 1.15.2 | 1 | 0 |
+| 1.16.5 | 1 | 0 |
+| 1.17.1 | 1 | 0 |
+| 1.18.2 | 1 | 0 |
+| 1.19 | 1 | 0 |
+| 1.19.2 | 1 | 0 |
+| 1.19.3 | 1 | 0 |
+| 1.19.4 | 1 | 0 |
+| 1.20.1 | 1 | 0 |
+| 1.20.2 | 1 | 0 |
+| 1.20.4 | 1 | 0 |
+| 1.20.6 | 1 | 0 |
+| 1.21.1 | 1 | 0 |
+| 1.21.3 | 1 | 0 |
+| 1.21.4 | 1 | 0 |
+| 1.21.5 | 1 | 0 |
+| 1.21.6 | 1 | 0 |
+| 1.21.8 | 1 | 0 |
+| 1.21.9 | 1 | 0 |
+| 1.21.11 | 1 | 0 |
+| 26.1 | 1 | 0 |
+| 26.2 | 1 | 0 |
+| 26.3 | 1 | 0 |
+
+`lag150-970eba23` (server suites through the latency proxy, 150 ms each way): Vanilla suites through the latency proxy: spawn now waits for the terrain under the player.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.21.11 | 70 | 0 |
+| 26.3 | 71 | 0 |
+
+| Scenario | Proxy | Backends | Clients | Refusals checked |
+|---|---|---|---|---|
+| legacy-offline | Velocity, legacy forwarding, offline mode | Paper 1.8.8, Paper 1.8.8, Paper 1.12.2 | 1.8.8 (switch and back): pass; 1.12.2: pass | – |
+| modern-offline | Velocity, modern forwarding, offline mode | Paper 26.3, Paper 26.3, Paper 1.21.11, Paper 1.20.4 | 26.3 (switch and back): pass; 1.21.11: pass; 1.20.4: pass | – |
+| legacy-online | Velocity, legacy forwarding, online mode | Paper 1.8.8, Paper 1.8.8 | 1.8.8 (switch and back): pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+| modern-online | Velocity, modern forwarding, online mode | Paper 26.3, Paper 26.3 | 26.3 (switch and back): pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+| vanilla-online-direct | none (direct, online mode) | vanilla 1.20.4 | 1.20.4: pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+
+| Package | Commit | Result |
+|---|---|---|
+| mineflayer lint | `970eba2` | passes |
+| mineflayer unit | `970eba2` | 94 passing |
+| mineflayer types | `970eba2` | passes |
+
+Development checks for this follow-up (in `audit-artifacts/followup3/dev/clear-after-container-970eba23`, not counted): `spawnEvent` on 26.3 failed 3 of 3 runs with `health.js` of `a1fca241` ("the server ignored an item used on spawn") and passed with the fix; and the `/clear` check described in AUDIT.md's limitations, run on 26.3 and 1.21.8.
 
 ## Attempts of this round
 

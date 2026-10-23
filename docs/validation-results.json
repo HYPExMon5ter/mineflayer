@@ -3146,199 +3146,1271 @@
     "log": "consumer-check.log",
     "sha256": "fd37512831d5cfabb317b4ca9075725950a08a2a803801a5646adb8e58dd0bf7"
   },
-  "followUp": {
-    "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
-    "dependencies": {
-      "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-9/minecraft-data-3.117.0.tgz sha512-cyO+6YLkQbxL58jBSTVD5GuNnMxzpDqmXQEl8sAEg6PjG9w1G9WDnSdp1fdV9sc3aGF/FmbVFoSgWs7K040wUw==",
-      "minecraft-protocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23 sha512-LpSAvngdE/0i/wHMtLcYSWhvrl+B8E4ywlQC9ZHy1qU2Dhi1geBslN2la9L9hnkVUm+mz57OOZypuQ9WZOmp1Q==",
-      "prismarine-chunk": "git+ssh://git@github.com/HYPExMon5ter/prismarine-chunk.git#a9b77d8f2692832fddbf3e4bb1b23ab0fdfd62f4 sha512-cx3WCe8cPGD+jgTWHCM9i4b8pjkC34IXkcWL7wyvbgSJRrQAPYO8cnGI1Ysw/H9j84al7YHsFBI61sKZbmqwnQ==",
-      "prismarine-physics": "git+ssh://git@github.com/HYPExMon5ter/prismarine-physics.git#fafa7978dfbc10a46dc2aea5e72cbe0b480199d6 sha512-kpT4rwS42p3g5kyk9+pu/ahZ63ssZTZjchTe9A7SJleomKYhgOA6YFoRwXDwapoXscZVmdY5sV7E0lpSi6WUaw==",
-      "prismarine-item": "git+ssh://git@github.com/HYPExMon5ter/prismarine-item.git#fbef4939f9dc2ffc40ae27b0106097ba075ee1f3 sha512-qvBVSNa9bnI4SfBg71b/Q5V5jAPflqpVUh6ilAhs2Zqnl2cQumwHuj5ab+/jbl+wra5T2yy2qWfxevXN9WFfdw=="
+  "followUps": [
+    {
+      "mineflayer": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+      "note": "Signed chat on joining (minecraft-protocol 005d953) and creative slot confirmation through the protocol's statistics requests.",
+      "dependencies": {
+        "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-9/minecraft-data-3.117.0.tgz sha512-cyO+6YLkQbxL58jBSTVD5GuNnMxzpDqmXQEl8sAEg6PjG9w1G9WDnSdp1fdV9sc3aGF/FmbVFoSgWs7K040wUw==",
+        "minecraft-protocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23 sha512-LpSAvngdE/0i/wHMtLcYSWhvrl+B8E4ywlQC9ZHy1qU2Dhi1geBslN2la9L9hnkVUm+mz57OOZypuQ9WZOmp1Q==",
+        "prismarine-chunk": "git+ssh://git@github.com/HYPExMon5ter/prismarine-chunk.git#a9b77d8f2692832fddbf3e4bb1b23ab0fdfd62f4 sha512-cx3WCe8cPGD+jgTWHCM9i4b8pjkC34IXkcWL7wyvbgSJRrQAPYO8cnGI1Ysw/H9j84al7YHsFBI61sKZbmqwnQ==",
+        "prismarine-physics": "git+ssh://git@github.com/HYPExMon5ter/prismarine-physics.git#fafa7978dfbc10a46dc2aea5e72cbe0b480199d6 sha512-kpT4rwS42p3g5kyk9+pu/ahZ63ssZTZjchTe9A7SJleomKYhgOA6YFoRwXDwapoXscZVmdY5sV7E0lpSi6WUaw==",
+        "prismarine-item": "git+ssh://git@github.com/HYPExMon5ter/prismarine-item.git#fbef4939f9dc2ffc40ae27b0106097ba075ee1f3 sha512-qvBVSNa9bnI4SfBg71b/Q5V5jAPflqpVUh6ilAhs2Zqnl2cQumwHuj5ab+/jbl+wra5T2yy2qWfxevXN9WFfdw=="
+      },
+      "runs": [
+        {
+          "label": "suite-ec5885d6",
+          "kind": "suite",
+          "latency": 0,
+          "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+          "note": "Internal and vanilla suites on the versions whose creative slot confirmation uses statistics requests (1.21.3+).",
+          "attempts": [
+            {
+              "version": "1.21.6",
+              "code": 0,
+              "passing": 152,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ec5885d6/1.21.6.log",
+              "sha256": "03f1b8bccffe0b42cffd7f8d19942a965fe7e2475729a033192fa941887708ff"
+            },
+            {
+              "version": "1.21.5",
+              "code": 0,
+              "passing": 152,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ec5885d6/1.21.5.log",
+              "sha256": "c4931a1f2b767746fb36c752acd98959e99d4a357bdceac71a1a8e2656e5410c"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 152,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ec5885d6/1.21.4.log",
+              "sha256": "bb74055ea11f92fd3fd8537f083536a41e04ca7e03d68565d8ac783935fab6be"
+            },
+            {
+              "version": "1.21.3",
+              "code": 0,
+              "passing": 150,
+              "pending": 4,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ec5885d6/1.21.3.log",
+              "sha256": "99e2e6e86e572a0b8b864bb48aa1803975372b4cb292b37109f35b529b9039c8"
+            },
+            {
+              "version": "1.21.8",
+              "code": 0,
+              "passing": 152,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ec5885d6/1.21.8.log",
+              "sha256": "11ddcf610d97dac614763ffcf0bdb89d5172cd2aece55d474cf7ecea7cb4ee3c"
+            },
+            {
+              "version": "26.1",
+              "code": 0,
+              "passing": 158,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ec5885d6/26.1.log",
+              "sha256": "432dadfce8a84a5d6765549244d9fa00af99deaedcf4b49d71fc75b0f87a381a"
+            },
+            {
+              "version": "1.21.9",
+              "code": 0,
+              "passing": 153,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ec5885d6/1.21.9.log",
+              "sha256": "266c466b8f68ba900e6c0fb6714777b9b6fc822c4e15a344f0d9a574a3c2600e"
+            },
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 153,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ec5885d6/1.21.11.log",
+              "sha256": "258f827c33f7b465f28148b2b930d0112e463a4bc1c34ac0283ca6c637df97ed"
+            },
+            {
+              "version": "26.2",
+              "code": 0,
+              "passing": 158,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ec5885d6/26.2.log",
+              "sha256": "bdda4d507bc588da64af0cbf69ece806ef2348413ea39d162de05671b84bd4cc"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 160,
+              "pending": 1,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ec5885d6/26.3.log",
+              "sha256": "679c8340f3de2c946ff30132591fb348c712f47ccc4df868782145ee5b66e7c7"
+            }
+          ]
+        }
+      ],
+      "companions": [
+        {
+          "label": "mineflayer lint",
+          "log": "companions/mineflayer-lint-2.log",
+          "repo": "mineflayer-evidence4",
+          "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "08ce3063038147cbf8c46da69bcc278142fc3a39b30eb1b4a1bdeb56164baaab"
+        },
+        {
+          "label": "mineflayer unit",
+          "log": "companions/mineflayer-unit-2.log",
+          "repo": "mineflayer-evidence4",
+          "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+          "passing": 88,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "3389e9e4d3c8d1f8348db2987c25e21ebb346ff0bcd299dffce76a823c81c702"
+        },
+        {
+          "label": "mineflayer types",
+          "log": "companions/mineflayer-types-2.log",
+          "repo": "mineflayer-evidence4",
+          "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "b4bca6ffcf2429e96c80716aa2c725966def03816d703ec889cbc82a52884d1e"
+        },
+        {
+          "label": "minecraft-protocol lint",
+          "log": "companions/protocol-lint-3.log",
+          "repo": "node-minecraft-protocol",
+          "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "8ca9e921ce2410734f7c8616dc9fe37efcbe695515cd0cb3affe30ec5d991e22"
+        },
+        {
+          "label": "minecraft-protocol focused suites",
+          "log": "companions/protocol-focused-3.log",
+          "repo": "node-minecraft-protocol",
+          "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
+          "passing": 1166,
+          "pending": 15,
+          "failing": 0,
+          "sha256": "52739315b3e9534bb23b42bd7b299fe17dea720c8fc29d3c946b9a80be20bc89"
+        },
+        {
+          "label": "minecraft-protocol packet round trip (32 versions)",
+          "log": "companions/protocol-packets-3.log",
+          "repo": "node-minecraft-protocol",
+          "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
+          "passing": 5680,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "8574e6abd316d219593dd342a764a93d8af479821bc5e326964c2a2dab7b394f"
+        },
+        {
+          "label": "minecraft-protocol server suite (32 versions)",
+          "log": "companions/protocol-server-3.log",
+          "repo": "node-minecraft-protocol",
+          "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
+          "passing": 384,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "c26adbd8336b54da1dff3666b53009a8720e037c643701ec4b7b078cf03cc0c1"
+        }
+      ],
+      "proxy": null
     },
-    "runs": [
-      {
-        "label": "suite-ec5885d6",
-        "kind": "suite",
-        "latency": 0,
-        "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
-        "note": "Internal and vanilla suites on the versions whose creative slot confirmation uses statistics requests (1.21.3+).",
-        "attempts": [
+    {
+      "mineflayer": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+      "note": "Spawn on 1.21.4+ emitted only after `player_loaded`, so spawn listeners can interact.",
+      "dependencies": {
+        "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-9/minecraft-data-3.117.0.tgz sha512-cyO+6YLkQbxL58jBSTVD5GuNnMxzpDqmXQEl8sAEg6PjG9w1G9WDnSdp1fdV9sc3aGF/FmbVFoSgWs7K040wUw==",
+        "minecraft-protocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23 sha512-LpSAvngdE/0i/wHMtLcYSWhvrl+B8E4ywlQC9ZHy1qU2Dhi1geBslN2la9L9hnkVUm+mz57OOZypuQ9WZOmp1Q==",
+        "prismarine-chunk": "git+ssh://git@github.com/HYPExMon5ter/prismarine-chunk.git#a9b77d8f2692832fddbf3e4bb1b23ab0fdfd62f4 sha512-cx3WCe8cPGD+jgTWHCM9i4b8pjkC34IXkcWL7wyvbgSJRrQAPYO8cnGI1Ysw/H9j84al7YHsFBI61sKZbmqwnQ==",
+        "prismarine-physics": "git+ssh://git@github.com/HYPExMon5ter/prismarine-physics.git#fafa7978dfbc10a46dc2aea5e72cbe0b480199d6 sha512-kpT4rwS42p3g5kyk9+pu/ahZ63ssZTZjchTe9A7SJleomKYhgOA6YFoRwXDwapoXscZVmdY5sV7E0lpSi6WUaw==",
+        "prismarine-item": "git+ssh://git@github.com/HYPExMon5ter/prismarine-item.git#fbef4939f9dc2ffc40ae27b0106097ba075ee1f3 sha512-qvBVSNa9bnI4SfBg71b/Q5V5jAPflqpVUh6ilAhs2Zqnl2cQumwHuj5ab+/jbl+wra5T2yy2qWfxevXN9WFfdw=="
+      },
+      "runs": [
+        {
+          "label": "internal-970eba23",
+          "kind": "internal",
+          "latency": 0,
+          "commit": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+          "note": "Internal suite on all 30 versions: the health plugin changed for every version.",
+          "attempts": [
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 65,
+              "pending": 20,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.8.8.log",
+              "sha256": "9fd252e7a2fda996d5142f2f35337936b04aeb216b0098ada3280c8ef7be87a5"
+            },
+            {
+              "version": "1.10.2",
+              "code": 0,
+              "passing": 67,
+              "pending": 18,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.10.2.log",
+              "sha256": "afd74ed6846bb7b1f45addb1fe85b410dbff7531c00fbaf67e194e695d82630c"
+            },
+            {
+              "version": "1.11.2",
+              "code": 0,
+              "passing": 67,
+              "pending": 18,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.11.2.log",
+              "sha256": "10960688fe60608a77de0be285048d06c4b65d71346cf91588be4fe4b2d0d392"
+            },
+            {
+              "version": "1.9.4",
+              "code": 0,
+              "passing": 67,
+              "pending": 18,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.9.4.log",
+              "sha256": "c9a79632084bd51cdf3aabfbf8963da0e822328925330aa7f2256a5a6a6cabf0"
+            },
+            {
+              "version": "1.13.2",
+              "code": 0,
+              "passing": 67,
+              "pending": 18,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.13.2.log",
+              "sha256": "5eaa60447c28c28804fdb9ee4b7cf51ab2f0c955bc629137775fa7b9f36b3e32"
+            },
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 67,
+              "pending": 18,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.12.2.log",
+              "sha256": "e5a81df33ac14ad96f352e141149377e30603a47722e4107b53b0892162239ed"
+            },
+            {
+              "version": "1.15.2",
+              "code": 0,
+              "passing": 67,
+              "pending": 18,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.15.2.log",
+              "sha256": "36a7161217ee5aa9258cf3207adb8418ae08859fe47bc266ca36d7369e8da655"
+            },
+            {
+              "version": "1.14.4",
+              "code": 0,
+              "passing": 67,
+              "pending": 18,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.14.4.log",
+              "sha256": "7e8a19dadaf06ba1443e5fccaeb06a7b7d7c02c30ac3da8e4ae07dfc1771e697"
+            },
+            {
+              "version": "1.16.5",
+              "code": 0,
+              "passing": 67,
+              "pending": 18,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.16.5.log",
+              "sha256": "93439283b2cd8f5842a517189d8c0e4a8b7d1ebb34f385ab8eb3c5997b674d18"
+            },
+            {
+              "version": "1.17.1",
+              "code": 0,
+              "passing": 71,
+              "pending": 14,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.17.1.log",
+              "sha256": "5ffd2e8d884bea8e2964fc31ff228fd559daa21092090be2c706d2722b701b5e"
+            },
+            {
+              "version": "1.18.2",
+              "code": 0,
+              "passing": 71,
+              "pending": 14,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.18.2.log",
+              "sha256": "828b354c51f9db86600deef4d32a299e0b95ca61d07f3682b837be62d8e4ce61"
+            },
+            {
+              "version": "1.19",
+              "code": 0,
+              "passing": 74,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.19.log",
+              "sha256": "bd84feca3ebd5cdc533a5d928340ed159b9013e18607e0c558ae31ae4aa584dc"
+            },
+            {
+              "version": "1.19.2",
+              "code": 0,
+              "passing": 74,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.19.2.log",
+              "sha256": "d5a2538a6ec31edb1cfcdec37ce0553340695e13a28897db2e7691b89e2c6c45"
+            },
+            {
+              "version": "1.19.3",
+              "code": 0,
+              "passing": 74,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.19.3.log",
+              "sha256": "6b4c9997c15bdf71baea037295c6dde10729df5d8720cb72003cd010a65057da"
+            },
+            {
+              "version": "1.19.4",
+              "code": 0,
+              "passing": 75,
+              "pending": 10,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.19.4.log",
+              "sha256": "4bc1384daa9b0bd634ae5fa3c6fa5f8cf70a100b376698545c929656e2b9827d"
+            },
+            {
+              "version": "1.20.1",
+              "code": 0,
+              "passing": 75,
+              "pending": 10,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.20.1.log",
+              "sha256": "f17dedaa6077491ecc0ded1dc29f8f55ff11c14b671ee57f8dcd23db36686e2a"
+            },
+            {
+              "version": "1.20.2",
+              "code": 0,
+              "passing": 78,
+              "pending": 7,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.20.2.log",
+              "sha256": "3f5ad4297be7bbbb8b242da8b6999f4e1cc2612ebdf00167f6fa362ec3dc2d99"
+            },
+            {
+              "version": "1.20.4",
+              "code": 0,
+              "passing": 79,
+              "pending": 6,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.20.4.log",
+              "sha256": "e6a72295900ca7f8fa2e383159727ff10fd5b50f2cd9de2f3c32955f1db97777"
+            },
+            {
+              "version": "1.20.6",
+              "code": 0,
+              "passing": 78,
+              "pending": 7,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.20.6.log",
+              "sha256": "f362070af6fcafabbace009458263cc3bd29efe66976c4c49bd5eb2464f0f7ca"
+            },
+            {
+              "version": "1.21.1",
+              "code": 0,
+              "passing": 79,
+              "pending": 6,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.21.1.log",
+              "sha256": "93ef8f7d030d9229951cf70496d43568bdf82a23f990bcd0781a1639339ee92b"
+            },
+            {
+              "version": "1.21.3",
+              "code": 0,
+              "passing": 81,
+              "pending": 4,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.21.3.log",
+              "sha256": "c957e3146f9de88f63cec4929f43ef6dd1dd5d3028339d5c6cb2760cd9fea790"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 83,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.21.4.log",
+              "sha256": "01b39caea5471bc019dace691c4c1dbe5be3963de007b69b28e1b63df4824508"
+            },
+            {
+              "version": "1.21.5",
+              "code": 0,
+              "passing": 83,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.21.5.log",
+              "sha256": "25c5c9efa90fecc0d7eaa60f01bba4101335709fd15255ac7309109302fc9cd0"
+            },
+            {
+              "version": "1.21.6",
+              "code": 0,
+              "passing": 83,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.21.6.log",
+              "sha256": "e94ac8bdcd8e0367887b6229dbde761e74b538335c1c8718f3fda0833d802c4d"
+            },
+            {
+              "version": "1.21.8",
+              "code": 0,
+              "passing": 83,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.21.8.log",
+              "sha256": "9f511e8bcac66671e4a91c15ebb912e84e68e64daa6733359557ccd7c63c7c9d"
+            },
+            {
+              "version": "1.21.9",
+              "code": 0,
+              "passing": 83,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.21.9.log",
+              "sha256": "04812460d593af11755d2bc719c77854fc4b96a6f5cadf1eec04e2ede516d3a4"
+            },
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 83,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/1.21.11.log",
+              "sha256": "bafa9715c2c0efd28ccf01c034f903ff95390f825597c8f27e424a49be5c2bd1"
+            },
+            {
+              "version": "26.1",
+              "code": 0,
+              "passing": 88,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/26.1.log",
+              "sha256": "3d7d7559b620a1697365a2df14f362cd18ad641a6e9c6925421ee32690111463"
+            },
+            {
+              "version": "26.2",
+              "code": 0,
+              "passing": 88,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/26.2.log",
+              "sha256": "dad0e6be77e113d65ab2c187aa6f4159718eab5613cdbc448531f5f5428bdb46"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 89,
+              "pending": 1,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/internal-970eba23/26.3.log",
+              "sha256": "31a49491070e4a4626307e4c4123a4dc7258226ef909d0fccd21600b579f31f0"
+            }
+          ]
+        },
+        {
+          "label": "suite-970eba23",
+          "kind": "suite",
+          "latency": 0,
+          "commit": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+          "note": "Internal and vanilla suites on the versions that send `player_loaded` (1.21.4+).",
+          "attempts": [
+            {
+              "version": "1.21.5",
+              "code": 0,
+              "passing": 152,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-970eba23/1.21.5.log",
+              "sha256": "aa4a75e0c5cbd3ed284cb8c1328e65a6f41ac984ac7a445bd3b23e933deb2a99"
+            },
+            {
+              "version": "1.21.6",
+              "code": 0,
+              "passing": 152,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-970eba23/1.21.6.log",
+              "sha256": "a903a9619fbf82f20c936eb0d5ab67d2f54d28e8c077a6388d8bf23636a746a9"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 152,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-970eba23/1.21.4.log",
+              "sha256": "2a058a92d3980cf461c14ec95ff0b2739d279ab6ef56355687bd6e73926b710a"
+            },
+            {
+              "version": "1.21.8",
+              "code": 0,
+              "passing": 152,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-970eba23/1.21.8.log",
+              "sha256": "dddb82f79d7827a5fdc49089a19276f6ec30e77190a2b2fedb75cf1cd8b09d1b"
+            },
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 153,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-970eba23/1.21.11.log",
+              "sha256": "108aec0d9ba0b7223f66414fb2c95dfbbc0c43cd3318298153aef4c13ab85847"
+            },
+            {
+              "version": "1.21.9",
+              "code": 0,
+              "passing": 153,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-970eba23/1.21.9.log",
+              "sha256": "308b6d4bc35440a6838f8377aa481158bfd656f6ace60b40e59aed37d04493d3"
+            },
+            {
+              "version": "26.1",
+              "code": 0,
+              "passing": 158,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-970eba23/26.1.log",
+              "sha256": "651af08b472aef5bfb414840fda0e480dbb4e105f63c50ad5f088a8a593a983a"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 160,
+              "pending": 1,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-970eba23/26.3.log",
+              "sha256": "88e10dcaaebb9eb0af79c53aaef8953bd6e4428d7fe01af78269086e2ad0bd08"
+            },
+            {
+              "version": "26.2",
+              "code": 0,
+              "passing": 158,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-970eba23/26.2.log",
+              "sha256": "55da8f5a2d6df0f4b0bcfdc207052ed9da2832f3cda1a46df285f8072bacbbd8"
+            }
+          ]
+        },
+        {
+          "label": "spawn-970eba23",
+          "kind": "spawn",
+          "latency": 0,
+          "commit": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+          "note": "The changed vanilla `spawnEvent` test alone on all 30 versions.",
+          "attempts": [
+            {
+              "version": "1.9.4",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.9.4.log",
+              "sha256": "c434165e2074bf37df3e222f1d6ee465ed27d24ed354da86ce67a5eaf895f369"
+            },
+            {
+              "version": "1.11.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.11.2.log",
+              "sha256": "075c7bbb08eed2481feec9e430ca52b86e43a284064d6180054975591dfad2d5"
+            },
+            {
+              "version": "1.10.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.10.2.log",
+              "sha256": "a44846bf89b38b84c616c76f387aaa61bb4021c90d8f24d0a8553611a81cc165"
+            },
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.8.8.log",
+              "sha256": "49c9e69cd4c33df619dc3bbc9f8eb5f79c62c503108c80749fec00b491fd8788"
+            },
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.12.2.log",
+              "sha256": "00d9b357a1b1d415f993015300153ee30e1deffcf75e966ef05b107bdab8be15"
+            },
+            {
+              "version": "1.13.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.13.2.log",
+              "sha256": "7c2222ba801586e645aec71a2b0fb1afcc2ad382c6761e5d2cecd8bed84fcd4c"
+            },
+            {
+              "version": "1.14.4",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.14.4.log",
+              "sha256": "87a7a933143f5ee638053380e98081b6f28b99407b4c423cc64944100f8bd6b8"
+            },
+            {
+              "version": "1.15.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.15.2.log",
+              "sha256": "79b482c04f7ef1033ec1e6a9b873c2a80ab4e494154d46f1ac0f12b19ca17dfb"
+            },
+            {
+              "version": "1.16.5",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.16.5.log",
+              "sha256": "2c6af60ef571e9ac8cc712e63bd5cf0091f2d1200bbf7d3a2d478e65d0243a42"
+            },
+            {
+              "version": "1.17.1",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.17.1.log",
+              "sha256": "ed3454b5e965053993448c04d95f132189a94b55b6d187c2cd10453c27a06bea"
+            },
+            {
+              "version": "1.18.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.18.2.log",
+              "sha256": "3d906b8ab7bc32ca22c59a0b3204dc86953aa255c7ba185a856ea79aed46326e"
+            },
+            {
+              "version": "1.19",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.19.log",
+              "sha256": "b5b10838a2acac6687737d5049d7079df8630e9d018278d6d3c22f708e3db91b"
+            },
+            {
+              "version": "1.19.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.19.2.log",
+              "sha256": "7b6fdfe7e2c0f24cdd0ebdd120945dc3cb694593df1e39452da4c03856af2428"
+            },
+            {
+              "version": "1.19.3",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.19.3.log",
+              "sha256": "4466607ad2dd2581771ac6b1e1af6aaf8d842f661fdf025f887fe0b030236410"
+            },
+            {
+              "version": "1.19.4",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.19.4.log",
+              "sha256": "974300790a74d19888626b7eaf4e70cd34a38aef32c054a82f1df9827854ea8e"
+            },
+            {
+              "version": "1.20.1",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.20.1.log",
+              "sha256": "b66ca1a03b818e394924c77f6359250c6cac91e9b9584d5d6dd1acaa79e1111c"
+            },
+            {
+              "version": "1.20.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.20.2.log",
+              "sha256": "d0f5c3d4362a380f28cf4ed731d1a46d1908d2afb60a6d0fe99a2627f5f83dcf"
+            },
+            {
+              "version": "1.20.4",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.20.4.log",
+              "sha256": "1351ef30e7e128eae2e6617f20ecb62c0d8a7e76f86f69f341a72a83169bb4e4"
+            },
+            {
+              "version": "1.20.6",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.20.6.log",
+              "sha256": "40919d0ad88ac39f35fc928758b1f4485f0d1973dcd8f35b7e7c245774c1e87c"
+            },
+            {
+              "version": "1.21.1",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.21.1.log",
+              "sha256": "d210f943fe21377f967bd6259b9b6f0fb544a0717ea1dd2220f17393743352a2"
+            },
+            {
+              "version": "1.21.3",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.21.3.log",
+              "sha256": "6ba21ea648051c74d3dccb0b464dd43c7ffa8662b7cadccfe158c6007657b6b6"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.21.4.log",
+              "sha256": "5aa87ae36bdf682a7c2cc00ea661f693f7a8bfd9fdeb121a764c1c93a5b68067"
+            },
+            {
+              "version": "1.21.5",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.21.5.log",
+              "sha256": "e476d4f7693b7573918b9258d3e76b4904a2b2874a1facb51c8de54e96553e6b"
+            },
+            {
+              "version": "1.21.6",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.21.6.log",
+              "sha256": "d57f1f3bffbd27698f769eb67e2efc3958265f72b79fc933ed2d86b810ecaeff"
+            },
+            {
+              "version": "1.21.8",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.21.8.log",
+              "sha256": "f4a78b0bcbacd1905253bd9307af60baae0ba24e36b9ac81639991ee6e31debc"
+            },
+            {
+              "version": "1.21.9",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.21.9.log",
+              "sha256": "c9ec6964d39668f78d1646b21d9b03f7a34c2d47b6116ccb05f369b21d6da762"
+            },
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/1.21.11.log",
+              "sha256": "6defba514bb7dda27cca9b935b20eb3b00bc00d93bf0755125762172e99ad73b"
+            },
+            {
+              "version": "26.1",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/26.1.log",
+              "sha256": "06d81cc50da14f98ab4e4e8c248c46b47371ab6831cbe571eb9165743bdea625"
+            },
+            {
+              "version": "26.2",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/26.2.log",
+              "sha256": "2e0f89898b26e77175a858a83d90348c65be0166d0067bc129a770704e059ad0"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 1,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/spawn-970eba23/26.3.log",
+              "sha256": "dafda1adb5e2896cf5ee8ec492c7ae2a51f872e2664ad388ef307deb2d7fc356"
+            }
+          ]
+        },
+        {
+          "label": "lag150-970eba23",
+          "kind": "lag",
+          "latency": 150,
+          "commit": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+          "note": "Vanilla suites through the latency proxy: spawn now waits for the terrain under the player.",
+          "attempts": [
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 70,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-970eba23/1.21.11.log",
+              "sha256": "2469e2946fa1b6a9c022474d9666ccdd69bb2ffeefb19d9119d91a49791c1d31"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 71,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-970eba23/26.3.log",
+              "sha256": "aa8e9625e70f14de7eaf7e880e274e3ac4099bf70f10ab2b3f79adfca6a6a15b"
+            }
+          ]
+        }
+      ],
+      "companions": [
+        {
+          "label": "mineflayer lint",
+          "log": "companions/mineflayer-lint-3.log",
+          "repo": "mineflayer-evidence5",
+          "commit": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "ec06eae79ed531740d553a2c0f7c1c1bf07efdb8303e063dac83cd7df4d64b3c"
+        },
+        {
+          "label": "mineflayer unit",
+          "log": "companions/mineflayer-unit-3.log",
+          "repo": "mineflayer-evidence5",
+          "commit": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+          "passing": 94,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "f5a57a22d327b9c00b790099d3d69dfba8f0614ee6433ff35cc96d26dbb3919e"
+        },
+        {
+          "label": "mineflayer types",
+          "log": "companions/mineflayer-types-3.log",
+          "repo": "mineflayer-evidence5",
+          "commit": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "f035e32ba3ecc772309a8ceab5827793ee56156724884ce833d3ceb8e30e427b"
+        }
+      ],
+      "proxy": {
+        "log": "proxy-results-970eba23.json",
+        "sha256": "1ba68e31f8a34f18031d5b78cdf7c6c5c9c931dbc09a19a0f55e172fc3b7dbe6",
+        "velocity": {
+          "jar": "velocity-4.3.0-44.jar",
+          "sha256": "85be73b90f295acd8d5d45a00ad10bac791d4b72b7554172612a89565ebaaa8f"
+        },
+        "scenarios": [
           {
-            "version": "1.21.6",
-            "code": 0,
-            "passing": 152,
-            "pending": 2,
-            "failing": 0,
-            "failures": [],
-            "log": "runs/suite-ec5885d6/1.21.6.log",
-            "sha256": "03f1b8bccffe0b42cffd7f8d19942a965fe7e2475729a033192fa941887708ff"
+            "scenario": "legacy-offline",
+            "proxy": {
+              "port": 25601,
+              "forwarding": "legacy",
+              "online": false
+            },
+            "backends": {
+              "p188a": "Paper 1.8.8",
+              "p188b": "Paper 1.8.8",
+              "p1122": "Paper 1.12.2"
+            },
+            "clients": [
+              {
+                "version": "1.8.8",
+                "via": "velocity",
+                "backend": "p188a",
+                "ok": true,
+                "serverLogins": {
+                  "p188a": 2,
+                  "p188b": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk",
+                  "switch to p188b",
+                  "settle after switch",
+                  "chat after switch",
+                  "walk after switch",
+                  "switch back",
+                  "chat after switching back",
+                  "brand"
+                ]
+              },
+              {
+                "version": "1.12.2",
+                "via": "velocity",
+                "backend": "p1122",
+                "ok": true,
+                "serverLogins": {
+                  "p1122": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk"
+                ]
+              }
+            ],
+            "refusals": []
           },
           {
-            "version": "1.21.5",
-            "code": 0,
-            "passing": 152,
-            "pending": 2,
-            "failing": 0,
-            "failures": [],
-            "log": "runs/suite-ec5885d6/1.21.5.log",
-            "sha256": "c4931a1f2b767746fb36c752acd98959e99d4a357bdceac71a1a8e2656e5410c"
+            "scenario": "modern-offline",
+            "proxy": {
+              "port": 25602,
+              "forwarding": "modern",
+              "online": false
+            },
+            "backends": {
+              "p263a": "Paper 26.3",
+              "p263b": "Paper 26.3",
+              "p12111": "Paper 1.21.11",
+              "p1204": "Paper 1.20.4"
+            },
+            "clients": [
+              {
+                "version": "26.3",
+                "via": "velocity",
+                "backend": "p263a",
+                "ok": true,
+                "serverLogins": {
+                  "p263a": 2,
+                  "p263b": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk",
+                  "switch to p263b",
+                  "settle after switch",
+                  "chat after switch",
+                  "walk after switch",
+                  "switch back",
+                  "chat after switching back",
+                  "brand",
+                  "isAlive"
+                ]
+              },
+              {
+                "version": "1.21.11",
+                "via": "velocity",
+                "backend": "p12111",
+                "ok": true,
+                "serverLogins": {
+                  "p12111": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk",
+                  "isAlive"
+                ]
+              },
+              {
+                "version": "1.20.4",
+                "via": "velocity",
+                "backend": "p1204",
+                "ok": true,
+                "serverLogins": {
+                  "p1204": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk"
+                ]
+              }
+            ],
+            "refusals": []
           },
           {
-            "version": "1.21.4",
-            "code": 0,
-            "passing": 152,
-            "pending": 2,
-            "failing": 0,
-            "failures": [],
-            "log": "runs/suite-ec5885d6/1.21.4.log",
-            "sha256": "bb74055ea11f92fd3fd8537f083536a41e04ca7e03d68565d8ac783935fab6be"
+            "scenario": "legacy-online",
+            "proxy": {
+              "port": 25603,
+              "forwarding": "legacy",
+              "online": true
+            },
+            "backends": {
+              "p188a": "Paper 1.8.8",
+              "p188b": "Paper 1.8.8"
+            },
+            "clients": [
+              {
+                "version": "1.8.8",
+                "via": "velocity",
+                "backend": "p188a",
+                "ok": true,
+                "serverLogins": {
+                  "p188a": 2,
+                  "p188b": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk",
+                  "switch to p188b",
+                  "settle after switch",
+                  "chat after switch",
+                  "walk after switch",
+                  "switch back",
+                  "chat after switching back",
+                  "brand"
+                ]
+              }
+            ],
+            "refusals": [
+              {
+                "label": "no session (offline client)",
+                "ok": true,
+                "reason": "{\"color\":\"red\",\"text\":\"You are not logged into your Minecraft account. If you are logged into your Minecraft account, try restarting your Minecraft client.\"}"
+              },
+              {
+                "label": "rejected access token",
+                "ok": true,
+                "reason": "Invalid token."
+              }
+            ]
           },
           {
-            "version": "1.21.3",
-            "code": 0,
-            "passing": 150,
-            "pending": 4,
-            "failing": 0,
-            "failures": [],
-            "log": "runs/suite-ec5885d6/1.21.3.log",
-            "sha256": "99e2e6e86e572a0b8b864bb48aa1803975372b4cb292b37109f35b529b9039c8"
+            "scenario": "modern-online",
+            "proxy": {
+              "port": 25604,
+              "forwarding": "modern",
+              "online": true
+            },
+            "backends": {
+              "p263a": "Paper 26.3",
+              "p263b": "Paper 26.3"
+            },
+            "clients": [
+              {
+                "version": "26.3",
+                "via": "velocity",
+                "backend": "p263a",
+                "ok": true,
+                "serverLogins": {
+                  "p263a": 2,
+                  "p263b": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk",
+                  "switch to p263b",
+                  "settle after switch",
+                  "chat after switch",
+                  "walk after switch",
+                  "switch back",
+                  "chat after switching back",
+                  "brand",
+                  "isAlive"
+                ]
+              }
+            ],
+            "refusals": [
+              {
+                "label": "no session (offline client)",
+                "ok": true,
+                "reason": "{\"color\":\"red\",\"text\":\"You are not logged into your Minecraft account. If you are logged into your Minecraft account, try restarting your Minecraft client.\"}"
+              },
+              {
+                "label": "rejected access token",
+                "ok": true,
+                "reason": "Invalid token."
+              }
+            ]
           },
           {
-            "version": "1.21.8",
-            "code": 0,
-            "passing": 152,
-            "pending": 2,
-            "failing": 0,
-            "failures": [],
-            "log": "runs/suite-ec5885d6/1.21.8.log",
-            "sha256": "11ddcf610d97dac614763ffcf0bdb89d5172cd2aece55d474cf7ecea7cb4ee3c"
-          },
-          {
-            "version": "26.1",
-            "code": 0,
-            "passing": 158,
-            "pending": 2,
-            "failing": 0,
-            "failures": [],
-            "log": "runs/suite-ec5885d6/26.1.log",
-            "sha256": "432dadfce8a84a5d6765549244d9fa00af99deaedcf4b49d71fc75b0f87a381a"
-          },
-          {
-            "version": "1.21.9",
-            "code": 0,
-            "passing": 153,
-            "pending": 2,
-            "failing": 0,
-            "failures": [],
-            "log": "runs/suite-ec5885d6/1.21.9.log",
-            "sha256": "266c466b8f68ba900e6c0fb6714777b9b6fc822c4e15a344f0d9a574a3c2600e"
-          },
-          {
-            "version": "1.21.11",
-            "code": 0,
-            "passing": 153,
-            "pending": 2,
-            "failing": 0,
-            "failures": [],
-            "log": "runs/suite-ec5885d6/1.21.11.log",
-            "sha256": "258f827c33f7b465f28148b2b930d0112e463a4bc1c34ac0283ca6c637df97ed"
-          },
-          {
-            "version": "26.2",
-            "code": 0,
-            "passing": 158,
-            "pending": 2,
-            "failing": 0,
-            "failures": [],
-            "log": "runs/suite-ec5885d6/26.2.log",
-            "sha256": "bdda4d507bc588da64af0cbf69ece806ef2348413ea39d162de05671b84bd4cc"
-          },
-          {
-            "version": "26.3",
-            "code": 0,
-            "passing": 160,
-            "pending": 1,
-            "failing": 0,
-            "failures": [],
-            "log": "runs/suite-ec5885d6/26.3.log",
-            "sha256": "679c8340f3de2c946ff30132591fb348c712f47ccc4df868782145ee5b66e7c7"
+            "scenario": "vanilla-online-direct",
+            "proxy": null,
+            "backends": {
+              "v1204": "vanilla 1.20.4"
+            },
+            "clients": [
+              {
+                "version": "1.20.4",
+                "via": "direct",
+                "backend": "v1204",
+                "ok": true,
+                "serverLogins": {
+                  "v1204": 1
+                },
+                "steps": [
+                  "spawn",
+                  "settle",
+                  "chat",
+                  "walk"
+                ]
+              }
+            ],
+            "refusals": [
+              {
+                "label": "no session (offline client)",
+                "ok": true,
+                "reason": "{\"translate\":\"multiplayer.disconnect.unverified_username\"}"
+              },
+              {
+                "label": "rejected access token",
+                "ok": true,
+                "reason": "Invalid token."
+              }
+            ]
           }
-        ]
+        ],
+        "stub": {
+          "requests": 13,
+          "joins": 3,
+          "verified": 3,
+          "refused": 6
+        }
       }
-    ],
-    "companions": [
-      {
-        "label": "mineflayer lint",
-        "log": "companions/mineflayer-lint-2.log",
-        "repo": "mineflayer-evidence4",
-        "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
-        "passing": 0,
-        "pending": 0,
-        "failing": 0,
-        "sha256": "08ce3063038147cbf8c46da69bcc278142fc3a39b30eb1b4a1bdeb56164baaab"
-      },
-      {
-        "label": "mineflayer unit",
-        "log": "companions/mineflayer-unit-2.log",
-        "repo": "mineflayer-evidence4",
-        "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
-        "passing": 88,
-        "pending": 0,
-        "failing": 0,
-        "sha256": "3389e9e4d3c8d1f8348db2987c25e21ebb346ff0bcd299dffce76a823c81c702"
-      },
-      {
-        "label": "mineflayer types",
-        "log": "companions/mineflayer-types-2.log",
-        "repo": "mineflayer-evidence4",
-        "commit": "ec5885d65b0cc2d7f706fad8ed23c67289a3b46b",
-        "passing": 0,
-        "pending": 0,
-        "failing": 0,
-        "sha256": "b4bca6ffcf2429e96c80716aa2c725966def03816d703ec889cbc82a52884d1e"
-      },
-      {
-        "label": "minecraft-protocol lint",
-        "log": "companions/protocol-lint-3.log",
-        "repo": "node-minecraft-protocol",
-        "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
-        "passing": 0,
-        "pending": 0,
-        "failing": 0,
-        "sha256": "8ca9e921ce2410734f7c8616dc9fe37efcbe695515cd0cb3affe30ec5d991e22"
-      },
-      {
-        "label": "minecraft-protocol focused suites",
-        "log": "companions/protocol-focused-3.log",
-        "repo": "node-minecraft-protocol",
-        "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
-        "passing": 1166,
-        "pending": 15,
-        "failing": 0,
-        "sha256": "52739315b3e9534bb23b42bd7b299fe17dea720c8fc29d3c946b9a80be20bc89"
-      },
-      {
-        "label": "minecraft-protocol packet round trip (32 versions)",
-        "log": "companions/protocol-packets-3.log",
-        "repo": "node-minecraft-protocol",
-        "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
-        "passing": 5680,
-        "pending": 0,
-        "failing": 0,
-        "sha256": "8574e6abd316d219593dd342a764a93d8af479821bc5e326964c2a2dab7b394f"
-      },
-      {
-        "label": "minecraft-protocol server suite (32 versions)",
-        "log": "companions/protocol-server-3.log",
-        "repo": "node-minecraft-protocol",
-        "commit": "005d953c3792b90992e542ab81cf5684b7b9fb23",
-        "passing": 384,
-        "pending": 0,
-        "failing": 0,
-        "sha256": "c26adbd8336b54da1dff3666b53009a8720e037c643701ec4b7b078cf03cc0c1"
-      }
-    ]
-  },
+    }
+  ],
   "liveAuth": [
     {
       "version": "26.3",
@@ -4307,6 +5379,63 @@
       "serverLog": {
         "log": "live-auth/server-1.19.3-ec5885d6-chatatlogin.log",
         "sha256": "29d9ae2d2a4388998a4c78a1bf7fd7acf8fc7320c4f2b55ab95d1c3e76fc9891"
+      }
+    },
+    {
+      "version": "26.3",
+      "mineflayer": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Spawn readiness follow-up, clean worktree.",
+      "result": {
+        "log": "live-auth/result-26.3-970eba23.json",
+        "sha256": "c7c02e6da6bf0224ca07016d591625c6b0d1ee944d5db95b0f5a66dfa1dab082"
+      },
+      "serverLog": {
+        "log": "live-auth/server-26.3-970eba23.log",
+        "sha256": "b4fee21cfc63f2b73eded7227ca7aa3d2ce8fa4bdc4068812a1f5fd4b444768d"
+      }
+    },
+    {
+      "version": "1.21.11",
+      "mineflayer": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Spawn readiness follow-up, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.11-970eba23.json",
+        "sha256": "e5a7c0192be054914de796851325d4bfe8f9011b93c5e3e8f7c499c5b88527d3"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.11-970eba23.log",
+        "sha256": "d2a97dc236244db0e0ab2e9ccd45e3afa3175f14afef847ed3b7f957e4e73a0a"
+      }
+    },
+    {
+      "version": "1.21.4",
+      "mineflayer": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
+      "minecraftProtocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23",
+      "chatAt": "spawn",
+      "tickRate": 20,
+      "ok": true,
+      "failure": null,
+      "rejectedAsMissingKey": false,
+      "note": "Spawn readiness follow-up, clean worktree.",
+      "result": {
+        "log": "live-auth/result-1.21.4-970eba23.json",
+        "sha256": "6c1d16b7520caa3321b588180af0b8a68c1d15f18a7c713991653e9301447928"
+      },
+      "serverLog": {
+        "log": "live-auth/server-1.21.4-970eba23.log",
+        "sha256": "fd0daf5f8cad757b52918ec50a1f468f039b442653c97516785852c9e28406df"
       }
     }
   ]
