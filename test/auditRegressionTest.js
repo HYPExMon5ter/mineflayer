@@ -396,14 +396,67 @@ describe('audit regressions', () => {
     }
   })
 
-  it('moves the given anvil items and takes the result only once the server sent it', async () => {
-    const bot = makeBot('1.21.11')
+  // An anvil window whose server computes the output like vanilla's AnvilMenu.createResult and
+  // answers each click and name in order, each answer delayed by delays[event] ms.
+  function anvilFixture (version, { itemName = null, delays = {} } = {}) {
+    const bot = makeBot(version)
     const Item = require('prismarine-item')(bot.registry)
+    const ChatMessage = require('prismarine-chat')(bot.registry)
     const windows = require('prismarine-windows')(bot.registry)
     const anvil = windows.createWindow(1, 'minecraft:anvil', 'Anvil')
     bot.inventory = windows.createWindow(0, 'minecraft:inventory', 'Inventory')
     bot.game = { gameMode: 'survival' }
     bot.experience = { level: 30 }
+    const legacyNames = bot.registry.version['<']('1.13')
+    const nameOf = text => legacyNames ? text : JSON.stringify(bot.registry.version['<']('1.20.3') ? { text } : text)
+    const plainName = item => item.customName == null ? '' : legacyNames ? item.customName : ChatMessage.fromNotch(item.customName).toString()
+    const fixture = { bot, Item, anvil, nameOf, names: [], taken: null }
+    let delivery = 0
+    function answer (event) {
+      const left = anvil.slots[0]
+      const right = anvil.slots[1]
+      let output = null
+      if (left) {
+        output = new Item(left.type, 1)
+        output.enchants = [...left.enchants, ...(right?.enchants ?? [])]
+        output.repairCost = right ? Math.max(left.repairCost, right.repairCost) * 2 + 1 : left.repairCost
+        let changed = right != null
+        if (itemName?.trim()) {
+          output.customName = nameOf(itemName)
+          if (itemName !== plainName(left)) changed = true
+        } else if (left.customName != null) changed = true
+        if (!changed) output = null
+      }
+      // a connection delivers in order, so an answer never overtakes an earlier one
+      delivery = Math.max(delivery, Date.now() + (delays[event] ?? 0))
+      setTimeout(() => anvil.updateSlot(2, output), Math.max(0, delivery - Date.now()))
+    }
+    bot.openBlock = async () => anvil
+    bot.clickWindow = async slot => {
+      const held = anvil.selectedItem
+      anvil.selectedItem = anvil.slots[slot]
+      anvil.updateSlot(slot, held)
+      if (slot <= 1) answer(`input${slot}`)
+    }
+    const rename = name => {
+      fixture.names.push(name)
+      itemName = name
+      answer(`name:${name}`)
+    }
+    bot._client.write = (name, params) => { if (name === 'name_item') rename(params.name) }
+    bot._client.writeChannel = (channel, name) => { if (channel === 'MC|ItemName') rename(name) }
+    bot.putAway = async slot => {
+      fixture.taken = anvil.slots[slot]
+      bot.experience.level -= 1
+      bot.emit('experience')
+    }
+    require('../lib/plugins/anvil')(bot)
+    return fixture
+  }
+
+  it('moves the given anvil items and takes the result only once it combines both inputs', async () => {
+    const fixture = anvilFixture('1.21.11', { delays: { input1: 100 } })
+    const { bot, Item, anvil } = fixture
     const plain = new Item(bot.registry.itemsByName.diamond_sword.id, 1)
     const sword = new Item(bot.registry.itemsByName.diamond_sword.id, 1)
     sword.enchants = [{ name: 'sharpness', lvl: 1 }]
@@ -411,66 +464,84 @@ describe('audit regressions', () => {
     book.enchants = [{ name: 'unbreaking', lvl: 1 }]
     // An unenchanted sword first: 1.20.5+ items cannot be told apart by type and NBT
     for (const [slot, item] of [[30, plain], [31, sword], [32, book]]) anvil.updateSlot(slot, item)
-    const actions = []
-    bot.openBlock = async () => anvil
+    const clicks = []
+    const click = bot.clickWindow
     bot.clickWindow = async slot => {
-      actions.push(['click', slot])
-      const held = anvil.selectedItem
-      anvil.selectedItem = anvil.slots[slot]
-      anvil.updateSlot(slot, held)
-      // the server computes the output after the second input; it reaches the bot later
-      if (slot === 1) setTimeout(() => anvil.updateSlot(2, new Item(sword.type, 1)), 20)
+      clicks.push(slot)
+      await click(slot)
+      // a server that already shows a result for the first input alone (vanilla shows none)
+      if (slot === 0) anvil.updateSlot(2, new Item(sword.type, 1))
     }
-    bot.putAway = async slot => {
-      actions.push(['putAway', slot, anvil.slots[slot] !== null])
-      bot.experience.level -= 2
-      bot.emit('experience')
-    }
-    require('../lib/plugins/anvil')(bot)
     const opened = await bot.openAnvil({})
     await opened.combine(anvil.slots[31], anvil.slots[32])
-    assert.deepStrictEqual(actions, [['click', 31], ['click', 0], ['click', 32], ['click', 1], ['putAway', 2, true]])
+    assert.deepStrictEqual(clicks, [31, 0, 32, 1])
+    assert.deepStrictEqual(fixture.taken.enchants, [{ name: 'sharpness', lvl: 1 }, { name: 'unbreaking', lvl: 1 }])
+    assert.strictEqual(fixture.taken.repairCost, 1)
+    assert.deepStrictEqual(fixture.names, ['', ''])
   })
 
-  it('takes a renamed anvil result only once it carries the final name', async () => {
-    const bot = makeBot('1.16.5')
-    const Item = require('prismarine-item')(bot.registry)
-    const windows = require('prismarine-windows')(bot.registry)
-    const anvil = windows.createWindow(1, 'minecraft:anvil', 'Anvil')
-    bot.inventory = windows.createWindow(0, 'minecraft:inventory', 'Inventory')
-    bot.game = { gameMode: 'survival' }
-    bot.experience = { level: 30 }
+  it('takes a renamed anvil result only once its decoded name is exactly the final name', async () => {
+    // 1.20.1 writes {"text":"tex"}, which contains "text"; 1.12.2 sends names on a plugin channel
+    for (const version of ['1.12.2', '1.16.5', '1.20.1', '26.3']) {
+      const fixture = anvilFixture(version, { delays: { 'name:text': 150 } })
+      const sword = new fixture.Item(fixture.bot.registry.itemsByName.diamond_sword.id, 1)
+      fixture.anvil.updateSlot(30, sword)
+      const opened = await fixture.bot.openAnvil({})
+      await opened.rename(fixture.anvil.slots[30], 'text')
+      assert.strictEqual(fixture.taken.customName, fixture.nameOf('text'), version)
+      assert.deepStrictEqual(fixture.names.filter(name => name), ['t', 'te', 'tex', 'text'], version)
+    }
+  })
+
+  it('combines with the name the anvil kept from an earlier operation without taking it early', async () => {
+    // The window still has the name 'lol', so the first input alone would give a renamed result
+    const fixture = anvilFixture('1.20.1', { itemName: 'lol', delays: { 'name:': 300 } })
+    const { bot, Item, anvil } = fixture
     const sword = new Item(bot.registry.itemsByName.diamond_sword.id, 1)
+    const book = new Item(bot.registry.itemsByName.enchanted_book.id, 1)
+    book.enchants = [{ name: 'unbreaking', lvl: 1 }]
     anvil.updateSlot(30, sword)
-    const named = text => {
-      const item = new Item(sword.type, 1)
-      item.customName = JSON.stringify({ text })
-      return item
-    }
-    let taken = null
-    bot.openBlock = async () => anvil
-    bot.clickWindow = async slot => {
-      const held = anvil.selectedItem
-      anvil.selectedItem = anvil.slots[slot]
-      anvil.updateSlot(slot, held)
-    }
-    // The server answers each name with a new result; the last arrives after the name loop ends.
-    bot._client.write = (name, params) => {
-      if (name !== 'name_item' || !params.name) return
-      const text = params.name
-      setTimeout(() => anvil.updateSlot(2, named(text)), text === 'ab' ? 150 : 0)
-    }
-    bot.putAway = async slot => {
-      taken = anvil.slots[slot].customName
-      bot.experience.level -= 1
-      bot.emit('experience')
-    }
-    require('../lib/plugins/anvil')(bot)
+    anvil.updateSlot(31, book)
     const opened = await bot.openAnvil({})
-    await opened.rename(anvil.slots[30], 'ab')
-    assert.strictEqual(taken, JSON.stringify({ text: 'ab' }))
+    await opened.combine(anvil.slots[30], anvil.slots[31], 'lol')
+    assert.strictEqual(fixture.taken.repairCost, 1)
+    assert.strictEqual(fixture.taken.customName, fixture.nameOf('lol'))
+    assert.deepStrictEqual(fixture.names, ['', '', 'l', 'lo', 'lol'])
   })
 
+  it('keeps the custom name of a named input that is combined without a name', async () => {
+    for (const version of ['1.12.2', '1.20.1', '1.21.11']) {
+      const fixture = anvilFixture(version, { delays: { input1: 100 } })
+      const { bot, Item, anvil } = fixture
+      const sword = new Item(bot.registry.itemsByName.diamond_sword.id, 1)
+      sword.customName = fixture.nameOf('Foo')
+      const book = new Item(bot.registry.itemsByName.enchanted_book.id, 1)
+      book.enchants = [{ name: 'unbreaking', lvl: 1 }]
+      anvil.updateSlot(30, sword)
+      anvil.updateSlot(31, book)
+      const opened = await bot.openAnvil({})
+      await opened.combine(anvil.slots[30], anvil.slots[31])
+      // The vanilla client fills the name field with the item's name; '' would remove the name
+      assert.ok(fixture.names.length > 0 && fixture.names.every(name => name === 'Foo'), version)
+      assert.strictEqual(fixture.taken.customName, fixture.nameOf('Foo'), version)
+      assert.strictEqual(fixture.taken.repairCost, 1, version)
+    }
+  })
+
+  it('removes a custom name when renaming to an empty name', async () => {
+    for (const version of ['1.12.2', '1.20.1', '1.21.11']) {
+      // the window still has the name 'Bar' from an earlier operation
+      const fixture = anvilFixture(version, { itemName: 'Bar', delays: { 'name:': 300 } })
+      const { bot, Item, anvil } = fixture
+      const sword = new Item(bot.registry.itemsByName.diamond_sword.id, 1)
+      sword.customName = fixture.nameOf('Foo')
+      anvil.updateSlot(30, sword)
+      const opened = await bot.openAnvil({})
+      await opened.rename(anvil.slots[30], '')
+      assert.strictEqual(fixture.names.at(-1), '', version)
+      assert.strictEqual(fixture.taken.customName, null, version)
+    }
+  })
   it('waits for the entity type each boat item spawns', async () => {
     const { Vec3 } = require('vec3')
     const cases = [['1.8.8', 'boat', 'Boat'], ['1.20.4', 'oak_chest_boat', 'chest_boat'], ['1.20.4', 'bamboo_raft', 'boat'], ['26.3', 'spruce_chest_boat', 'spruce_chest_boat'], ['26.3', 'bamboo_raft', 'bamboo_raft']]

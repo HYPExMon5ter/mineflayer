@@ -627,11 +627,13 @@ See `bot.openAnvil(anvilBlock)`.
 
 This function returns a `Promise`, with `void` as its argument upon completion.
 
-Pass items of the anvil window or of `bot.inventory`: those exact items are moved into the anvil, so items of one type that differ only in enchantments or other components are not confused. The promise resolves once the bot has taken the result the server produced.
+Pass items of the anvil window or of `bot.inventory`: those exact items are moved into the anvil, so items of one type that differ only in enchantments or other components are not confused. The promise resolves once the bot has taken the result the server produced for both items and the final name. Without `name` the result keeps the custom name of the item it is based on, as in the vanilla client; an empty `name` removes it.
 
 #### anvil.rename(item[, name])
 
 This function returns a `Promise`, with `void` as its argument upon completion.
+
+An empty `name` removes the item's custom name. The promise resolves once the bot has taken the result whose name is exactly `name`.
 
 
 #### villager "ready"
