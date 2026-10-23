@@ -1,7 +1,8 @@
 const assert = require('assert')
 const { onceWithCleanup } = require('../../lib/promise_utils')
 
-// Digs every diggable block: about an hour per version, so it only runs with RUN_EXCLUDED_TESTS=1
+// Digs every diggable block: from 5 minutes (1.8) to 45 minutes (26.3) per version, so it only
+// runs with RUN_EXCLUDED_TESTS=1
 
 const excludedBlocks = [
   // broken
@@ -42,6 +43,22 @@ const excludedBlocks = [
   'lit_redstone_lamp',
   'tripwire',
 
+  // break at once without support the flat test world does not give them (sand, water, end stone,
+  // soul soil, a ceiling, a wall), so /setblock cannot keep them to dig
+  'cactus',
+  'sugar_cane',
+  'kelp_plant',
+  'chorus_plant',
+  'chorus_flower',
+  'soul_fire',
+  'weeping_vines',
+  'weeping_vines_plant',
+  'twisting_vines_plant',
+  'cave_vines',
+  'cave_vines_plant',
+  'big_dripleaf_stem',
+  'pale_hanging_moss',
+
   // cause problems
   'mob_spawner',
   'obsidian',
@@ -54,12 +71,21 @@ const excludedBlocks = [
   'lava'
 ]
 
+// Coral wall fans need the wall they face
+const excludedPattern = /_coral_wall_fan$/
+
+// These versions ship the next update's blocks behind an experimental feature flag, which the
+// test servers do not enable, so /setblock rejects them: test only the blocks of the last
+// version without them.
+const releasedBlocksOf = { '1.19.3': '1.19.2', '1.19.4': '1.19.2', '1.21.3': '1.21.1' }
+
 module.exports = (version) => {
   const registry = require('prismarine-registry')(version)
+  const released = releasedBlocksOf[version] && new Set(require('prismarine-registry')(releasedBlocksOf[version]).blocksArray.map(block => block.name))
 
   const funcs = {}
   for (const block of registry.blocksArray) {
-    if (block.diggable && excludedBlocks.indexOf(block.name) === -1) {
+    if (block.diggable && excludedBlocks.indexOf(block.name) === -1 && !excludedPattern.test(block.name) && (!released || released.has(block.name))) {
       funcs[block.name] = bot => digSomething(block.name, bot)
     }
   }
@@ -106,6 +132,15 @@ async function digSomething (blockName, bot) {
     await bot.test.awaitCommandsProcessed(`dug ${blockName}`)
   }
   assert.notStrictEqual(bot.blockAt(position).name, blockName)
+  // The drop can only be picked up after a delay, which can land it in the hotbar after the reset
+  // while the next test sets its slots
+  const itemName = bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Item' : 'item'
+  const drops = Object.values(bot.entities).filter(entity => entity.name === itemName && entity.position.distanceTo(position) < 3)
+  if (drops.length) {
+    const gone = Promise.all(drops.map(drop => onceWithCleanup(bot, 'entityGone', { timeout: 5000, checkCondition: entity => entity.id === drop.id })))
+    bot.chat(`/kill @e[type=${itemName}]`)
+    await gone
+  }
   if (released) {
     const [silverfish] = await released
     await bot.test.killEntity(silverfish)
