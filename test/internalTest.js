@@ -2942,12 +2942,13 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
       const healthy = { health: 20, food: 20, foodSaturation: 5 }
       // The bot spawns facing this chest, so activating the face under its crosshair needs no turn
       // and the click is written as soon as a spawn listener asks for it.
+      // Positions in another chunk column are offset by whole columns along x.
       const chestPosition = vec3(1, 67, 0)
-      const facingChest = (teleportId = 0) => ({ ...basePosition(), yaw: 180, teleportId })
-      function chestChunk () {
+      const facingChest = (teleportId = 0, chunkX = 0) => ({ ...basePosition(), x: basePosition().x + 16 * chunkX, yaw: 180, teleportId })
+      function chestChunk (chunkX = 0) {
         const chunk = bot.test.buildChunk()
         chunk.setBlockStateId(chestPosition, registry.blocksByName.chest.defaultState)
-        return generateChunkPacket(chunk)
+        return { ...generateChunkPacket(chunk), x: chunkX }
       }
       function record (client) {
         const seen = []
@@ -2965,9 +2966,15 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
           } catch (err) { done(err) }
         })
       }
-      function activateChestOnSpawn (done) {
-        bot.once('spawn', () => bot.activateBlock(bot.blockAt(chestPosition), vec3(0, 0, 1), vec3(0.5, 0.62, 1)).catch(done))
+      function activateChestOnSpawn (done, chunkX = 0) {
+        bot.once('spawn', () => bot.activateBlock(bot.blockAt(chestPosition.offset(16 * chunkX, 0, 0)), vec3(0, 0, 1), vec3(0.5, 0.62, 1)).catch(done))
       }
+      // Handled right after the bot's own update_health handler started the spawn wait, so the
+      // teleport is queued before the tick that confirms the earlier ones.
+      function teleportWhenSpawnStarts (position) {
+        bot._client.once('update_health', () => bot._client.emit('position', position))
+      }
+      const confirmation = (client, teleportId) => onceWithCleanup(client, 'teleport_confirm', { checkCondition: data => data.teleportId === teleportId })
 
       it('confirms the initial teleport before a spawn listener activates a block, with the terrain already loaded', function (done) {
         server.on('playerJoin', (client) => {
@@ -3084,6 +3091,143 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             assert.deepStrictEqual(seen, [])
             done()
           } catch (err) { done(err) }
+        })
+      })
+
+      describe('teleports that move the player into another chunk column on 1.21.4+', () => {
+        it('waits for the column under the latest confirmed teleport', function (done) {
+          if (!bot.supportFeature('sendsPlayerLoadedPacket')) return this.skip()
+          server.on('playerJoin', async (client) => {
+            try {
+              expectOnBlockPlace(client, record(client), [confirmed(0), confirmed(1), confirmed(2), 'player_loaded', 'block_place'], done)
+              let spawned = false
+              bot.once('spawn', () => { spawned = true })
+              activateChestOnSpawn(done, 200)
+              // The bot spawns over a loaded column, then a teleport queued before its
+              // confirmation moves it into a column that has not arrived.
+              teleportWhenSpawnStarts(facingChest(1, 100))
+              const firstConfirmed = confirmation(client, 1)
+              client.write('login', bot.test.generateLoginPacket())
+              client.write('position', facingChest(0))
+              client.write('map_chunk', chestChunk())
+              client.write('update_health', healthy)
+              await firstConfirmed
+              assert.ok(!spawned, 'spawn announced over a column that has not loaded')
+              // That column arrives after another teleport moved the bot on to a third one.
+              bot._client.prependOnceListener('map_chunk', () => bot._client.emit('position', facingChest(2, 200)))
+              const secondConfirmed = confirmation(client, 2)
+              client.write('map_chunk', chestChunk(100))
+              await secondConfirmed
+              assert.ok(!spawned, 'spawn announced over a column that has not loaded')
+              client.write('map_chunk', chestChunk(200))
+            } catch (err) { done(err) }
+          })
+        })
+
+        it('announces as the latest column loads when every teleport was confirmed before the terrain arrived', function (done) {
+          if (!bot.supportFeature('sendsPlayerLoadedPacket')) return this.skip()
+          server.on('playerJoin', async (client) => {
+            try {
+              client.write('login', bot.test.generateLoginPacket())
+              const bothConfirmed = confirmation(client, 1)
+              client.write('position', facingChest(0))
+              client.write('position', facingChest(1, 100))
+              await bothConfirmed
+              let spawned = false
+              bot.once('spawn', () => { spawned = true })
+              // These run after the bot's own map_chunk handler, in the same packet handling.
+              const checks = [
+                () => assert.ok(!spawned, 'spawn announced over the column of a superseded teleport'),
+                () => assert.ok(spawned, 'spawn waited for another tick although every teleport was confirmed')
+              ]
+              const onChunk = () => {
+                try {
+                  checks.shift()()
+                  if (checks.length > 0) return
+                } catch (err) {
+                  bot._client.off('map_chunk', onChunk)
+                  return done(err)
+                }
+                bot._client.off('map_chunk', onChunk)
+                done()
+              }
+              bot._client.on('map_chunk', onChunk)
+              client.write('update_health', healthy)
+              client.write('map_chunk', chestChunk())
+              client.write('map_chunk', chestChunk(100))
+            } catch (err) { done(err) }
+          })
+        })
+
+        it('falls back at the deadline set when the wait began if the latest column never arrives', function (done) {
+          if (!bot.supportFeature('sendsPlayerLoadedPacket')) return this.skip()
+          server.on('playerJoin', async (client) => {
+            try {
+              const seen = record(client)
+              let started = null
+              let waited = null
+              bot._client.once('update_health', () => { started = Date.now() })
+              bot.once('spawn', () => { waited = Date.now() - started })
+              teleportWhenSpawnStarts(facingChest(1, 100))
+              const spawned = once(bot, 'spawn')
+              const loadedSent = once(client, 'player_loaded')
+              client.write('login', bot.test.generateLoginPacket())
+              client.write('position', facingChest(0))
+              client.write('map_chunk', chestChunk())
+              client.write('update_health', healthy)
+              await sleep(2000)
+              // A teleport into another missing column does not restart the 60-tick fallback.
+              client.write('position', facingChest(2, 200))
+              await spawned
+              await loadedSent
+              assert.ok(waited >= 2500 && waited < 4000, `spawn announced ${waited} ms after the wait began; the fallback is 3000 ms`)
+              assert.strictEqual(bot.blockAt(bot.entity.position), null)
+              const expected = [confirmed(0), confirmed(1), confirmed(2), 'player_loaded']
+              assert.deepStrictEqual(seen, expected)
+              let spawns = 0
+              bot.on('spawn', () => { spawns++ })
+              const columnLoaded = once(bot, 'chunkColumnLoad')
+              client.write('map_chunk', chestChunk(200))
+              await columnLoaded
+              await sleep(100)
+              assert.strictEqual(spawns, 0, 'the column arriving after the fallback announced spawn again')
+              assert.deepStrictEqual(seen, expected)
+              done()
+            } catch (err) { done(err) }
+          })
+        })
+
+        it('drops the wait for a column a later teleport moved into once the bot respawns', function (done) {
+          if (!bot.supportFeature('sendsPlayerLoadedPacket')) return this.skip()
+          server.on('playerJoin', async (client) => {
+            try {
+              const seen = record(client)
+              let spawns = 0
+              bot.on('spawn', () => { spawns++ })
+              teleportWhenSpawnStarts(facingChest(1, 100))
+              const firstConfirmed = confirmation(client, 1)
+              client.write('login', bot.test.generateLoginPacket())
+              client.write('position', facingChest(0))
+              client.write('map_chunk', chestChunk())
+              client.write('update_health', healthy)
+              await firstConfirmed
+              assert.strictEqual(spawns, 0, 'spawn announced over a column that has not loaded')
+              const respawned = once(bot, 'spawn')
+              client.write('respawn', bot.test.generateRespawnPacket())
+              client.write('position', facingChest(2))
+              client.write('map_chunk', chestChunk())
+              client.write('update_health', healthy)
+              await respawned
+              // The column the abandoned wait needed arrives after the respawn.
+              const columnLoaded = once(bot, 'chunkColumnLoad')
+              client.write('map_chunk', chestChunk(100))
+              await columnLoaded
+              await sleep(100)
+              assert.strictEqual(spawns, 1)
+              assert.deepStrictEqual(seen, [confirmed(0), confirmed(1), confirmed(2), 'player_loaded'])
+              done()
+            } catch (err) { done(err) }
+          })
         })
       })
     })
