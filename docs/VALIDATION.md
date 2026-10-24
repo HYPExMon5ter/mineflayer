@@ -634,6 +634,81 @@ Development runs on 1.21.3 and 1.17.1 forced a jockey (`/summon`, `/ride`) and a
 
 The reviewer's reproductions (`audit-artifacts/astra-review-c5fc650d/run-review.cjs`: `terrain` on 1.21.4 and 26.3, `deferred` on 1.8.8, 1.12.2, 1.21.4 and 26.3) failed at `c5fc650d` as reported (2 of 2 and 3 of 4) and passed with the fixes. Their logs are in `audit-artifacts/followup3/dev/r12-lifecycle`, with the development runs of this follow-up, which are not counted. The first development runs of the new tests failed on harness mistakes, corrected before the commit: replies were recorded from when the bot sent them rather than when the server received them, and the 26.3 control expected no reply to the first of two post-death teleports, which 26.3 answers on its own tick.
 
+## Follow-up at `060b882d`
+
+`060b882d` fixes a gap that a review of `1e67f091` found in the reply deferred after a death (see AUDIT.md, Spawn readiness); it pins the same dependencies as `16fd831a`. A respawn inside the 1.5 s delay now cancels the deferred reply along with the queued teleports, so the previous world's position is no longer sent, no `forcedMove` is emitted for it, and on 1.8 actions waiting for teleport confirmations no longer wait for it.
+
+Run `internal-baseline-c7e2a2dd` (in the list below) is the physics plugin of `1e67f091` with the new test, at a commit made only for it, on 1.8.8, 1.12.2, 1.21.3, 1.21.4 and 26.3. Its only failure is the new test, on every version before 26.3; 26.3 never defers the reply and passes.
+
+The respawn handler runs on every version, so `060b882d` was checked from a clean worktree whose logs name it and its shrinkwrap's dependencies with:
+
+- the internal and vanilla suites on all 30 versions;
+- the vanilla suites through the latency proxy on 1.8.8, 1.12.2, 1.21.11 and 26.3;
+- the Velocity scenarios, whose server switches move the bot to another server's world;
+- the companion checks below.
+
+`digEverything`, the companion libraries and the real-account runs were not repeated: the change is one call in the physics plugin's respawn handler and one internal test, and touches neither digging, data nor authentication.
+
+`suite-060b882d` (server suites): The internal and vanilla suites on every version, with the new respawn test.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 144 | 25 |
+| 1.9.4 | 146 | 23 |
+| 1.10.2 | 146 | 23 |
+| 1.11.2 | 146 | 23 |
+| 1.12.2 | 146 | 23 |
+| 1.13.2 | 146 | 23 |
+| 1.14.4 | 146 | 23 |
+| 1.15.2 | 146 | 23 |
+| 1.16.5 | 146 | 23 |
+| 1.17.1 | 152 | 19 |
+| 1.18.2 | 152 | 19 |
+| 1.19 | 155 | 16 |
+| 1.19.2 | 155 | 16 |
+| 1.19.3 | 155 | 16 |
+| 1.19.4 | 156 | 15 |
+| 1.20.1 | 157 | 15 |
+| 1.20.2 | 161 | 11 |
+| 1.20.4 | 162 | 10 |
+| 1.20.6 | 161 | 11 |
+| 1.21.1 | 162 | 10 |
+| 1.21.3 | 164 | 8 |
+| 1.21.4 | 170 | 2 |
+| 1.21.5 | 170 | 2 |
+| 1.21.6 | 170 | 2 |
+| 1.21.8 | 170 | 2 |
+| 1.21.9 | 171 | 2 |
+| 1.21.11 | 171 | 2 |
+| 26.1 | 176 | 2 |
+| 26.2 | 176 | 2 |
+| 26.3 | 178 | 1 |
+
+`lag150-060b882d` (server suites through the latency proxy, 150 ms each way): The vanilla suites through the latency proxy on the versions of the previous follow-ups.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 69 | 0 |
+| 1.12.2 | 69 | 0 |
+| 1.21.11 | 73 | 0 |
+| 26.3 | 74 | 0 |
+
+| Scenario | Proxy | Backends | Clients | Refusals checked |
+|---|---|---|---|---|
+| legacy-offline | Velocity, legacy forwarding, offline mode | Paper 1.8.8, Paper 1.8.8, Paper 1.12.2 | 1.8.8 (switch and back): pass; 1.12.2: pass | – |
+| modern-offline | Velocity, modern forwarding, offline mode | Paper 26.3, Paper 26.3, Paper 1.21.11, Paper 1.20.4 | 26.3 (switch and back): pass; 1.21.11: pass; 1.20.4: pass | – |
+| legacy-online | Velocity, legacy forwarding, online mode | Paper 1.8.8, Paper 1.8.8 | 1.8.8 (switch and back): pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+| modern-online | Velocity, modern forwarding, online mode | Paper 26.3, Paper 26.3 | 26.3 (switch and back): pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+| vanilla-online-direct | none (direct, online mode) | vanilla 1.20.4 | 1.20.4: pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+
+| Package | Commit | Result |
+|---|---|---|
+| mineflayer lint | `060b882` | passes |
+| mineflayer unit | `060b882` | 98 passing |
+| mineflayer types | `060b882` | passes |
+
+The reviewer's protocol fixture (`audit-artifacts/astra-review-1e67f091/run-respawn.cjs` on 1.8.8, 1.12.2, 1.21.4 and 26.3) failed 3 of 4 at `1e67f091` in the review, with 26.3 passing, and passes with the fix. Its log is in `audit-artifacts/followup3/dev/r15-respawn`, with the development runs of this follow-up, which are not counted. The same review corrected the range of the server stall in AUDIT.md (Stalled example connections), from the jar-by-jar Netty checks in `audit-artifacts/followup3/dev/r15-autoread-range`; no run of this record depends on that correction.
+
 ## Attempts of this round
 
 - `suite-d22e00df` (server suites, `d22e00df`): all 30 versions passed. Superseded: the nether test changed in `912e8ca2` after the first lag run.
@@ -661,8 +736,9 @@ The reviewer's reproductions (`audit-artifacts/astra-review-c5fc650d/run-review.
 - `droppedItem-baseline-1a56b7bd` (vanilla `droppedItem` test, `1a56b7bd`): 29 of 30 versions passed; failed: 1.8.8 (droppedItem: TypeError: Cannot read properties of undefined (reading 'present')). Baseline: the library and data (`data-9`) of `5b8123d8` with the tests of `16fd831a`, at a commit made only for it. The 1.8.8 failure, `getDroppedItem()` throwing, is the bug; the other 29 versions read the stack at their key.
 - `internal-baseline-448dbbb8` (internal suite, `448dbbb8`): 0 of 5 versions passed; failed: 1.12.2 (mineflayer_internal 1.12.2v: AssertionError [ERR_ASSERTION]: teleport replies: [[1.5,66,1.5],[3.5,80,3.5]]; mineflayer_internal 1.12.2v: AssertionError [ERR_ASSERTION]: position_look heights), 1.8.8 (mineflayer_internal 1.8.8v: AssertionError [ERR_ASSERTION]: a superseded deferred reply still holds back actions waiting for teleport confirmations; mineflayer_internal 1.8.8v: AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:), 1.21.3 (mineflayer_internal 1.21.3v: AssertionError [ERR_ASSERTION]: teleport replies: [[1.5,66,1.5],[3.5,80,3.5]]; mineflayer_internal 1.21.3v: AssertionError [ERR_ASSERTION]: position_look heights), 1.21.4 (mineflayer_internal 1.21.4v: AssertionError [ERR_ASSERTION]: teleport replies: [[1.5,66,1.5],[3.5,80,3.5]]; mineflayer_internal 1.21.4v: AssertionError [ERR_ASSERTION]: position_look heights; mineflayer_internal 1.21.4v: TypeError: Cannot read properties of null (reading 'position'); mineflayer_internal 1.21.4v: Error: done() called multiple times in test <mineflayer_internal 1.21.4v spawn after the teleport confirmation teleports that move the player into another chunk column on 1.21.4+ waits for the column under the latest confirmed teleport> of file C:\Users\blake\Desktop\Min; mineflayer_internal 1.21.4v: AssertionError [ERR_ASSERTION]: spawn announced 55 ms after the wait began; the fallback is 3000 ms; mineflayer_internal 1.21.4v: AssertionError [ERR_ASSERTION]: spawn announced over a column that has not loaded), 26.3 (mineflayer_internal 26.3v: TypeError: Cannot read properties of null (reading 'position'); mineflayer_internal 26.3v: Error: done() called multiple times in test <mineflayer_internal 26.3v spawn after the teleport confirmation teleports that move the player into another chunk column on 1.21.4+ waits for the column under the latest confirmed teleport> of file C:\Users\blake\Desktop\Minecra; mineflayer_internal 26.3v: AssertionError [ERR_ASSERTION]: spawn announced 119 ms after the wait began; the fallback is 3000 ms; mineflayer_internal 26.3v: AssertionError [ERR_ASSERTION]: spawn announced over a column that has not loaded). Baseline: the library of `c5fc650d` with the tests of `973fe4fa`, at a commit made only for it, on 1.8.8, 1.12.2, 1.21.3, 1.21.4 and 26.3. Every failure is a new test: the two same-tick deferred reply tests on every version before 26.3, and three of the four column tests on 1.21.4 and 26.3; the guards pass.
 - `suite-973fe4fa` (server suites, `973fe4fa`): 29 of 30 versions passed; failed: 1.21.3 (placeEntity place armor stand: Error: Failed to place entity; useChests: Error: Server refused to place chest at (0, -60, 1): the block is still air). Superseded by `6282be0f`: 29 versions passed; on 1.21.3 `placeEntity place armor stand` and `useChests` were refused because a chicken from a chicken jockey hatched by the summon egg test stood where they place (fixed in `6282be0f`, see AUDIT.md, Test isolation).
-- `suite-6282be0f` (server suites, `6282be0f`): 29 of 30 versions passed; failed: 1.15.2 (exampleInventory: Error: examples/inventory.js exited before the test finished (code 1, signal null)). Not accepted: 29 versions passed; on 1.15.2 `examples/inventory.js` exited when its `waitForChunksToLoad()` after the test's `/tp` timed out waiting for 25 chunks, as `exampleBee` once did on 1.12.2 in the first follow-up; the example bot did not die and 1.15.2 has no terrain wait, so neither changed code path ran. The suites were run again at the same commit (`suite-6282be0f-b`). The cause was established afterwards: the vanilla server had stopped reading the example's connection when it switched it to play, so it never handled the confirmation of the `/tp` and never moved the example's chunk view (see AUDIT.md, Example connections on 1.7.10–1.20.1 servers).
+- `suite-6282be0f` (server suites, `6282be0f`): 29 of 30 versions passed; failed: 1.15.2 (exampleInventory: Error: examples/inventory.js exited before the test finished (code 1, signal null)). Not accepted: 29 versions passed; on 1.15.2 `examples/inventory.js` exited when its `waitForChunksToLoad()` after the test's `/tp` timed out waiting for 25 chunks, as `exampleBee` once did on 1.12.2 in the first follow-up; the example bot did not die and 1.15.2 has no terrain wait, so neither changed code path ran. The suites were run again at the same commit (`suite-6282be0f-b`). The cause was established afterwards: the vanilla server had stopped reading the example's connection when it switched it to play, so it never handled the confirmation of the `/tp` and never moved the example's chunk view (see AUDIT.md, Stalled example connections).
 - `suite-6282be0f-b` (server suites, `6282be0f`): 29 of 30 versions passed; failed: 1.17.1 (nether: Error: Server refused to place warped_sign at (0, 128, 0): the block is still brown_mushroom). Superseded by `8ffb2d8d`: 29 versions passed, 1.15.2 and 1.21.3 included; on 1.17.1 `nether` was refused its sign because the generated nether roof had a brown mushroom where the sign goes (fixed in `8ffb2d8d`, see AUDIT.md, Test isolation).
+- `internal-baseline-c7e2a2dd` (internal suite, `c7e2a2dd`): 1 of 5 versions passed; failed: 1.8.8 (mineflayer_internal 1.8.8v: AssertionError [ERR_ASSERTION]: a respawn leaves the deferred reply owed), 1.12.2 (mineflayer_internal 1.12.2v: AssertionError [ERR_ASSERTION]: teleport replies: [[3.5,80,3.5]]), 1.21.3 (mineflayer_internal 1.21.3v: AssertionError [ERR_ASSERTION]: teleport replies: [[3.5,80,3.5]]), 1.21.4 (mineflayer_internal 1.21.4v: AssertionError [ERR_ASSERTION]: teleport replies: [[3.5,80,3.5]]). Baseline: the physics plugin of `1e67f091` with the test of `060b882d`, at a commit made only for it, on 1.8.8, 1.12.2, 1.21.3, 1.21.4 and 26.3. The only failure is the new respawn test, on every version before 26.3; 26.3 never defers the reply and passes.
 
 ## Failures investigated
 
