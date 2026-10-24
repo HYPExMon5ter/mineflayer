@@ -65,6 +65,9 @@ module.exports = () => async (bot) => {
     lowerBlock = bot.blockAt(bot.entity.position.offset(0, -1, 0))
   }
 
+  // The roof can grow a mushroom where the sign goes, and a sign does not replace one
+  await bot.test.setBlock({ ...lowerBlock.position.offset(0, 1, 0), blockName: 'air' })
+
   await bot.lookAt(lowerBlock.position, true)
   await bot.test.setInventorySlot(36, new Item(signItem.id, 1, 0))
   const signOpen = onceWithCleanup(bot, 'signOpen', { timeout: 5000 })
