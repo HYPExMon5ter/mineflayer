@@ -4934,6 +4934,347 @@
           "accepted": false
         }
       ]
+    },
+    {
+      "label": "droppedItem-baseline-1a56b7bd",
+      "kind": "droppedItem",
+      "latency": 0,
+      "commit": "1a56b7bdedf1ca02ec7b7cbd549acfdbf9d70fc5",
+      "note": "Baseline: the library and data (`data-9`) of `5b8123d8` with the tests of `16fd831a`, at a commit made only for it. The 1.8.8 failure, `getDroppedItem()` throwing, is the bug; the other 29 versions read the stack at their key.",
+      "attempts": [
+        {
+          "version": "1.11.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.11.2.log",
+          "sha256": "c0a24e00af185fd2b80730eb83d3c317233148e2ea661e00b0eb9e49d1eabeae",
+          "accepted": false
+        },
+        {
+          "version": "1.10.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.10.2.log",
+          "sha256": "22b8f98d95ccc8e516bb4b1f0d2540bd319bce5d0d0a1c3b8e640ca4e22c7bb7",
+          "accepted": false
+        },
+        {
+          "version": "1.9.4",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.9.4.log",
+          "sha256": "bfc2cd1e26b9e9f4bca5558ee2828919da7b89f769dd1cfb88aede31814e6804",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 1,
+          "passing": 0,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "droppedItem: TypeError: Cannot read properties of undefined (reading 'present')"
+          ],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.8.8.log",
+          "sha256": "4962282f86af6b7d4a0477d57b9f950eab9785fce1df1eb5fc79f1e509e0f4de",
+          "accepted": false
+        },
+        {
+          "version": "1.12.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.12.2.log",
+          "sha256": "b0702f5828ba8656c18a658e5cfea39eed5fff24ae8d2466ab6f10a82faaddb6",
+          "accepted": false
+        },
+        {
+          "version": "1.13.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.13.2.log",
+          "sha256": "b39ed92ca2b13a8a18ba7d033fbbdf980e5355d59c06f0621c2bf815c6514c42",
+          "accepted": false
+        },
+        {
+          "version": "1.14.4",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.14.4.log",
+          "sha256": "773af18ecd9d398f086f2f32ae9cbf063ff218cffa8efa41dfe9a8e49ea02a14",
+          "accepted": false
+        },
+        {
+          "version": "1.15.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.15.2.log",
+          "sha256": "e169f6a61c048a071578418e7cbed7a73e44f3fc3c354cfc297799a428459157",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.16.5.log",
+          "sha256": "56ff10238512116f99e55be23a3c74f649597f939ecaa8eaa4deaa6557865570",
+          "accepted": false
+        },
+        {
+          "version": "1.17.1",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.17.1.log",
+          "sha256": "5fe53e3cf9e92681324fd4f12bbe0b351f5d8948fd97be927e316ac2c54d31b4",
+          "accepted": false
+        },
+        {
+          "version": "1.18.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.18.2.log",
+          "sha256": "0611bb8cf732948efc57d96a899f9df43c84c233563e12fa3d79cf0c2abfc945",
+          "accepted": false
+        },
+        {
+          "version": "1.19",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.19.log",
+          "sha256": "b26c30fe8956c74be9e33577c1f76885583d0f3bb9a90fe77577d27c40f99933",
+          "accepted": false
+        },
+        {
+          "version": "1.19.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.19.2.log",
+          "sha256": "b08f7c1d5dcd7975ace0889a2c16a1c329ec504ce7c6f21c279729f136682eec",
+          "accepted": false
+        },
+        {
+          "version": "1.19.3",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.19.3.log",
+          "sha256": "9eacd2c9cecef3f1d26b290202f66805baca40082bd49571f39f5c7a430e5533",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.20.1.log",
+          "sha256": "4ba72e0060acad269a951434fec6bc6279ebafa9ce84467080108a89e57cfdd7",
+          "accepted": false
+        },
+        {
+          "version": "1.19.4",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.19.4.log",
+          "sha256": "adce8aea3bba9fbfbe14d38649186a195d8e62431624f8ba2df50f80db1b22f0",
+          "accepted": false
+        },
+        {
+          "version": "1.20.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.20.2.log",
+          "sha256": "8a21d6ccc15e28796af595265d68a1dbb2587e3aa8a2d95f32ff13f0ee2e9322",
+          "accepted": false
+        },
+        {
+          "version": "1.20.4",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.20.4.log",
+          "sha256": "cd2bb79b23e5931b6dd2c80ad26e1934a0f83902bdfe9b272992798d38f6b453",
+          "accepted": false
+        },
+        {
+          "version": "1.20.6",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.20.6.log",
+          "sha256": "45f92efeb47936304b443e3167c16bae9c458d9bc8c5aa184f96cbae6cee39f0",
+          "accepted": false
+        },
+        {
+          "version": "1.21.1",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.21.1.log",
+          "sha256": "b927f4bc315fec158865ba65a4e3e55d6aa08aae7135359e16f0f30ac2fff637",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.21.3.log",
+          "sha256": "99402c1c56309307bd738da9324515398ba7bb057ecdf8816794026bf3cc351a",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.21.4.log",
+          "sha256": "3de2cb00914d4e2326eb1ddd3aef66291bbbf9cdf382384a06b1f240f1adc0b7",
+          "accepted": false
+        },
+        {
+          "version": "1.21.5",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.21.5.log",
+          "sha256": "f49248b28de27f2643c5615d00e5fe0356fd05c6559e83c93478cff763a7d1f3",
+          "accepted": false
+        },
+        {
+          "version": "1.21.6",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.21.6.log",
+          "sha256": "b4905d1be3e23a6f30a679083c0d50581d4694fe167f510e32e66db6249fd2cd",
+          "accepted": false
+        },
+        {
+          "version": "1.21.8",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.21.8.log",
+          "sha256": "f7368c13a54364a419dad7fe6b7aa621be4028cb063f52ca9cbf0fadfa96f0ab",
+          "accepted": false
+        },
+        {
+          "version": "1.21.11",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.21.11.log",
+          "sha256": "78156c23c8dcf599067ec853e308390d624bd09c48a33d2492aba3db0ee7757c",
+          "accepted": false
+        },
+        {
+          "version": "1.21.9",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/1.21.9.log",
+          "sha256": "44c25a930e67a001210edfec76c499b8bffa93ca963195f8487040e71ec9fd99",
+          "accepted": false
+        },
+        {
+          "version": "26.1",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/26.1.log",
+          "sha256": "15d87ac61afdbecdc495ede6ef7c354818d710df9f2c4ce11d042e68c70c07d5",
+          "accepted": false
+        },
+        {
+          "version": "26.2",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/26.2.log",
+          "sha256": "ac006a111ae74c2162aed74866af687db7e100496bfea962021e8786ffe8c574",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 0,
+          "passing": 1,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/droppedItem-baseline-1a56b7bd/26.3.log",
+          "sha256": "88cee312ef57fdffc1c8cd0f1c6b20d129ae3bd7ed3dba332365448ac5e9753d",
+          "accepted": false
+        }
+      ]
     }
   ],
   "companions": [
@@ -5699,7 +6040,8 @@
           "sha256": "c26adbd8336b54da1dff3666b53009a8720e037c643701ec4b7b078cf03cc0c1"
         }
       ],
-      "proxy": null
+      "proxy": null,
+      "consumer": null
     },
     {
       "mineflayer": "970eba2393d140b18fe3d8c3249f0b92ba0a328e",
@@ -6767,7 +7109,8 @@
           "verified": 3,
           "refused": 6
         }
-      }
+      },
+      "consumer": null
     },
     {
       "mineflayer": "cb248a0370b612f1309fd8f67d094226ce38416f",
@@ -7993,7 +8336,8 @@
           "verified": 3,
           "refused": 6
         }
-      }
+      },
+      "consumer": null
     },
     {
       "mineflayer": "ff4ad5b0acf794b5092638fc117be2cfad0e4717",
@@ -8416,7 +8760,506 @@
           "sha256": "c4ddcadb8cd1e938fe56b7c7ff29e3be0229038232ad308f150b084a8020447f"
         }
       ],
-      "proxy": null
+      "proxy": null,
+      "consumer": null
+    },
+    {
+      "mineflayer": "16fd831ad0ca5357d25b7103c1fc7b7cb4b45c0b",
+      "note": "The 1.8 dropped item metadata key: data release `java-26.3-data-10` and the companions pinning it.",
+      "dependencies": {
+        "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-10/minecraft-data-3.117.0.tgz sha512-2ARSscHpQbLo1XEHKft5S4hbrCi/+DeJ7WRKNQNmmfwcknq6zwkJHnjvQ7no5ROgfBLY23bcTbun65pmwz37PQ==",
+        "minecraft-protocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#4fc8bc1041dcfc2ed945a4d4ea6d22503c37c317 sha512-A+HUZI/ms3OT87clRpwLppkIo9RvLT/7yhIbvYbjYCQT0utcW8kU2nUDxZM4eW9Sfdw09ncwaT7D4P/fzcrYAg==",
+        "prismarine-chunk": "git+ssh://git@github.com/HYPExMon5ter/prismarine-chunk.git#a1b092aeb286b09dda00104c6789660def3e271a sha512-EinpQSQkGgRe3MufwhQ9ZWZ1q03DiBrjswXhuH3my9dYYdcIK7jtqk83wDxBZvMp6UgZYbrIEJst7QfpR2GZjA==",
+        "prismarine-physics": "git+ssh://git@github.com/HYPExMon5ter/prismarine-physics.git#9a6e364ceabf467ec443bc2a3359bd4562913da6 sha512-xVRzUVZgLPdPjbfRwz/h4NLeqOKyhBh0w6Z7gWD9VGcG0MRsMF50oP4HPeuWf3aHM1lH+hmpep9uP2WsloJa1w==",
+        "prismarine-item": "git+ssh://git@github.com/HYPExMon5ter/prismarine-item.git#40bc3c27ab96f1ae3126ecbda79f7c713c5cb40b sha512-PXqOMDllWsvWN2IV10sgLJmKr1pjeVQtgHJzadVh2qxo3LtkY+VgwBzNdhe6L8AVUDZNZX5DWS0Z+vnzFEfn8Q=="
+      },
+      "runs": [
+        {
+          "label": "suite-16fd831a",
+          "kind": "suite",
+          "latency": 0,
+          "commit": "16fd831ad0ca5357d25b7103c1fc7b7cb4b45c0b",
+          "note": "The internal and vanilla suites on every version, including the new `droppedItem` test.",
+          "attempts": [
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 139,
+              "pending": 21,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.8.8.log",
+              "sha256": "3926e32a35311c12cd8b1dbf5fa00bfcd75ffe436ee68af986926f77cd33a405"
+            },
+            {
+              "version": "1.11.2",
+              "code": 0,
+              "passing": 141,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.11.2.log",
+              "sha256": "729a9fd43a8773740a6a3044de82f2152afb805ed4e0080c1dbfc76c18a6ba6c"
+            },
+            {
+              "version": "1.9.4",
+              "code": 0,
+              "passing": 141,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.9.4.log",
+              "sha256": "8cf95eff7b54527bb70968a729d07474abd33b4db3bdfaf7c9fce9604c23efb4"
+            },
+            {
+              "version": "1.10.2",
+              "code": 0,
+              "passing": 141,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.10.2.log",
+              "sha256": "7a322eb468f496d60aaa0ef0bfad07b557591ea779066a7b0d439e66aea4e18f"
+            },
+            {
+              "version": "1.15.2",
+              "code": 0,
+              "passing": 141,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.15.2.log",
+              "sha256": "507f444add24cff7be7906816662e92fa8a3270dce42e85a4a70bfe261d26813"
+            },
+            {
+              "version": "1.14.4",
+              "code": 0,
+              "passing": 141,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.14.4.log",
+              "sha256": "696bc52f2f93a3897c2a77b52b7f9328ca35dae96da57f6d04b649ea75fab80b"
+            },
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 141,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.12.2.log",
+              "sha256": "7b74de981318d53aa243fbc407f9debccd3b01e8e71b5378b849e0af5bb2b472"
+            },
+            {
+              "version": "1.13.2",
+              "code": 0,
+              "passing": 141,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.13.2.log",
+              "sha256": "b1fd6f5970f7ab9a83bebd6f1159c86373ba6f2146056bd98be9df71a95cf276"
+            },
+            {
+              "version": "1.16.5",
+              "code": 0,
+              "passing": 141,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.16.5.log",
+              "sha256": "47822cbcf542d6b49177bc7410081187239815defdbc7140e42b39f2e9c6178b"
+            },
+            {
+              "version": "1.17.1",
+              "code": 0,
+              "passing": 147,
+              "pending": 15,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.17.1.log",
+              "sha256": "4b7f0106ab885cc171c84660d03a2757641df587701e326b81ee4e8f48a9ce4a"
+            },
+            {
+              "version": "1.18.2",
+              "code": 0,
+              "passing": 147,
+              "pending": 15,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.18.2.log",
+              "sha256": "345f124ee23fc5135fe2106d6e6b373b244e0e508d5c543e8086014f44934048"
+            },
+            {
+              "version": "1.19",
+              "code": 0,
+              "passing": 150,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.19.log",
+              "sha256": "ac4b82e12b88d775d8b75570c45a7dd2c6ac5ddc9c8e288e3097b73fb466126f"
+            },
+            {
+              "version": "1.19.2",
+              "code": 0,
+              "passing": 150,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.19.2.log",
+              "sha256": "e4ae352fcc325d2620be07567018610a92ed36303758a5bbc8400b54eeb64d80"
+            },
+            {
+              "version": "1.19.3",
+              "code": 0,
+              "passing": 150,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.19.3.log",
+              "sha256": "de8cacb54dcc3e135043dffcb93afdebec154c6b60b66d68f09dfc13eb090280"
+            },
+            {
+              "version": "1.19.4",
+              "code": 0,
+              "passing": 151,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.19.4.log",
+              "sha256": "fecddb346cc7ac2e7dffb7034a8737b07dab36d98ca82564a2220673883e3748"
+            },
+            {
+              "version": "1.20.1",
+              "code": 0,
+              "passing": 152,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.20.1.log",
+              "sha256": "55dcfe943c82420ca01eeb94d1a9d77a0d7db5f9a0bd033586e59d4948d72e16"
+            },
+            {
+              "version": "1.20.2",
+              "code": 0,
+              "passing": 156,
+              "pending": 7,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.20.2.log",
+              "sha256": "87539fb9ec5be9e626298082faf4e8658ffcf5e4709b011958f86d61959441c9"
+            },
+            {
+              "version": "1.20.4",
+              "code": 0,
+              "passing": 157,
+              "pending": 6,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.20.4.log",
+              "sha256": "f852f83265774862396171839044228bacaf6207f8c8805602a079895a39fe59"
+            },
+            {
+              "version": "1.20.6",
+              "code": 0,
+              "passing": 156,
+              "pending": 7,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.20.6.log",
+              "sha256": "eb3f7edee8491979f8a6cd2cc8853046e6aebe46d8c1e108e26d55de1ed503af"
+            },
+            {
+              "version": "1.21.1",
+              "code": 0,
+              "passing": 157,
+              "pending": 6,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.21.1.log",
+              "sha256": "6c597fcd8cd569b10c04d072d599767ecb41a5c0eeb498b5bca75c926c7694cc"
+            },
+            {
+              "version": "1.21.3",
+              "code": 0,
+              "passing": 159,
+              "pending": 4,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.21.3.log",
+              "sha256": "b1314599733390cff119622ee46951472ba7884c9d0405d533ccd594541982f2"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 161,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.21.4.log",
+              "sha256": "9b34feab286a29d31ba05eb8f046847df2ef3fc0643b1dd55fdf7cfa7fcb371e"
+            },
+            {
+              "version": "1.21.5",
+              "code": 0,
+              "passing": 161,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.21.5.log",
+              "sha256": "3a99b0c87cdb13faf8387d6c8716d3cae7817c32c5cbd49b95725b37b727d739"
+            },
+            {
+              "version": "1.21.6",
+              "code": 0,
+              "passing": 161,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.21.6.log",
+              "sha256": "b769f3a29b574a93a8489c5882a27d9703ccf769427366c942f471f56a8c20cf"
+            },
+            {
+              "version": "1.21.8",
+              "code": 0,
+              "passing": 161,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.21.8.log",
+              "sha256": "a0c280127819b93cdf8ce000e0aa40fbd5ff06c1ce536d0f8d481049e29aad8b"
+            },
+            {
+              "version": "1.21.9",
+              "code": 0,
+              "passing": 162,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.21.9.log",
+              "sha256": "d62c6b453ec689d62da3f8d872fad50bbe68509f8504ace6220b4bd3c8855949"
+            },
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 162,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/1.21.11.log",
+              "sha256": "ea4568f0a7c2efb0f770bd200a136ce3b8207b4ec81f0691a1ae24ca367f86a2"
+            },
+            {
+              "version": "26.1",
+              "code": 0,
+              "passing": 167,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/26.1.log",
+              "sha256": "22963545c1ad3cdeab3872b5cb12e4b35c873c8260637cd1af0b024594e403cd"
+            },
+            {
+              "version": "26.2",
+              "code": 0,
+              "passing": 167,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/26.2.log",
+              "sha256": "ace834d7e05354499449229b2c46825a3360f86b55f2d53478bed47bde293220"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 169,
+              "pending": 1,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-16fd831a/26.3.log",
+              "sha256": "edfaa8f5e727f9f4db421af62bd682980280649b3665677debf8f9eba97227d9"
+            }
+          ]
+        },
+        {
+          "label": "lag150-16fd831a",
+          "kind": "lag",
+          "latency": 150,
+          "commit": "16fd831ad0ca5357d25b7103c1fc7b7cb4b45c0b",
+          "note": "The vanilla suites through the latency proxy on the versions of the previous follow-up.",
+          "attempts": [
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 73,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-16fd831a/1.21.11.log",
+              "sha256": "77a180e8a99382d5e978d3dfef1475cde31e1991b8b7df13a00f24193847550d"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 74,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-16fd831a/26.3.log",
+              "sha256": "57579189fea752ee8535ef74bc4f232d34f236565c9c2d1ec8e290264f1923a9"
+            },
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 69,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-16fd831a/1.8.8.log",
+              "sha256": "76715734e3365f76f154e1e009fd01e385dc712f740c55d5b3d45fe06efff65f"
+            },
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 69,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-16fd831a/1.12.2.log",
+              "sha256": "d4ed4ce63c90fb04b8d1f47bfff2cd35d226c8941dbf35f3d7bb825143215bda"
+            }
+          ]
+        }
+      ],
+      "companions": [
+        {
+          "label": "mineflayer lint",
+          "log": "companions/mineflayer-lint-6.log",
+          "repo": "mineflayer-evidence8",
+          "commit": "16fd831ad0ca5357d25b7103c1fc7b7cb4b45c0b",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "cbb8ddfc54518f0894fee271e30cffd82921a64fd5e9a8f39f68cf9a5b53ab43"
+        },
+        {
+          "label": "mineflayer unit",
+          "log": "companions/mineflayer-unit-6.log",
+          "repo": "mineflayer-evidence8",
+          "commit": "16fd831ad0ca5357d25b7103c1fc7b7cb4b45c0b",
+          "passing": 98,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "f2cbab07318bdd6d4a371352be2a5c8a6ea4f0670909d095b6e3be1d56c5b6eb"
+        },
+        {
+          "label": "mineflayer types",
+          "log": "companions/mineflayer-types-6.log",
+          "repo": "mineflayer-evidence8",
+          "commit": "16fd831ad0ca5357d25b7103c1fc7b7cb4b45c0b",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "060ce22ff959972712ca002e47a24a3413147f4b8f1ebff45c8ca33738ac2a0b"
+        },
+        {
+          "label": "minecraft-protocol lint",
+          "log": "companions/protocol-lint-4.log",
+          "repo": "node-minecraft-protocol",
+          "commit": "4fc8bc1041dcfc2ed945a4d4ea6d22503c37c317",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "feb8ac3c0ac28d6c01fbed4249b864229fd76ca82955508526ac7d667bbaefae"
+        },
+        {
+          "label": "minecraft-protocol focused suites",
+          "log": "companions/protocol-focused-4.log",
+          "repo": "node-minecraft-protocol",
+          "commit": "4fc8bc1041dcfc2ed945a4d4ea6d22503c37c317",
+          "passing": 1166,
+          "pending": 15,
+          "failing": 0,
+          "sha256": "a41a2aa4c36bee8b6152da9707b3ba6bb175557901a5e68b9fadcf894e4c5b19"
+        },
+        {
+          "label": "minecraft-protocol packet round trip (32 versions)",
+          "log": "companions/protocol-packets-4.log",
+          "repo": "node-minecraft-protocol",
+          "commit": "4fc8bc1041dcfc2ed945a4d4ea6d22503c37c317",
+          "passing": 5680,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "66071f036e87a858a2031582e9bd7d3637927a6acad47272e434822a07a224fc"
+        },
+        {
+          "label": "minecraft-protocol server suite (32 versions)",
+          "log": "companions/protocol-server-4.log",
+          "repo": "node-minecraft-protocol",
+          "commit": "4fc8bc1041dcfc2ed945a4d4ea6d22503c37c317",
+          "passing": 384,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "4edd7a4250d90a3794218c71a435a7b194620f46139270d6ccc2c1b9fa78d7ca"
+        },
+        {
+          "label": "prismarine-chunk",
+          "log": "companions/chunk-tests-2.log",
+          "repo": "prismarine-chunk",
+          "commit": "a1b092aeb286b09dda00104c6789660def3e271a",
+          "passing": 333,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "212fa4388ab379309068cfc966afa4e775a18eff6bf6eec24303a2bcfdde94ef"
+        },
+        {
+          "label": "prismarine-physics",
+          "log": "companions/physics-tests-2.log",
+          "repo": "prismarine-physics",
+          "commit": "9a6e364ceabf467ec443bc2a3359bd4562913da6",
+          "passing": 57,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "4fcf5e044a348771ad38b6534d39743092d0c42ed535ea1a2271671118c7c690"
+        },
+        {
+          "label": "prismarine-item",
+          "log": "companions/item-tests-2.log",
+          "repo": "prismarine-item",
+          "commit": "40bc3c27ab96f1ae3126ecbda79f7c713c5cb40b",
+          "passing": 173,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "815db2421993e9b338b86139685b5cf534ebe4068f61d0b6473936f2d2285864"
+        },
+        {
+          "label": "minecraft-data schema and audit suite",
+          "log": "companions/data-tests-2.log",
+          "repo": "js",
+          "commit": "6c096ad839cf42600bf0f43afa456de031291294",
+          "passing": 1906,
+          "pending": 1,
+          "failing": 0,
+          "sha256": "2ca944bdf23f6461c537eb0bd4e352efc75b4bb218e81ea7e1f3a539ddf4700c"
+        },
+        {
+          "label": "node-minecraft-data wrapper",
+          "log": "companions/data-wrapper-tests-2.log",
+          "repo": "node-minecraft-data",
+          "commit": "e1a7d009218a0402c024327982085eb432d83a38",
+          "passing": 902,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "520a267d4ffca6596d2a6dc8d4afb5cdc5eda0f9f18f3bf40dd523195541664e"
+        }
+      ],
+      "proxy": null,
+      "consumer": {
+        "log": "consumer-check-16fd831a.log",
+        "sha256": "f04f92954fed10e7bbe42b5e0eda7b334d8b0e31bb245113c59f041a17ce8c66"
+      }
     }
   ],
   "liveAuth": [
