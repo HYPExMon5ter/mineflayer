@@ -1133,8 +1133,13 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
               assert.deepStrictEqual(reply.sent, ['position_look in play'], 'modern respawn replies are immediate')
               assert.strictEqual(reply.ticks, 0, `the reply waited ${reply.ticks} tick(s) after the teleport arrived`)
             } else {
+              // The bot writes teleport_confirm just before it defers the movement reply, so its
+              // receipt shows the timer exists. A fixed wait can elapse before the tick runs, and
+              // the transfer then drops the still-queued teleport without testing the cancel.
+              const confirmed = onceWithCleanup(client, 'teleport_confirm', { checkCondition: data => data.teleportId === 1 })
               await client.write('position', { ...positionPacket, teleportId: 1 })
-              await sleep(100) // the tick that defers the reply
+              await confirmed
+              assert.deepStrictEqual(sent, [], 'the respawn teleport reply was not deferred')
             }
             client.once('configuration_acknowledged', () => { client.state = 'configuration' })
             // The server write does not mean the client has received the
