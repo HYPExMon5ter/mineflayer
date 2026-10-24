@@ -1098,11 +1098,13 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
         }
         const movementPackets = ['position', 'position_look', 'look', 'flying']
         const sent = []
+        let ticks = 0
         server.on('playerJoin', async (client) => {
           try {
             const originalWrite = bot._client.write.bind(bot._client)
             bot._client.write = (name, params) => {
               if (movementPackets.includes(name)) sent.push(`${name} in ${bot._client.state}`)
+              if (name === 'tick_end') ticks++
               return originalWrite(name, params)
             }
 
@@ -1117,17 +1119,34 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
 
             bot.emit('death')
             sent.length = 0
-            await client.write('position', { ...positionPacket, teleportId: 1 })
-            await sleep(100)
             if (registry.version['>=']('26.3')) {
-              assert.deepStrictEqual(sent, ['position_look in play'], 'modern respawn replies are immediate')
-              sent.length = 0
+              // 26.3 never defers: the first tick after the teleport arrives answers it, before
+              // that tick's tick_end. The reply turns physics back on and the bot, in mid-air,
+              // falls from the next tick on, so later position packets are ordinary movement.
+              // Snapshot at the reply itself, not after a fixed wait that may span those ticks.
+              bot._client.prependOnceListener('position', () => { ticks = 0 })
+              const answered = new Promise((resolve) => {
+                bot.once('forcedMove', () => resolve({ sent: [...sent], ticks }))
+              })
+              await client.write('position', { ...positionPacket, teleportId: 1 })
+              const reply = await answered
+              assert.deepStrictEqual(reply.sent, ['position_look in play'], 'modern respawn replies are immediate')
+              assert.strictEqual(reply.ticks, 0, `the reply waited ${reply.ticks} tick(s) after the teleport arrived`)
+            } else {
+              await client.write('position', { ...positionPacket, teleportId: 1 })
+              await sleep(100) // the tick that defers the reply
             }
             client.once('configuration_acknowledged', () => { client.state = 'configuration' })
             // The server write does not mean the client has received the
             // transition yet. Normal play movement in transit is valid;
             // observe from receipt, before the client's handlers run.
-            bot._client.prependOnceListener('start_configuration', () => { sent.length = 0 })
+            // The send helpers drop movement packets outside play, so a stale reply firing here
+            // shows as the forcedMove it emits on turning physics back on.
+            let forcedMoves = 0
+            bot._client.prependOnceListener('start_configuration', () => {
+              sent.length = 0
+              bot.on('forcedMove', () => { forcedMoves++ })
+            })
             await client.write('start_configuration', {})
             if (bot._client.state !== 'configuration') {
               await once(bot._client, 'state')
@@ -1136,6 +1155,7 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             await sleep(1700)
 
             assert.deepStrictEqual(sent, [], `movement packets written after the transfer began: ${sent.join(', ')}`)
+            assert.strictEqual(forcedMoves, 0, `${forcedMoves} forcedMove events after the transfer began`)
             done()
           } catch (err) {
             done(err)
@@ -3887,9 +3907,10 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
               replies.length = 0
               bot._client.emit('position', { ...teleport, y: 90, teleportId: 1 })
               bot._client.emit('position', { ...teleport, y: 100, teleportId: 2 })
-              await new Promise(resolve => bot.once('physicsTick', resolve))
+              // A late timer runs catch-up ticks in one callback, so snapshot in the tick itself.
+              const firstTick = await new Promise(resolve => bot.once('physicsTick', () => resolve([...replies])))
               if (registry.version['>=']('26.3')) {
-                assert.deepStrictEqual(replies, [90], 'only one movement reply is allowed per tick')
+                assert.deepStrictEqual(firstTick, [90], 'only one movement reply is allowed per tick')
                 await once(bot, 'physicsTick')
               }
               assert.deepStrictEqual(replies, [90, 100], 'each queued teleport gets its own reply in order')
