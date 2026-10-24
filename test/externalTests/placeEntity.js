@@ -80,7 +80,10 @@ module.exports = (version) => {
     const name = bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Zombie' : 'zombie'
     const entity = bot.nearestEntity(o => o.name === name)
     assert(entity?.name === name)
+    // A baby zombie can hatch riding a chicken, which would stay in the next test's placement spot
+    const vehicle = entity.vehicle
     await bot.test.killEntity(entity)
+    if (vehicle) await bot.test.killEntity(vehicle)
   })
 
   addTest('place armor stand', async (bot) => {
