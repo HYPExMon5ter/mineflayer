@@ -1,6 +1,6 @@
 const assert = require('assert')
 const { Vec3 } = require('vec3')
-const { once } = require('../../lib/promise_utils')
+const { once, onceWithCleanup } = require('../../lib/promise_utils')
 
 module.exports = (version) => {
   async function runTest (bot, testFunction) {
@@ -45,13 +45,18 @@ module.exports = (version) => {
     }
 
     await placeBlocksForTest('water')
-    await bot.test.awaitItemReceived(`/give ${bot.username} ${bot.registry.oak_boat ? 'oak_boat' : 'boat'}`)
+    await bot.test.awaitItemReceived(`/give ${bot.username} ${bot.registry.itemsByName.oak_boat ? 'oak_boat' : 'boat'}`)
     const boat = await bot.placeEntity(bot.blockAt(bot.entity.position.offset(0, -1, -2)), new Vec3(0, -1, 0))
     assert(boat !== null)
-    const name = bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Boat' : 'boat'
+    // 1.21.2 split boats into one entity type per item
+    const name = bot.registry.entitiesByName.oak_boat ? 'oak_boat' : bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Boat' : 'boat'
     const entity = bot.nearestEntity(o => o.name === name)
     assert(entity?.name === name)
-    await placeBlocksForTest('air')
+    // Empty the pool in one command: emptied one block at a time, the remaining water could flow
+    // back into a block in the tick it was emptied, so the client never saw it as air
+    const emptied = onceWithCleanup(bot.world, `blockUpdate:${bot.entity.position.floored().offset(1, -1, -3)}`, { timeout: 20000, checkCondition: (oldBlock, newBlock) => newBlock?.name === 'air' })
+    bot.chat('/fill ~-1 ~-1 ~-1 ~1 ~-1 ~-3 air')
+    await emptied
     bot.attack(entity)
     await once(bot, 'entityGone')
   })
@@ -75,7 +80,10 @@ module.exports = (version) => {
     const name = bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Zombie' : 'zombie'
     const entity = bot.nearestEntity(o => o.name === name)
     assert(entity?.name === name)
+    // A baby zombie can hatch riding a chicken, which would stay in the next test's placement spot
+    const vehicle = entity.vehicle
     await bot.test.killEntity(entity)
+    if (vehicle) await bot.test.killEntity(vehicle)
   })
 
   addTest('place armor stand', async (bot) => {

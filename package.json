@@ -4,9 +4,19 @@
   "description": "create minecraft bots with a stable, high level API",
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "lib/",
+    "docs/",
+    "examples/",
+    "LICENSE"
+  ],
   "scripts": {
     "mocha_test": "mocha --reporter ./test/common/durationsReporter.js --exit",
     "test": "npm run mocha_test",
+    "test:unit": "node test/run-unit.js",
+    "test:types": "tsc --noEmit --strict --skipLibCheck --esModuleInterop --target ES2022 --module commonjs test/types.ts",
     "pretest": "npm run lint",
     "lint": "standard && standard-markdown",
     "fix": "standard --fix && standard-markdown --fix",
@@ -14,24 +24,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/PrismarineJS/mineflayer.git"
+    "url": "https://github.com/HYPExMon5ter/mineflayer.git"
   },
   "engines": {
     "node": ">=22"
   },
   "license": "MIT",
   "dependencies": {
-    "minecraft-data": "^3.114.0",
-    "minecraft-protocol": "^1.67.0",
+    "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-10/minecraft-data-3.117.0.tgz",
+    "minecraft-protocol": "git+https://github.com/HYPExMon5ter/node-minecraft-protocol.git#4fc8bc1041dcfc2ed945a4d4ea6d22503c37c317",
     "mojangson": "^2.0.4",
     "prismarine-biome": "^1.1.1",
     "prismarine-block": "^1.22.0",
     "prismarine-chat": "^1.7.1",
-    "prismarine-chunk": "^1.41.0",
+    "prismarine-chunk": "git+https://github.com/HYPExMon5ter/prismarine-chunk.git#a1b092aeb286b09dda00104c6789660def3e271a",
     "prismarine-entity": "^2.5.0",
-    "prismarine-item": "^1.17.0",
+    "prismarine-item": "git+https://github.com/HYPExMon5ter/prismarine-item.git#40bc3c27ab96f1ae3126ecbda79f7c713c5cb40b",
     "prismarine-nbt": "^2.0.0",
-    "prismarine-physics": "^1.11.1",
+    "prismarine-physics": "git+https://github.com/HYPExMon5ter/prismarine-physics.git#9a6e364ceabf467ec443bc2a3359bd4562913da6",
     "prismarine-recipe": "^1.5.0",
     "prismarine-registry": "^1.10.0",
     "prismarine-windows": "^2.9.0",
@@ -40,6 +50,12 @@
     "typed-emitter": "^1.0.0",
     "uuid-1345": "^1.0.2",
     "vec3": "^0.1.7"
+  },
+  "overrides": {
+    "minecraft-data": "$minecraft-data",
+    "prismarine-chunk": "$prismarine-chunk",
+    "prismarine-item": "$prismarine-item",
+    "prismarine-physics": "$prismarine-physics"
   },
   "devDependencies": {
     "@types/node": "^25.2.1",

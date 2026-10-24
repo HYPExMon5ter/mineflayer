@@ -39,6 +39,12 @@ module.exports = () => async (bot) => {
         assert.fail(`Unexpected message: ${message}`) // error
       }
       return true // stop listening
+    }).catch(err => {
+      // What the server has, as this bot sees it: where the digger is and the blocks around its feet
+      const digger = bot.players[name]?.entity
+      const feet = digger?.position.floored()
+      const column = feet ? [-2, -1, 0, 1].map(dy => `${feet.y + dy} ${bot.blockAt(feet.offset(0, dy, 0))?.name}`).join(', ') : 'unknown'
+      throw new Error(`${err.message}; the digger is at ${digger?.position} with blocks ${column}`)
     })
   })
 }

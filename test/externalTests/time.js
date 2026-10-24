@@ -49,9 +49,11 @@ module.exports = () => async (bot) => {
   const originalDaylightCycle = bot.time.doDaylightCycle
 
   // Night with the cycle off: covers isDay false and doDaylightCycle false.
+  // An earlier test can leave the time near 18000 (bed sets it), so wait for the cycle to be off
+  // too: an update sent before the gamerule applied would otherwise end the wait.
   sendSetDaylightCycleCommand(false)
   bot.test.sayEverywhere('/time set 18000')
-  await waitForTimeState(() => isTimeClose(bot.time.timeOfDay, 18000))
+  await waitForTimeState(() => isTimeClose(bot.time.timeOfDay, 18000) && !bot.time.doDaylightCycle)
   assert(isTimeClose(bot.time.timeOfDay, 18000), `Expected time to be close to 18000, got ${bot.time.timeOfDay}`)
   assert.strictEqual(bot.time.isDay, false, 'midnight should be night')
   assert.strictEqual(bot.time.doDaylightCycle, false)

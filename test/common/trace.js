@@ -18,6 +18,12 @@ const file = process.env.TRACE ?? path.join(os.tmpdir(), `mineflayer-trace-${new
 if (!isMainThread) {
   const { file, pending } = workerData
   const stream = fs.createWriteStream(file, { flags: 'w' })
+  const fail = (err) => {
+    Atomics.store(pending, 1, 1)
+    Atomics.notify(pending, 0)
+    console.error(`trace write failed: ${err.message}`)
+  }
+  stream.on('error', fail)
   const bigintSafe = (k, v) => typeof v === 'bigint' ? v.toString() : v
   // Buffers arrive as plain Uint8Arrays and must still serialize in Buffer's {type,data} form.
   const rewrap = (o) => {
@@ -26,23 +32,39 @@ if (!isMainThread) {
     return o
   }
   parentPort.on('message', (record) => {
-    stream.write(`${JSON.stringify(rewrap(record), bigintSafe)}\n`, () => {
-      Atomics.sub(pending, 0, 1)
-      Atomics.notify(pending, 0)
-    })
+    if (Atomics.load(pending, 1)) return
+    try {
+      stream.write(`${JSON.stringify(rewrap(record), bigintSafe)}\n`, () => {
+        Atomics.sub(pending, 0, 1)
+        Atomics.notify(pending, 0)
+      })
+    } catch (err) {
+      fail(err)
+    }
   })
 } else {
   let worker
   let pending
   const getWorker = () => {
     if (worker) return worker
-    pending = new Int32Array(new SharedArrayBuffer(4))
+    pending = new Int32Array(new SharedArrayBuffer(8))
     worker = new Worker(__filename, { workerData: { file, pending } })
     worker.unref()
-    console.log(`trace: ${file}`)
+    worker.on('error', err => {
+      Atomics.store(pending, 1, 1)
+      console.error(`trace worker failed: ${err.message}`)
+    })
+    console.error(`trace: ${file}`)
     process.on('exit', () => {
       let n
-      while ((n = Atomics.load(pending, 0)) > 0) Atomics.wait(pending, 0, n, 10000)
+      const deadline = Date.now() + 10000
+      while ((n = Atomics.load(pending, 0)) > 0 && !Atomics.load(pending, 1)) {
+        if (Date.now() >= deadline) {
+          console.error(`trace flush timed out with ${n} records pending`)
+          break
+        }
+        Atomics.wait(pending, 0, n, 100)
+      }
     })
     return worker
   }
@@ -50,7 +72,12 @@ if (!isMainThread) {
   function emit (record) {
     const w = getWorker()
     Atomics.add(pending, 0, 1)
-    w.postMessage({ ts: Date.now(), ...record })
+    try {
+      w.postMessage({ ts: Date.now(), ...record })
+    } catch (err) {
+      Atomics.sub(pending, 0, 1)
+      throw err
+    }
   }
 
   function write (type, name, data = null) {

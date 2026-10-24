@@ -1,7 +1,6 @@
 const { Vec3 } = require('vec3')
 
 const { spawn } = require('child_process')
-const { once } = require('../../../lib/promise_utils')
 const process = require('process')
 const assert = require('assert')
 const { sleep, onceWithCleanup } = require('../../../lib/promise_utils')
@@ -37,31 +36,42 @@ function inject (bot, wrap) {
   bot.test.teleport = teleport
   bot.test.resetState = resetState
   bot.test.awaitCommandsProcessed = awaitCommandsProcessed
+  bot.test.waitForServerTick = waitForServerTick
   bot.test.setInventorySlot = setInventorySlot
   bot.test.placeBlock = placeBlock
   bot.test.runExample = runExample
   bot.test.tellAndListen = tellAndListen
   bot.test.selfKill = selfKill
   bot.test.killEntity = killEntity
+  bot.test.digChecked = digChecked
+  bot.test.removeDrops = removeDrops
+  bot.test.isDroppedItem = isDroppedItem
   bot.test.wait = function (ms) {
     return new Promise((resolve) => { setTimeout(resolve, ms) })
   }
 
   bot.test.awaitItemReceived = async (command) => {
-    const p = once(bot.inventory, 'updateSlot')
+    // An unrelated slot update (e.g. the previous test's late correction) must not count
+    const p = onceWithCleanup(bot.inventory, 'updateSlot', {
+      timeout: 20000,
+      checkCondition: (slot, oldItem, newItem) => newItem != null && (oldItem == null || newItem.type !== oldItem.type || newItem.count > oldItem.count)
+    })
     bot.chat(command)
     await p // await getting the item
   }
   // setting relative to true makes x, y, & z relative using ~
-  bot.test.setBlock = async ({ x = 0, y = 0, z = 0, relative, blockName }) => {
+  // `states` is appended to the block in the command, for example '[waterlogged=false]'
+  bot.test.setBlock = async ({ x = 0, y = 0, z = 0, relative, blockName, states = '' }) => {
     const { x: _x, y: _y, z: _z } = relative ? bot.entity.position.floored().offset(x, y, z) : { x, y, z }
     const block = bot.blockAt(new Vec3(_x, _y, _z))
     if (block.name === blockName) {
       return
     }
-    const p = once(bot.world, `blockUpdate:(${_x}, ${_y}, ${_z})`)
+    // Wait for the requested block: an update still in flight from an earlier change (such as
+    // the previous test's reset) would otherwise end the wait first
+    const p = onceWithCleanup(bot.world, `blockUpdate:(${_x}, ${_y}, ${_z})`, { timeout: 20000, checkCondition: (oldBlock, newBlock) => newBlock?.name === blockName })
     const prefix = relative ? '~' : ''
-    bot.chat(`/setblock ${prefix}${x} ${prefix}${y} ${prefix}${z} ${blockName}`)
+    bot.chat(`/setblock ${prefix}${x} ${prefix}${y} ${prefix}${z} ${blockName}${states}`)
     await p
   }
 
@@ -160,8 +170,11 @@ function inject (bot, wrap) {
   // resetState uses it to skip the /fill roundtrips after read-only tests.
   // Fills themselves fire blockUpdate, so the flag is cleared after they
   // settle; a late-arriving update just makes the next reset conservative.
+  // A large change (fishing's water fill) reaches the client as whole-chunk
+  // resends without any blockUpdate, so a column load counts as a change too.
   let worldDirty = true
   bot.on('blockUpdate', () => { worldDirty = true })
+  bot.on('chunkColumnLoad', () => { worldDirty = true })
 
   // always leaves you in creative mode
   async function resetState () {
@@ -178,6 +191,9 @@ function inject (bot, wrap) {
       await resetBlocksToSuperflat()
       worldDirty = false
     }
+    // After the fills, which drop items themselves: from 1.13, removing one half of a bed breaks the
+    // other, which drops the bed item.
+    await removeAllDrops()
     // Clear after the fills: they destroy the previous test's containers,
     // and those deferred closes return items into the inventory — the clear's
     // give-retry converges over those late returns.
@@ -254,6 +270,28 @@ function inject (bot, wrap) {
     const finalClear = clearSuccess()
     bot.chat('/clear')
     await finalClear
+    // The server confirms a command while handling it, but sends the emptied slots with the
+    // inventory broadcast of its next tick: a test that set a slot in between saw it cleared under
+    // it. A later command can still run before that tick (26.x runs commands as they arrive), so
+    // wait until the game time has advanced, i.e. a whole tick ran after the clear.
+    await waitForServerTick()
+  }
+
+  async function gameTime () {
+    // Read the translation argument: 1.8's "Time is %d" is not rendered with the number
+    const reply = onceWithCleanup(bot, 'message', { timeout: 5000, checkCondition: message => /^commands\.time\.query(\.gametime)?$/.test(message.translate ?? '') })
+    bot.chat('/time query gametime')
+    const [message] = await reply
+    return Number(message.with[0].toString())
+  }
+
+  async function waitForServerTick () {
+    const start = await gameTime()
+    for (let attempt = 0; attempt < 100; attempt++) {
+      await bot.waitForTicks(1)
+      if (await gameTime() !== start) return
+    }
+    throw new Error('the server game time did not advance')
   }
 
   // you need to be in creative mode for this to work
@@ -387,6 +425,82 @@ function inject (bot, wrap) {
       return closeExample(err)
     }
     return closeExample()
+  }
+
+  // Digs the block at position and checks that the server broke it, not only the client's prediction.
+  // bot.dig resolves on the prediction, right after sending the finish packet. 26.x queues digging
+  // packets for its next tick but runs commands as they arrive, so a later /setblock could run first
+  // and the late break would remove that block. From 1.19 the server acknowledges each digging
+  // packet's sequence once handled; earlier servers handle commands and digging packets in order, so
+  // a command round trip is enough. A block the server kept has been resent by then.
+  async function digChecked (position, blockName) {
+    const acknowledgements = digAcknowledgements()
+    await bot.dig(bot.blockAt(position))
+    if (acknowledgements) {
+      await acknowledgements.handled()
+      // A break the server found too fast is delayed without a block update, and the bot keeps its
+      // prediction, so ask the server whether the block is still there.
+      const feedback = onceWithCleanup(bot, 'messagestr', { timeout, checkCondition: message => /^Test (passed|failed)/.test(message) })
+      bot.chat(`/execute unless block ${position.x} ${position.y} ${position.z} minecraft:${blockName}`)
+      const [result] = await feedback
+      assert.match(result, /^Test passed/, `the server still has ${blockName} after the dig`)
+    } else {
+      await awaitCommandsProcessed(`dug ${blockName}`)
+    }
+    assert.notStrictEqual(bot.blockAt(position).name, blockName)
+  }
+
+  // Tracks the last block prediction sequence the bot sent and the highest one the server
+  // acknowledged, so a wait can tell whether everything sent so far has been handled (1.19+).
+  function digAcknowledgements () {
+    const ack = bot.registry.protocol?.play?.toClient?.types?.packet_acknowledge_player_digging
+    if (!ack?.[1]?.some(field => field.name === 'sequenceId')) return null
+    if (bot.test.digAcknowledgements) return bot.test.digAcknowledgements
+
+    const state = { sent: 0, acknowledged: 0 }
+    const nextSequence = bot._nextSequence
+    bot._nextSequence = () => (state.sent = nextSequence())
+    bot._client.on('acknowledge_player_digging', ({ sequenceId }) => {
+      state.acknowledged = Math.max(state.acknowledged, sequenceId)
+    })
+    state.handled = async () => {
+      if (state.acknowledged >= state.sent) return
+      const sent = state.sent
+      await onceWithCleanup(bot._client, 'acknowledge_player_digging', { timeout, checkCondition: ({ sequenceId }) => sequenceId >= sent })
+    }
+    bot.test.digAcknowledgements = state
+    return state
+  }
+
+  // The server's entity type for commands, and the names Mineflayer gives a dropped item (those
+  // prismarine-entity's getDroppedItem accepts: 1.13 names the item object item_stack)
+  const itemEntityType = bot.supportFeature('entityNameUpperCaseNoUnderscore') ? 'Item' : 'item'
+  function isDroppedItem (entity) {
+    return ['item', 'Item', 'item_stack'].includes(entity.name)
+  }
+  const awaitGone = entities => Promise.all(entities.map(entity => onceWithCleanup(bot, 'entityGone', { timeout, checkCondition: gone => gone.id === entity.id })))
+
+  // A drop can only be picked up after a delay, which can land it in the hotbar after the reset
+  // while the next test sets its slots
+  async function removeDrops (position) {
+    const drops = Object.values(bot.entities).filter(entity => isDroppedItem(entity) && entity.position.distanceTo(position) < 3)
+    if (!drops.length) return
+    const gone = awaitGone(drops)
+    bot.chat(`/kill @e[type=${itemEntityType}]`)
+    await gone
+  }
+
+  // Removes every dropped item before a test. One left by an earlier test (a tossed stack, the bed
+  // item a reset fill drops) is picked up once anything moves it within reach of the bot: a block
+  // the test places on it pushes it out, and fishing's water carries it. Landing in the hotbar while
+  // a creative slot set is in flight, it makes the server report that slot holding it. The kill also
+  // reaches drops the client has not been sent yet, so the marker confirms that it ran; the drops
+  // the client does show are awaited until it is told they are gone, so a test never finds one the
+  // server no longer has.
+  async function removeAllDrops () {
+    bot.chat(`/kill @e[type=${itemEntityType}]`)
+    await awaitCommandsProcessed('drops-removed')
+    await awaitGone(Object.values(bot.entities).filter(isDroppedItem))
   }
 
   function selfKill () {

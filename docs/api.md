@@ -49,7 +49,7 @@
       - [enchantmentTable.putLapis(item)](#enchantmenttableputlapisitem)
     - [mineflayer.anvil](#mineflayeranvil)
       - [anvil.combine(itemOne, itemTwo[, name])](#anvilcombineitemone-itemtwo-name)
-      - [anvil.combine(item[, name])](#anvilcombineitem-name)
+      - [anvil.rename(item[, name])](#anvilrenameitem-name)
       - [villager "ready"](#villager-ready)
       - [villager.trades](#villagertrades)
       - [villager.trade(tradeIndex, [times])](#villagertradetradeindex-times)
@@ -84,6 +84,8 @@
       - [Particle.longDistanceRender](#particlelongdistancerender)
       - [Particle.count](#particlecount)
       - [Particle.movementSpeed](#particlemovementspeed)
+      - [Particle.maxSpeed](#particlemaxspeed)
+      - [Particle.randomizationType](#particlerandomizationtype)
   - [Bot](#bot)
     - [mineflayer.createBot(options)](#mineflayercreatebotoptions)
     - [Properties](#properties)
@@ -134,6 +136,7 @@
       - [bot.experience.points](#botexperiencepoints)
       - [bot.experience.progress](#botexperienceprogress)
       - [bot.health](#bothealth)
+      - [bot.isAlive](#botisalive)
       - [bot.food](#botfood)
       - [bot.foodSaturation](#botfoodsaturation)
       - [bot.oxygenLevel](#botoxygenlevel)
@@ -150,6 +153,7 @@
       - [bot.time.moonPhase](#bottimemoonphase)
       - [bot.time.bigAge](#bottimebigage)
       - [bot.time.age](#bottimeage)
+      - [bot.time.clocks](#bottimeclocks)
       - [bot.quickBarSlot](#botquickbarslot)
       - [bot.inventory](#botinventory)
       - [bot.targetDigBlock](#bottargetdigblock)
@@ -239,6 +243,7 @@
       - ["dismount" (vehicle)](#dismount-vehicle)
       - ["windowOpen" (window)](#windowopen-window)
       - ["windowClose" (window)](#windowclose-window)
+      - ["unknownWindow" (packet)](#unknownwindow-packet)
       - ["sleep"](#sleep)
       - ["wake"](#wake)
       - ["experience"](#experience)
@@ -247,7 +252,8 @@
       - ["scoreboardTitleChanged" (scoreboard)](#scoreboardtitlechanged-scoreboard)
       - ["scoreUpdated" (scoreboard, item)](#scoreupdated-scoreboard-item)
       - ["scoreRemoved" (scoreboard, item)](#scoreremoved-scoreboard-item)
-      - ["scoreboardPosition" (position, scoreboard)](#scoreboardposition-position-scoreboard)
+      - ["scoreboardPosition" (position, scoreboard, previous)](#scoreboardposition-position-scoreboard-previous)
+      - ["scoreboardPositionCleared" (position, previous)](#scoreboardpositioncleared-position-previous)
       - ["teamCreated" (team)](#teamcreated-team)
       - ["teamRemoved" (team)](#teamremoved-team)
       - ["teamUpdated" (team)](#teamupdated-team)
@@ -307,8 +313,8 @@
       - [bot.dig(block, [forceLook], [digFace])](#botdigblock-forcelook-digface)
       - [bot.stopDigging()](#botstopdigging)
       - [bot.digTime(block)](#botdigtimeblock)
-      - [bot.acceptResourcePack()](#botacceptresourcepack)
-      - [bot.denyResourcePack()](#botdenyresourcepack)
+      - [bot.acceptResourcePack([request])](#botacceptresourcepackrequest)
+      - [bot.denyResourcePack([request])](#botdenyresourcepackrequest)
       - [bot.placeBlock(referenceBlock, faceVector)](#botplaceblockreferenceblock-facevector)
       - [bot.placeEntity(referenceBlock, faceVector)](#botplaceentityreferenceblock-facevector)
       - [bot.activateBlock(block, direction?: Vec3, cursorPos?: Vec3)](#botactivateblockblock-direction-vec3-cursorpos-vec3)
@@ -621,10 +627,13 @@ See `bot.openAnvil(anvilBlock)`.
 
 This function returns a `Promise`, with `void` as its argument upon completion.
 
+Pass items of the anvil window or of `bot.inventory`: those exact items are moved into the anvil, so items of one type that differ only in enchantments or other components are not confused. The promise resolves once the bot has taken the result the server produced for both items and the final name. Without `name` the result keeps the custom name of the item it is based on, as in the vanilla client; an empty `name` removes it.
 
-#### anvil.combine(item[, name])
+#### anvil.rename(item[, name])
 
 This function returns a `Promise`, with `void` as its argument upon completion.
+
+An empty `name` removes the item's custom name. The promise resolves once the bot has taken the result whose name is exactly `name`.
 
 
 #### villager "ready"
@@ -680,11 +689,14 @@ Name of the scoreboard.
 
 #### ScoreBoard.title
 
-The title of the scoreboard (does not always equal the name)
+The title of the scoreboard as a plain string (does not always equal the name). A JSON or NBT chat component title is converted to text. A plain-string title, as sent before 1.13, is kept unchanged, including `§` formatting codes.
 
 #### ScoreBoard.itemsMap
 
 An object with all items in the scoreboard in it
+
+Each item also exposes `displayName` as a ChatMessage. A server-provided score display name takes precedence over the team's formatted player name; otherwise the existing team/name fallback is used.
+
 ```js
 {
   wvffle: { name: 'wvffle', value: 3 },
@@ -796,7 +808,15 @@ Amount of particles created
 
 #### Particle.movementSpeed
 
-Particle speed in a random direction
+Particle speed in a random direction. On 26.3+, this is the X-axis maximum speed; use `maxSpeed` for all three axes.
+
+#### Particle.maxSpeed
+
+A `Vec3` of maximum particle speeds along each axis. Before 26.3, all three components equal `movementSpeed`.
+
+#### Particle.randomizationType
+
+The 26.3+ randomization mode: `default`, `alternative`, or `alternative_with_speed`. Undefined on older versions.
 
 ## Bot
 
@@ -1053,6 +1073,10 @@ Between 0 and 1 - amount to get to the next level.
 
 Number in the range [0, 20] representing the number of half-hearts.
 
+#### bot.isAlive
+
+`false` after the bot dies, until the server respawns it. A respawn that keeps the player's entity data (a dimension change) leaves it `true`. The next healthy `update_health` after a login or respawn sets it to `true` and emits `spawn`.
+
 #### bot.food
 
 Number in the range [0, 20] representing the number of half-turkey-legs.
@@ -1139,6 +1163,10 @@ Age of the world, in ticks.
 
 Because the Number limit of Javascript is at 2^51 - 1 bot.time.age becomes inaccurate higher than this limit and the use of bot.time.bigAge is recommended.
 Realistically though you'll probably never need to use bot.time.bigAge as it will only reach 2^51 - 1 ticks naturally after ~14280821 real years.
+
+#### bot.time.clocks
+
+26.1+ world clocks by name without the `minecraft:` prefix (for example `overworld`), resolved through the server's `world_clock` registry. Each clock is `{ id, totalTicks, partialTick, rate }` and keeps advancing by `rate` every physics tick between server updates. A clock whose registry entry is unknown is named `unknown_clock_<id>`. The other `bot.time` fields follow the `overworld` clock, or the clock with the lowest id when there is none. Empty before 26.1.
 
 #### bot.quickBarSlot
 
@@ -1263,6 +1291,22 @@ and then emitted when you respawn after death.
 This is usually the event that you want to listen to
 before doing anything on the server.
 
+On 1.21.4 and later the server ignores block, item and entity interactions until the
+client reports that its level has loaded (`player_loaded`). Spawn is therefore emitted
+right after that report, which is sent once the chunk at the player's position has
+arrived (immediately outside the build height or in spectator mode), or after 3 seconds
+if it never does, the timeout after which the server treats the client as loaded anyway.
+A new login, a respawn or a disconnect before then cancels it; a death while loading is
+reported with `death` and no `spawn`. Earlier versions emit spawn on the health update.
+
+On every version the server also refuses block interactions until the client has
+confirmed its latest teleport, which the bot does on the next tick (1.9+ with
+`teleport_confirm`, 1.8 with the position packet answering it). If a teleport is still
+unconfirmed when the player is ready, spawn (and `player_loaded`) waits for that
+confirmation; a teleport confirmed earlier adds no wait. As a result `forcedMove` for the
+spawn teleport is emitted before `spawn`, except on 1.9 to 26.2 after a death, where the
+position reply that emits `forcedMove` is deferred 1.5 seconds but `teleport_confirm` is not.
+
 #### "respawn"
 
 Emitted when you change dimensions and just before you spawn.
@@ -1275,7 +1319,9 @@ Emitted when the server changes any of the game properties.
 
 #### "resourcePack" (url, hash)
 
-Emitted when the server sends a resource pack.
+Emitted when the server sends a resource pack. The second argument is the pack UUID on 1.20.3+ and its hash on older versions. Call `bot.acceptResourcePack()` or `bot.denyResourcePack()` to answer it. Each request is answered at most once. On 1.20.3+ a server may have several packs outstanding; pass the UUID to answer a specific one.
+
+During configuration (1.20.2+, including proxy transfers) the server waits for the answer, so a request that no listener answers synchronously is accepted automatically after the event. Decline it from the listener itself to refuse it. Outside configuration nothing is answered automatically. Acceptance reports protocol status; it does not download or render the pack.
 
 #### "title" (title, type)
 
@@ -1359,6 +1405,9 @@ Fires when the server sends the abilities packet, with the new [bot.abilities](#
 Fires when an attribute of an entity changes.
 
 #### "entitySwingArm" (entity)
+
+Fires when an entity swings its main arm. On 26.3+ this comes from the separate swing animation packet.
+
 #### "entityHurt" (entity)
 #### "entityDead" (entity)
 #### "entityTaming" (entity)
@@ -1537,7 +1586,11 @@ Fires when you begin using a workbench, chest, brewing stand, etc.
 
 #### "windowClose" (window)
 
-Fires when you may no longer work with a workbench, chest, etc.
+Fires when you may no longer work with a workbench, chest, etc. Also fires when a respawn or a re-login (proxy server switch) discards the open window.
+
+#### "unknownWindow" (packet)
+
+Emitted when the server opens a menu whose layout is not supported by `prismarine-windows`. The raw packet contains `windowId`, `inventoryType`, `windowTitle`, and, on older versions, `slotCount`. The previous window is closed locally and `bot.currentWindow` becomes `null`. Because the server would otherwise ignore clicks in every other window, including the player inventory, the unsupported menu is closed on the server before this event is emitted.
 
 #### "sleep"
 
@@ -1571,9 +1624,13 @@ Fires when the score of a item in a scoreboard is updated.
 
 Fires when the score of a item in a scoreboard is removed.
 
-#### "scoreboardPosition" (position, scoreboard)
+#### "scoreboardPosition" (position, scoreboard, previous)
 
-Fires when the position of a scoreboard is updated.
+Fires when a scoreboard is displayed in a slot. `position` is the protocol display slot number; `previous` is the scoreboard that was displayed there, if any. `scoreboard` is never `undefined`.
+
+#### "scoreboardPositionCleared" (position, previous)
+
+Fires when a display slot stops showing `previous`, either because the server cleared the slot or because the objective was deleted. Slots dropped by a login emit nothing, matching `scoreboardDeleted`.
 
 #### "teamCreated" (team)
 
@@ -1973,19 +2030,21 @@ dig any other blocks until the block has been broken, or you call
 
 If you call bot.dig twice before the first dig is finished, you will get a fatal 'diggingAborted' error.
 
+The promise resolves once the bot has finished digging and updated its own world, before the server confirms the break. On 26.1–26.3 the server handles digging packets at its next tick but runs commands as they arrive, so a command sent right after `await bot.dig(block)` can still see the block. If that matters, wait for the server's update, for example `` await once(bot.world, `blockUpdate:${block.position}`) ``.
+
 #### bot.stopDigging()
 
 #### bot.digTime(block)
 
 Tells you how long it will take to dig the block, in milliseconds.
 
-#### bot.acceptResourcePack()
+#### bot.acceptResourcePack([request])
 
-Accepts resource pack.
+Accepts a resource pack request. Without an argument, answers the most recent request if it is still unanswered. `request` selects an outstanding request by the id from the [`resourcePack`](#resourcepack-url-hash) event (UUID on 1.20.3+, hash before) or by its URL, so `bot.on('resourcePack', bot.acceptResourcePack)` answers each request. Answered, removed or unknown requests are ignored.
 
-#### bot.denyResourcePack()
+#### bot.denyResourcePack([request])
 
-Denies resource pack.
+Declines a resource pack request. `request` works as for `bot.acceptResourcePack`.
 
 #### bot.placeBlock(referenceBlock, faceVector)
 
@@ -2007,6 +2066,8 @@ This function returns a `Promise`, with `Entity` as its argument upon completion
    indicating which face of the `referenceBlock` to place the block against.
 
 The new block will be placed at `referenceBlock.position.plus(faceVector)`.
+
+Supported items are end crystals, boats and rafts (including chest boats), spawn eggs and armor stands. From 1.21.2 each boat item spawns its own entity type, such as `oak_boat`.
 
 #### bot.activateBlock(block, direction?: Vec3, cursorPos?: Vec3)
 
@@ -2078,6 +2139,8 @@ Play an arm swing animation.
 
  * `hand` can take `left` or `right` which is the arm that is animated. Default: `right`
  * `showHand` is a boolean whether to add the hand to the packet, Default: `true`
+
+Java 26.3 removed the packet for this. There a `right` swing is sent as the main-hand attack swing (`punch`), which also resets the attack cooldown as in vanilla; `left` sends nothing because no off-hand swing packet exists, and `showHand` is ignored. The server itself swings the arm for block placement and `activateBlock`, so Mineflayer no longer sends a swing for those on 26.3.
 
 #### bot.mount(entity)
 
@@ -2231,7 +2294,7 @@ Put the item at `slot` in the inventory.
 
 This function returns a `Promise`, with `void` as its argument once the server has acknowledged the close.
 
-Close the `window`. On 1.16.5 and below the server only learns which inventory slots the window changed on its next tick, so await this before anything else (a command, another player) touches those slots.
+Close the `window`. On 1.16.5 and below the server only learns which inventory slots the window changed on its next tick, so await this before anything else (a command, another player) touches those slots. A `null` window (`bot.currentWindow` after the window closed on its own) is a no-op.
 
 #### bot.transfer(options)
 
@@ -2330,7 +2393,7 @@ To resume normal physics, call `stopFlying()`.
 #### bot.creative.startFlying()
 
 Sets `bot.physics.gravity` to `0`.
-To resume normal physics, call `stopFlying()`.
+To resume normal physics, call `stopFlying()`. Gravity is also restored when the server takes away the ability to fly, for example when the bot leaves creative mode.
 
 This method is useful if you want to hover while digging the ground below you.
 It is not necessary to call this function before calling `flyTo()`.

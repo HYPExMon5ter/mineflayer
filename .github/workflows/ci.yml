@@ -4,7 +4,12 @@ on:
   push:
     branches:
       - master
+      - audit/java-26.3
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}-${{ github.event.pull_request.number || github.run_id }}
@@ -15,12 +20,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 22.x
-      uses: actions/setup-node@v1.4.4
+    - uses: actions/checkout@v4
+    - name: Use Node.js 24
+      uses: actions/setup-node@v4
       with:
         node-version: 24
-    - run: npm i && npm run lint
+        cache: npm
+        cache-dependency-path: npm-shrinkwrap.json
+    - run: npm ci --ignore-scripts
+    - run: npm run lint
+
+  Unit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: npm-shrinkwrap.json
+      - run: npm ci --ignore-scripts
+      - run: npm run test:unit
+      - run: npm run test:types
   
   PrepareSupportedVersions:
     runs-on: ubuntu-latest
@@ -28,9 +52,9 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 22.x
-      uses: actions/setup-node@v1.4.4
+    - uses: actions/checkout@v4
+    - name: Use Node.js 24
+      uses: actions/setup-node@v4
       with:
         node-version: 24
     - id: set-matrix
@@ -54,18 +78,26 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 22.x
-        uses: actions/setup-node@v1.4.4
+      - uses: actions/checkout@v4
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
         with:
           node-version: 24
+          cache: npm
+          cache-dependency-path: npm-shrinkwrap.json
       - name: Setup Java JDK
-        uses: actions/setup-java@v1.4.3
+        uses: actions/setup-java@v4
         with:
+          distribution: temurin
           java-version: 25
           java-package: jre
       - name: Install Dependencies
-        run: npm install
+        run: npm ci --ignore-scripts
+      - name: Cache vanilla server jars
+        uses: actions/cache@v4
+        with:
+          path: server_jars
+          key: server-jars-${{ runner.os }}-${{ matrix.versions }}
 
       # Per-test durations from the last master run of this version group, so a PR gets a
       # comment listing tests it made more than 2x slower (test/common/compareDurations.js).
@@ -86,7 +118,7 @@ jobs:
           for v in ${{ matrix.versions }}; do
             # TRACE is cheap (<1% runtime) and only written by the harness bot,
             # so always record a packet trace for post-mortem analysis.
-            TRACE="trace-${v}.jsonl" DURATIONS="durations/durations-${v}.json" npm run mocha_test -- --retries 3 -g "${v}v" > "test-${v}.log" 2>&1 &
+            (result=0; MC_VERSION="$v" TRACE="trace-${v}.jsonl" DURATIONS="durations/durations-${v}.json" npm run mocha_test -- test/internalTest.js test/externalTest.js --retries 1 > "test-${v}.log" 2>&1 || result=$?; echo "$result" > "test-${v}.exit"; exit "$result") &
             pids="$pids $!"
           done
           for pid in $pids; do
@@ -94,7 +126,7 @@ jobs:
           done
           # Print passing versions first, then failing versions last
           for v in ${{ matrix.versions }}; do
-            if ! grep -q "failing" "test-${v}.log"; then
+            if [ "$(cat "test-${v}.exit" 2>/dev/null)" = "0" ]; then
               echo ""
               echo "=========================================="
               echo "  Results for Minecraft ${v}"
@@ -103,7 +135,7 @@ jobs:
             fi
           done
           for v in ${{ matrix.versions }}; do
-            if grep -q "failing" "test-${v}.log"; then
+            if [ "$(cat "test-${v}.exit" 2>/dev/null)" != "0" ]; then
               echo ""
               echo "=========================================="
               echo "  FAILED: Minecraft ${v}"
@@ -115,7 +147,7 @@ jobs:
           # so artifact storage stays small; they auto-expire quickly too.
           mkdir -p artifacts
           for v in ${{ matrix.versions }}; do
-            if grep -q "failing" "test-${v}.log"; then
+            if [ "$(cat "test-${v}.exit" 2>/dev/null)" != "0" ]; then
               cp "test-${v}.log" artifacts/
               cp "trace-${v}.jsonl" artifacts/ 2>/dev/null || true
             fi
@@ -151,3 +183,14 @@ jobs:
           name: failing-versions-${{ strategy.job-index }}
           path: artifacts/
           retention-days: 7
+
+  Required:
+    if: always()
+    needs: [Lint, Unit, PrepareSupportedVersions, MinecraftServer]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require all checks
+        env:
+          RESULTS: ${{ toJson(needs) }}
+        run: |
+          node -e 'const jobs=JSON.parse(process.env.RESULTS); if (Object.values(jobs).some(job => job.result !== "success")) process.exit(1)'

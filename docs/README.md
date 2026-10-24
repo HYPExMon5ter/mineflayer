@@ -1,7 +1,17 @@
 # Mineflayer
 
+This fork adds Java Edition 26.2 and 26.3 support and a compatibility/reliability audit on top of upstream commit `7b4bb8d2`. See the [audit report](AUDIT.md) for test evidence, dependency pins, limitations and upstream attribution, and the [upstream triage](UPSTREAM-TRIAGE.md) for the reviewed issue/PR inventory.
+
+Install this fork with Node.js 22 or newer and Git:
+
+```bash
+npm install github:HYPExMon5ter/mineflayer#audit/java-26.3
+```
+
+For reproducible application builds, replace the branch name with the desired commit SHA and keep your application's lockfile. The fork uses immutable companion-fork commits and a built minecraft-data release archive; a normal `npm install mineflayer` installs the upstream npm package instead.
+
 [![NPM version](https://img.shields.io/npm/v/mineflayer.svg?color=success&label=npm%20package&logo=npm)](https://www.npmjs.com/package/mineflayer)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/PrismarineJS/mineflayer/ci.yml.svg?label=CI&logo=github&logoColor=lightgrey)](https://github.com/PrismarineJS/mineflayer/actions?query=workflow%3A%22CI%22)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/HYPExMon5ter/mineflayer/ci.yml.svg?branch=audit%2Fjava-26.3&label=CI&logo=github&logoColor=lightgrey)](https://github.com/HYPExMon5ter/mineflayer/actions?query=workflow%3A%22CI%22)
 [![Try it on gitpod](https://img.shields.io/static/v1.svg?label=try&message=on%20gitpod&color=brightgreen&logo=gitpod)](https://gitpod.io/#https://github.com/PrismarineJS/mineflayer)
 [![Open In Colab](https://img.shields.io/static/v1.svg?label=open&message=on%20colab&color=blue&logo=google-colab)](https://colab.research.google.com/github/PrismarineJS/mineflayer/blob/master/docs/mineflayer.ipynb)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/PrismarineJS)](https://github.com/sponsors/PrismarineJS)
@@ -17,7 +27,7 @@ First time using Node.js? You may want to start with the [tutorial](tutorial.md)
 
 ## Features
 
- * Supports Minecraft 1.8 to 26.1 (1.8, 1.9, 1.10, 1.11, 1.12, 1.13, 1.14, 1.15, 1.16, 1.17, 1.18, 1.19, 1.20, 1.21, 1.21.9, 1.21.11, 26.1) <!--version-->
+ * Supports Minecraft Java 1.8 to 26.3; the exact 30 tested versions are listed in `lib/version.js`. <!--version-->
  * Entity knowledge and tracking.
  * Block knowledge. You can query the world around you. Milliseconds to find any block.
  * Physics and movement - handle all bounding boxes
@@ -35,7 +45,7 @@ First time using Node.js? You may want to start with the [tutorial](tutorial.md)
 
 ## Installation
 
-First install Node.js >= 18 from [nodejs.org](https://nodejs.org/) then:
+For the upstream npm release, first install Node.js >= 22 from [nodejs.org](https://nodejs.org/) then:
 
 ```bash
 npm install mineflayer

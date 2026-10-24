@@ -8,6 +8,8 @@ const fs = require('fs')
 const path = require('path')
 
 const { getPort } = require('./common/util')
+const { startLatencyProxy } = require('./common/latencyProxy')
+const { watchPacketErrors } = require('./common/packetErrors')
 const trace = require('./common/trace')
 const { once } = require('../lib/promise_utils')
 
@@ -16,13 +18,20 @@ const START_THE_SERVER = true
 // if you want to have time to look what's happening increase this (milliseconds)
 const TEST_TIMEOUT_MS = 90000
 
-const excludedTests = ['digEverything', 'anvil', 'placeEntity']
+// MC_LATENCY_MS=n connects the bots through a proxy that delays everything by n ms each way.
+const LATENCY_MS = Number(process.env.MC_LATENCY_MS || 0)
+
+// digEverything digs every diggable block, which takes far longer than the rest of the suite.
+// Set RUN_EXCLUDED_TESTS=1 to include it.
+const excludedTests = process.env.RUN_EXCLUDED_TESTS ? [] : ['digEverything']
 
 const propOverrides = {
   'level-type': 'FLAT',
   'spawn-npcs': 'true',
   'spawn-animals': 'false',
   'online-mode': 'false',
+  // Keep the harness responsive before its first bot joins on modern servers.
+  'pause-when-empty-seconds': '0',
   gamemode: '1',
   'spawn-monsters': 'false',
   'generate-structures': 'false',
@@ -54,7 +63,9 @@ async function pingUntilReady (port, host, version, attempts = 5) {
   }
 }
 
-for (const supportedVersion of mineflayer.testedVersions) {
+const packetErrors = watchPacketErrors()
+
+for (const supportedVersion of require('./common/versions').getTestVersions()) {
   let PORT = 25565
   const registry = require('prismarine-registry')(supportedVersion)
   const version = registry.version
@@ -67,6 +78,9 @@ for (const supportedVersion of mineflayer.testedVersions) {
 
   describe(`mineflayer_external ${supportedVersion}v`, function () {
     let bot
+    // the port the bots connect to: the server's, or the latency proxy's in front of it
+    let botPort
+    let latencyProxy = null
     this.timeout(10 * 60 * 1000)
     before(async function () {
       PORT = await getPort()
@@ -78,7 +92,7 @@ for (const supportedVersion of mineflayer.testedVersions) {
         bot = mineflayer.createBot({
           username: 'flatbot',
           viewDistance: 'tiny',
-          port: PORT,
+          port: botPort,
           host: '127.0.0.1',
           version: supportedVersion,
           // Dimension travel can stall the server thread past the 30s
@@ -86,7 +100,8 @@ for (const supportedVersion of mineflayer.testedVersions) {
           checkTimeoutInterval: TEST_TIMEOUT_MS
         })
         commonTest(bot, wrap)
-        bot.test.port = PORT
+        bot.test.port = botPort
+        bot.test.latencyMs = LATENCY_MS
         // bot.entity survives a disconnect, so only the end event proves the
         // connection is gone; the flag dies with the bot on reconnect.
         bot.once('end', () => { bot.test.disconnected = true })
@@ -101,10 +116,13 @@ for (const supportedVersion of mineflayer.testedVersions) {
           console.log('bot spawned, opping...')
           trace.log('bot spawned, opping')
           wrap.writeServer('op flatbot\n')
+          // mobs that tests summon and /kill must not leave loot that the bot picks up in a later test
           if (bot.supportFeature('gameRuleUsesResourceLocation')) {
             wrap.writeServer('gamerule minecraft:spawn_monsters false\n')
+            wrap.writeServer('gamerule minecraft:mob_drops false\n')
           } else {
             wrap.writeServer('gamerule spawnMonsters false\n')
+            wrap.writeServer('gamerule doMobLoot false\n')
           }
           bot.once('messagestr', msg => {
             if (msg.includes('Made flatbot a server operator') || msg === '[Server: Opped flatbot]') {
@@ -139,6 +157,13 @@ for (const supportedVersion of mineflayer.testedVersions) {
               trace.log('pong', { latency: results.latency })
               assert.ok(results.latency >= 0)
               assert.ok(results.latency <= 1000)
+              if (!LATENCY_MS) return
+              return startLatencyProxy({ targetPort: PORT, latencyMs: LATENCY_MS }).then(proxy => {
+                latencyProxy = proxy
+                console.log(`bots connect through a ${LATENCY_MS} ms latency proxy on port ${proxy.port}`)
+              })
+            }).then(() => {
+              botPort = latencyProxy?.port ?? PORT
               begin()
             }).catch(err => {
               trace.log('ping failed', { error: err?.message ?? String(err) })
@@ -146,11 +171,15 @@ for (const supportedVersion of mineflayer.testedVersions) {
             })
           })
         })
-      } else begin()
+      } else {
+        botPort = PORT
+        begin()
+      }
     })
 
     after((done) => {
       if (bot) bot.quit()
+      latencyProxy?.close()
       wrap.stopServer((err) => {
         if (err) {
           console.log(err)
@@ -170,6 +199,17 @@ for (const supportedVersion of mineflayer.testedVersions) {
     // example twice at once. This hook runs after every attempt, retries too.
     afterEach(() => bot?.test?.abortRunningExample?.())
 
+    // A packet the protocol could not decode is dropped with only a log line, and a test can still
+    // pass without it. Report every one once the version's suite has run.
+    const undecodedPackets = []
+    afterEach(function () {
+      for (const report of packetErrors.take()) undecodedPackets.push(`${this.currentTest.title}: ${report}`)
+    })
+    after(function () {
+      for (const report of packetErrors.take()) undecodedPackets.push(`after the suite: ${report}`)
+      if (undecodedPackets.length) throw new Error(`${undecodedPackets.length} packet(s) could not be decoded:\n${undecodedPackets.join('\n')}`)
+    })
+
     async function reconnectBot () {
       console.log('  Bot disconnected, reconnecting...')
       try { bot.end() } catch (e) { /* ignore */ }
@@ -177,13 +217,14 @@ for (const supportedVersion of mineflayer.testedVersions) {
       bot = mineflayer.createBot({
         username: 'flatbot',
         viewDistance: 'tiny',
-        port: PORT,
+        port: botPort,
         host: '127.0.0.1',
         version: supportedVersion,
         checkTimeoutInterval: TEST_TIMEOUT_MS
       })
       commonTest(bot, wrap)
-      bot.test.port = PORT
+      bot.test.port = botPort
+      bot.test.latencyMs = LATENCY_MS
       bot.once('end', () => { bot.test.disconnected = true })
       await once(bot, 'spawn')
       console.log('  Bot reconnected')

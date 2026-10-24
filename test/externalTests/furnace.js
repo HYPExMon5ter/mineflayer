@@ -11,6 +11,30 @@ module.exports = () => async (bot) => {
   const coalInputCount = 2
   const porkchopInputCount = 2
 
+  // While the furnace cooks, the server sends its cook time (window property 2) every tick, so
+  // counting those updates measures server ticks: these waits fail when the server did not do
+  // what was asked within maxTicks of its own time, however slowly a loaded machine runs it.
+  function waitForCookTime (description, condition, maxTicks) {
+    return new Promise((resolve, reject) => {
+      const seen = []
+      const stalled = setTimeout(() => finish(new Error(`${description}: no cook time update for 30 s after ${seen.join(', ')}`)), 30000)
+      function onProperty (packet) {
+        if (packet.windowId !== furnace.id || packet.property !== 2) return
+        seen.push(packet.value)
+        stalled.refresh()
+        if (condition(packet.value)) finish()
+        else if (seen.length >= maxTicks) finish(new Error(`${description} did not happen within ${maxTicks} server ticks; cook times ${seen.join(', ')}`))
+      }
+      function finish (error) {
+        clearTimeout(stalled)
+        bot._client.removeListener('craft_progress_bar', onProperty)
+        if (error) reject(error)
+        else resolve()
+      }
+      bot._client.on('craft_progress_bar', onProperty)
+    })
+  }
+
   // Test setup
   await bot.test.setInventorySlot(36, new Item(bot.registry.itemsByName.furnace.id, 1))
   await bot.test.placeBlock(36, furnacePos)
@@ -56,14 +80,15 @@ module.exports = () => async (bot) => {
   // merged value must stay below 200.
   const { x, y, z } = furnacePos
   const cookTimeKey = bot.supportFeature('furnaceNbtUsesSnakeCase') ? 'cooking_time_spent' : 'CookTime'
+  const merged = waitForCookTime('the cook time merge', cookTime => cookTime >= 195, 40)
   if (bot.supportFeature('hasDataCommand')) {
     bot.chat(`/data merge block ${x} ${y} ${z} {${cookTimeKey}:195s}`)
   } else {
     bot.chat(`/blockdata ${x} ${y} ${z} {${cookTimeKey}:195s}`)
   }
-  // The 5 remaining ticks complete in 250-320ms on every tested version; a
-  // timeout means the merge was silently ignored.
-  await onceWithCleanup(furnace, 'update', { timeout: 500, checkCondition: () => furnace.outputItem() !== null })
+  await merged
+  // 5 more ticks complete the porkchop; the output arrives before the reset cook time
+  if (furnace.outputItem() === null) await waitForCookTime('the smelted output', () => furnace.outputItem() !== null, 20)
   assert.strictEqual(furnace.outputItem(), furnace.slots[2])
   assert.strictEqual(furnace.outputItem().type, cookedPorkchopId)
   assert.strictEqual(furnace.outputItem().count, 1)

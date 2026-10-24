@@ -1,6 +1,6 @@
 const assert = require('assert')
 const Vec3 = require('vec3')
-const { once, sleep, onceWithCleanup } = require('../../lib/promise_utils')
+const { sleep, onceWithCleanup } = require('../../lib/promise_utils')
 
 module.exports = () => async (bot) => {
   // Test spawn event on death
@@ -33,11 +33,24 @@ module.exports = () => async (bot) => {
   const spot = spots[bot.test.netherAttempts++ % spots.length]
   await bot.test.teleport(new Vec3(spot.x, bot.test.groundY, spot.z))
   await cooldown
+  // The server sends the arrival teleport with the respawn but update_health, which
+  // emits spawn, only on a later tick: the teleport may be answered before or after
+  // spawn, so wait for both once the dimension has changed.
+  let changedDimension = false
+  bot.once('respawn', () => { changedDimension = true })
+  const afterDimensionChange = { timeout: 30000, checkCondition: () => changedDimension }
+  const arrive = Promise.all([
+    onceWithCleanup(bot, 'spawn', afterDimensionChange),
+    onceWithCleanup(bot, 'forcedMove', afterDimensionChange)
+  ])
   bot.chat(`/setblock ~ ~ ~ ${portalName}`)
-  await onceWithCleanup(bot, 'spawn', { timeout: 30000 })
+  await arrive
+  // Acknowledge the dimension-arrival position before issuing another move.
   bot.test.sayEverywhere('/tp 0 128 0')
 
-  await once(bot, 'forcedMove')
+  // Wait for the teleport to 0 128 0 itself: 26.3 can send the arrival position again after the
+  // client reports it has loaded, which under latency arrives after the command was sent.
+  await onceWithCleanup(bot, 'forcedMove', { timeout: 10000, checkCondition: () => bot.entity.position.distanceTo(new Vec3(0.5, 128, 0.5)) < 1 })
   // The teleport took the bot out of the exit portal.
   cooldown = portalCooldown()
   await bot.waitForChunksToLoad()
@@ -45,10 +58,15 @@ module.exports = () => async (bot) => {
   // Poll until the block below is loaded and non-air before placing.
   // On slow CI, chunks may report as loaded before block data is ready.
   let lowerBlock = bot.blockAt(bot.entity.position.offset(0, -1, 0))
+  const terrainDeadline = Date.now() + 10000
   while (!lowerBlock || lowerBlock.name === 'air') {
+    assert(Date.now() < terrainDeadline, `Nether roof not loaded: dimension=${bot.game.dimension}, position=${bot.entity.position}`)
     await sleep(100)
     lowerBlock = bot.blockAt(bot.entity.position.offset(0, -1, 0))
   }
+
+  // The roof can grow a mushroom where the sign goes, and a sign does not replace one
+  await bot.test.setBlock({ ...lowerBlock.position.offset(0, 1, 0), blockName: 'air' })
 
   await bot.lookAt(lowerBlock.position, true)
   await bot.test.setInventorySlot(36, new Item(signItem.id, 1, 0))
