@@ -2,7 +2,7 @@
 
 Executed locally on 2026-10-23 with Windows, Node.js 26.12.1 and Java 25 (OpenJDK 25.0.3). See [AUDIT.md](AUDIT.md) for scope, exclusions, dependency revisions and limitations. The [machine-readable record](validation-results.json) lists every attempt of this round, failed ones included, with its exit status and the SHA-256 of its log; the logs themselves are local and not published.
 
-This record replaces the one for `a26a40f9` (the second follow-up), which is superseded, not rewritten; its text and record remain in the history of this file. It covers Mineflayer `912e8ca2` with the dependency revisions it pins (those in AUDIT.md, except minecraft-protocol `41e6cd2`), installed from the pinned published commits and the `java-26.3-data-9` release. Every Mineflayer log of this round's matrices ran that one commit from a separate clean worktree; companion logs each name their clean commit. The follow-up `ec5885d6`, which pins minecraft-protocol `005d953`, was checked with the targeted runs under [Follow-up at `ec5885d6`](#follow-up-at-ec5885d6), the spawn readiness fix `970eba23` with those under [Follow-up at `970eba23`](#follow-up-at-970eba23), the teleport confirmation fix with those under [Follow-up at `cb248a03`](#follow-up-at-cb248a03), the removal of dropped items between vanilla tests with those under [Follow-up at `ff4ad5b0`](#follow-up-at-ff4ad5b0), and the 1.8 dropped item metadata key, which pins the `java-26.3-data-10` release and the companion commits listed in AUDIT.md, with those under [Follow-up at `16fd831a`](#follow-up-at-16fd831a).
+This record replaces the one for `a26a40f9` (the second follow-up), which is superseded, not rewritten; its text and record remain in the history of this file. It covers Mineflayer `912e8ca2` with the dependency revisions it pins (those in AUDIT.md, except minecraft-protocol `41e6cd2`), installed from the pinned published commits and the `java-26.3-data-9` release. Every Mineflayer log of this round's matrices ran that one commit from a separate clean worktree; companion logs each name their clean commit. The follow-up `ec5885d6`, which pins minecraft-protocol `005d953`, was checked with the targeted runs under [Follow-up at `ec5885d6`](#follow-up-at-ec5885d6), the spawn readiness fix `970eba23` with those under [Follow-up at `970eba23`](#follow-up-at-970eba23), the teleport confirmation fix with those under [Follow-up at `cb248a03`](#follow-up-at-cb248a03), the removal of dropped items between vanilla tests with those under [Follow-up at `ff4ad5b0`](#follow-up-at-ff4ad5b0), and the 1.8 dropped item metadata key, which pins the `java-26.3-data-10` release and the companion commits listed in AUDIT.md, with those under [Follow-up at `16fd831a`](#follow-up-at-16fd831a), and the spawn terrain and deferred teleport reply fixes with those under [Follow-up at `8ffb2d8d`](#follow-up-at-8ffb2d8d).
 
 ## Evidence format
 
@@ -10,7 +10,7 @@ Every attempt runs into a new run directory and is never overwritten, so a rerun
 
 ## Hosted CI
 
-Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23`, the teleport confirmation follow-up `cb248a03`, the test isolation follow-up `ff4ad5b0` and the dropped item follow-up `16fd831a` had not run on hosted CI when this record was written.
+Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23`, the teleport confirmation follow-up `cb248a03`, the test isolation follow-up `ff4ad5b0`, the dropped item follow-up `16fd831a` and the teleport lifecycle follow-up `8ffb2d8d` had not run on hosted CI when this record was written.
 
 ## Results
 
@@ -543,6 +543,97 @@ The new vanilla test `droppedItem` tosses a stack of seven named stone on a real
 
 The clean application install (`consumer-check-16fd831a.log`) resolves one minecraft-data, `data-10` with the documented integrity, and one forked prismarine-item for every package, and every package of the chain, prismarine-entity included, reads key 10 for 1.8; the earlier checks of that script (26.3 packet table, particles, items, dig times, protocol fixes) also passed. Development runs for this follow-up are in `audit-artifacts/followup3/dev/r11-dropped-item` and are not counted: `droppedItem` on 1.8.8 with `data-9` (failed: `getDroppedItem()` threw), and on all 30 versions with the corrected file copied over the installed data before the release was built (all passed).
 
+## Follow-up at `8ffb2d8d`
+
+`192629a7` and `973fe4fa` fix two gaps that a review of `c5fc650d` found when several teleports arrive while spawn waits (see AUDIT.md, Spawn readiness). `6282be0f` and `8ffb2d8d` fix two vanilla tests that depended on chance (see AUDIT.md, Test isolation). They pin the same dependencies as `16fd831a`.
+
+- `192629a7` keeps the 1.21.4+ terrain wait and its fallback armed until spawn is announced, and checks the terrain again at the player's position once the teleport confirmations are sent. A teleport queued behind them into a column that has not arrived no longer gets `player_loaded` and `spawn` announced there.
+- `973fe4fa` makes answering a teleport cancel a reply deferred after a death. When two post-death teleports arrive before one tick, the superseded position is no longer sent 1.5 s later, no `forcedMove` is emitted for it, and on 1.8 spawn no longer waits for it.
+
+Run `internal-baseline-448dbbb8` (in the list below) is the library of `c5fc650d` with the new tests, at a commit made only for it, on 1.8.8, 1.12.2, 1.21.3, 1.21.4 and 26.3. Its only failures are new tests:
+
+- the two same-tick deferred reply tests, on every version before 26.3: the superseded position is sent, and on 1.8 the confirmation gate waits for it;
+- three of the four column tests, on 1.21.4 and 26.3: spawn over a column that has not loaded, before the fallback.
+
+The already-confirmed column test and the login tests are guards and pass there.
+
+Spawn and teleport replies run on every version, so `8ffb2d8d` was checked from a clean worktree whose logs name it and its shrinkwrap's dependencies with:
+
+- the internal and vanilla suites on all 30 versions;
+- the vanilla suites through the latency proxy on 1.8.8, 1.12.2, 1.21.11 and 26.3;
+- the Velocity scenarios, whose server switches log in again while spawn may be waiting;
+- the companion checks below.
+
+`digEverything`, the companion libraries and the real-account runs were not repeated: the change is in two Mineflayer plugins and two tests, and touches neither digging, data nor authentication.
+
+`suite-8ffb2d8d` (server suites): The internal and vanilla suites on every version, with the new teleport tests.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 143 | 25 |
+| 1.9.4 | 145 | 23 |
+| 1.10.2 | 145 | 23 |
+| 1.11.2 | 145 | 23 |
+| 1.12.2 | 145 | 23 |
+| 1.13.2 | 145 | 23 |
+| 1.14.4 | 145 | 23 |
+| 1.15.2 | 145 | 23 |
+| 1.16.5 | 145 | 23 |
+| 1.17.1 | 151 | 19 |
+| 1.18.2 | 151 | 19 |
+| 1.19 | 154 | 16 |
+| 1.19.2 | 154 | 16 |
+| 1.19.3 | 154 | 16 |
+| 1.19.4 | 155 | 15 |
+| 1.20.1 | 156 | 15 |
+| 1.20.2 | 160 | 11 |
+| 1.20.4 | 161 | 10 |
+| 1.20.6 | 160 | 11 |
+| 1.21.1 | 161 | 10 |
+| 1.21.3 | 163 | 8 |
+| 1.21.4 | 169 | 2 |
+| 1.21.5 | 169 | 2 |
+| 1.21.6 | 169 | 2 |
+| 1.21.8 | 169 | 2 |
+| 1.21.9 | 170 | 2 |
+| 1.21.11 | 170 | 2 |
+| 26.1 | 175 | 2 |
+| 26.2 | 175 | 2 |
+| 26.3 | 177 | 1 |
+
+`lag150-8ffb2d8d` (server suites through the latency proxy, 150 ms each way): The vanilla suites through the latency proxy on the versions of the previous follow-ups.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 69 | 0 |
+| 1.12.2 | 69 | 0 |
+| 1.21.11 | 73 | 0 |
+| 26.3 | 74 | 0 |
+
+| Scenario | Proxy | Backends | Clients | Refusals checked |
+|---|---|---|---|---|
+| legacy-offline | Velocity, legacy forwarding, offline mode | Paper 1.8.8, Paper 1.8.8, Paper 1.12.2 | 1.8.8 (switch and back): pass; 1.12.2: pass | – |
+| modern-offline | Velocity, modern forwarding, offline mode | Paper 26.3, Paper 26.3, Paper 1.21.11, Paper 1.20.4 | 26.3 (switch and back): pass; 1.21.11: pass; 1.20.4: pass | – |
+| legacy-online | Velocity, legacy forwarding, online mode | Paper 1.8.8, Paper 1.8.8 | 1.8.8 (switch and back): pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+| modern-online | Velocity, modern forwarding, online mode | Paper 26.3, Paper 26.3 | 26.3 (switch and back): pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+| vanilla-online-direct | none (direct, online mode) | vanilla 1.20.4 | 1.20.4: pass | no session (offline client): refused as expected; rejected access token: refused as expected |
+
+| Package | Commit | Result |
+|---|---|---|
+| mineflayer lint | `8ffb2d8` | passes |
+| mineflayer unit | `8ffb2d8` | 98 passing |
+| mineflayer types | `8ffb2d8` | passes |
+
+Three earlier suite runs of this follow-up are in the list below, none accepted:
+
+- `suite-973fe4fa` passed on 29 versions. On 1.21.3 `placeEntity place armor stand` and `useChests` were refused. The packet trace shows that the summon egg test's zombie egg hatched a chicken jockey and only the zombie was killed, so the chicken stood on the block both tests place into. `6282be0f` also kills the zombie's vehicle.
+- `suite-6282be0f` passed on 29 versions. On 1.15.2 the child process of `exampleInventory` exited: its `waitForChunksToLoad()`, called after the test teleported it, timed out waiting for 25 chunks, as `exampleBee` once did on 1.12.2 in the first follow-up. The example bot did not die and 1.15.2 has no terrain wait, so neither changed code path ran. The example's own trace was not recorded, so the cause is not established.
+- `suite-6282be0f-b` is the same commit run again. It passed on 29 versions, 1.15.2 and 1.21.3 included. On 1.17.1 `nether` was refused its sign: the trace shows the generated nether roof had a brown mushroom where the sign goes, which a sign does not replace, and every teleport had been confirmed more than a second before the click. `8ffb2d8d` sets that spot to air first.
+
+Development runs on 1.21.3 and 1.17.1 forced a jockey (`/summon`, `/ride`) and a mushroom (`/setblock`). With the old tests they failed as in the suite runs; with the fixes they passed. Lint, unit and type checks at `6282be0f` (`companions/mineflayer-*-7.log`) passed but are not part of this record.
+
+The reviewer's reproductions (`audit-artifacts/astra-review-c5fc650d/run-review.cjs`: `terrain` on 1.21.4 and 26.3, `deferred` on 1.8.8, 1.12.2, 1.21.4 and 26.3) failed at `c5fc650d` as reported (2 of 2 and 3 of 4) and passed with the fixes. Their logs are in `audit-artifacts/followup3/dev/r12-lifecycle`, with the development runs of this follow-up, which are not counted. The first development runs of the new tests failed on harness mistakes, corrected before the commit: replies were recorded from when the bot sent them rather than when the server received them, and the 26.3 control expected no reply to the first of two post-death teleports, which 26.3 answers on its own tick.
+
 ## Attempts of this round
 
 - `suite-d22e00df` (server suites, `d22e00df`): all 30 versions passed. Superseded: the nether test changed in `912e8ca2` after the first lag run.
@@ -568,6 +659,10 @@ The clean application install (`consumer-check-16fd831a.log`) resolves one minec
 - `drops-baseline-eea8cd5a` (vanilla `resetState` tests, `eea8cd5a`): 0 of 30 versions passed; failed: 1.10.2 (resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.9.4 (resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.11.2 (resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.8.8 (resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.12.2 (resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.13.2 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.14.4 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.15.2 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.16.5 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.17.1 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.18.2 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.19 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.19.2 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.19.3 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.20.1 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.19.4 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.20.2 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.20.4 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.20.6 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.21.1 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.21.3 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.21.4 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.21.5 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.21.6 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.21.8 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.21.9 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 1.21.11 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 26.1 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 26.2 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items), 26.3 (resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items; resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items). Baseline: the reset of `edb5d2b5` with the `resetState` tests of `bbb2c2c7`, at a commit made only for it. Every failure is the test finding a dropped item after the reset, which is the bug.
 - `lag150-bbb2c2c7` (server suites through the latency proxy, 150 ms each way, `bbb2c2c7`): 2 of 4 versions passed; failed: 26.3 (time: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:), 1.12.2 (time: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:). Superseded by `ff4ad5b0`: `time` failed on 1.12.2 and 26.3 because the new `resetState` test had set the time near 18000 just before it, and the test did not wait for its gamerule (see the follow-up at `ff4ad5b0`).
 - `droppedItem-baseline-1a56b7bd` (vanilla `droppedItem` test, `1a56b7bd`): 29 of 30 versions passed; failed: 1.8.8 (droppedItem: TypeError: Cannot read properties of undefined (reading 'present')). Baseline: the library and data (`data-9`) of `5b8123d8` with the tests of `16fd831a`, at a commit made only for it. The 1.8.8 failure, `getDroppedItem()` throwing, is the bug; the other 29 versions read the stack at their key.
+- `internal-baseline-448dbbb8` (internal suite, `448dbbb8`): 0 of 5 versions passed; failed: 1.12.2 (mineflayer_internal 1.12.2v: AssertionError [ERR_ASSERTION]: teleport replies: [[1.5,66,1.5],[3.5,80,3.5]]; mineflayer_internal 1.12.2v: AssertionError [ERR_ASSERTION]: position_look heights), 1.8.8 (mineflayer_internal 1.8.8v: AssertionError [ERR_ASSERTION]: a superseded deferred reply still holds back actions waiting for teleport confirmations; mineflayer_internal 1.8.8v: AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:), 1.21.3 (mineflayer_internal 1.21.3v: AssertionError [ERR_ASSERTION]: teleport replies: [[1.5,66,1.5],[3.5,80,3.5]]; mineflayer_internal 1.21.3v: AssertionError [ERR_ASSERTION]: position_look heights), 1.21.4 (mineflayer_internal 1.21.4v: AssertionError [ERR_ASSERTION]: teleport replies: [[1.5,66,1.5],[3.5,80,3.5]]; mineflayer_internal 1.21.4v: AssertionError [ERR_ASSERTION]: position_look heights; mineflayer_internal 1.21.4v: TypeError: Cannot read properties of null (reading 'position'); mineflayer_internal 1.21.4v: Error: done() called multiple times in test <mineflayer_internal 1.21.4v spawn after the teleport confirmation teleports that move the player into another chunk column on 1.21.4+ waits for the column under the latest confirmed teleport> of file C:\Users\blake\Desktop\Min; mineflayer_internal 1.21.4v: AssertionError [ERR_ASSERTION]: spawn announced 55 ms after the wait began; the fallback is 3000 ms; mineflayer_internal 1.21.4v: AssertionError [ERR_ASSERTION]: spawn announced over a column that has not loaded), 26.3 (mineflayer_internal 26.3v: TypeError: Cannot read properties of null (reading 'position'); mineflayer_internal 26.3v: Error: done() called multiple times in test <mineflayer_internal 26.3v spawn after the teleport confirmation teleports that move the player into another chunk column on 1.21.4+ waits for the column under the latest confirmed teleport> of file C:\Users\blake\Desktop\Minecra; mineflayer_internal 26.3v: AssertionError [ERR_ASSERTION]: spawn announced 119 ms after the wait began; the fallback is 3000 ms; mineflayer_internal 26.3v: AssertionError [ERR_ASSERTION]: spawn announced over a column that has not loaded). Baseline: the library of `c5fc650d` with the tests of `973fe4fa`, at a commit made only for it, on 1.8.8, 1.12.2, 1.21.3, 1.21.4 and 26.3. Every failure is a new test: the two same-tick deferred reply tests on every version before 26.3, and three of the four column tests on 1.21.4 and 26.3; the guards pass.
+- `suite-973fe4fa` (server suites, `973fe4fa`): 29 of 30 versions passed; failed: 1.21.3 (placeEntity place armor stand: Error: Failed to place entity; useChests: Error: Server refused to place chest at (0, -60, 1): the block is still air). Superseded by `6282be0f`: 29 versions passed; on 1.21.3 `placeEntity place armor stand` and `useChests` were refused because a chicken from a chicken jockey hatched by the summon egg test stood where they place (fixed in `6282be0f`, see AUDIT.md, Test isolation).
+- `suite-6282be0f` (server suites, `6282be0f`): 29 of 30 versions passed; failed: 1.15.2 (exampleInventory: Error: examples/inventory.js exited before the test finished (code 1, signal null)). Not accepted: 29 versions passed; on 1.15.2 `examples/inventory.js` exited when its `waitForChunksToLoad()` after the test's `/tp` timed out waiting for 25 chunks, as `exampleBee` once did on 1.12.2 in the first follow-up; the example bot did not die and 1.15.2 has no terrain wait, so neither changed code path ran. The suites were run again at the same commit (`suite-6282be0f-b`).
+- `suite-6282be0f-b` (server suites, `6282be0f`): 29 of 30 versions passed; failed: 1.17.1 (nether: Error: Server refused to place warped_sign at (0, 128, 0): the block is still brown_mushroom). Superseded by `8ffb2d8d`: 29 versions passed, 1.15.2 and 1.21.3 included; on 1.17.1 `nether` was refused its sign because the generated nether roof had a brown mushroom where the sign goes (fixed in `8ffb2d8d`, see AUDIT.md, Test isolation).
 
 ## Failures investigated
 
