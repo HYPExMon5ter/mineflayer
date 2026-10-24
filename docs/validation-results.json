@@ -5708,7 +5708,7 @@
       "kind": "suite",
       "latency": 0,
       "commit": "6282be0ff4db70c12fe8ab8437d6edfe05f794c0",
-      "note": "Not accepted: 29 versions passed; on 1.15.2 `examples/inventory.js` exited when its `waitForChunksToLoad()` after the test's `/tp` timed out waiting for 25 chunks, as `exampleBee` once did on 1.12.2 in the first follow-up; the example bot did not die and 1.15.2 has no terrain wait, so neither changed code path ran. The suites were run again at the same commit (`suite-6282be0f-b`).",
+      "note": "Not accepted: 29 versions passed; on 1.15.2 `examples/inventory.js` exited when its `waitForChunksToLoad()` after the test's `/tp` timed out waiting for 25 chunks, as `exampleBee` once did on 1.12.2 in the first follow-up; the example bot did not die and 1.15.2 has no terrain wait, so neither changed code path ran. The suites were run again at the same commit (`suite-6282be0f-b`). The cause was established afterwards: the vanilla server had stopped reading the example's connection when it switched it to play, so it never handled the confirmation of the `/tp` and never moved the example's chunk view (see AUDIT.md, Example connections on 1.7.10–1.20.1 servers).",
       "attempts": [
         {
           "version": "1.10.2",
