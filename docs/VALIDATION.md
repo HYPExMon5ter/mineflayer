@@ -10,7 +10,7 @@ Every attempt runs into a new run directory and is never overwritten, so a rerun
 
 ## Hosted CI
 
-Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23`, the teleport confirmation follow-up `cb248a03`, the test isolation follow-up `ff4ad5b0`, the dropped item follow-up `16fd831a` and the teleport lifecycle follow-up `8ffb2d8d` had not run on hosted CI when this record was written.
+Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23`, the teleport confirmation follow-up `cb248a03`, the test isolation follow-up `ff4ad5b0`, the dropped item follow-up `16fd831a` and the teleport lifecycle follow-ups `8ffb2d8d` and `060b882d` first ran on hosted CI at `15136195`: push run [40072028091](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40072028091) and pull request run [40072032019](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40072032019). Each passed lint, unit, types and seven of the eight Minecraft jobs. Each failed `MC 26.2 26.3`, and with it the required gate, on one internal 26.3 test whose timing the local Windows runs never exposed (see the follow-up at `858e6bb0`). `858e6bb0` had not run on hosted CI when this record was written.
 
 ## Results
 
@@ -708,6 +708,62 @@ The respawn handler runs on every version, so `060b882d` was checked from a clea
 | mineflayer types | `060b882` | passes |
 
 The reviewer's protocol fixture (`audit-artifacts/astra-review-1e67f091/run-respawn.cjs` on 1.8.8, 1.12.2, 1.21.4 and 26.3) failed 3 of 4 at `1e67f091` in the review, with 26.3 passing, and passes with the fix. Its log is in `audit-artifacts/followup3/dev/r15-respawn`, with the development runs of this follow-up, which are not counted. The same review corrected the range of the server stall in AUDIT.md (Stalled example connections), from the jar-by-jar Netty checks in `audit-artifacts/followup3/dev/r15-autoread-range`; no run of this record depends on that correction.
+
+## Follow-up at `858e6bb0`
+
+`858e6bb0` changes only two internal tests (see AUDIT.md, Test isolation); the library and its dependencies are those of `060b882d`.
+
+- **The failure:** the hosted CI runs at `15136195` failed `physics cancels the delayed respawn teleport reply when a transfer lands inside its delay` on 26.3. The test required exactly the reply 100 ms after writing the teleport. On Linux that window also held the bot's first falling `position` packet, at y 79.92, one tick of gravity below the reply.
+- **The fix:** the test now takes its snapshot when the reply's `forcedMove` fires and requires no `tick_end` before the reply. It also counts `forcedMove` after the transfer begins, which makes it fail on 1.20.2–26.2 if the transfer no longer cancels the deferred reply. `teleports answers every teleport queued for a tick, in arrival order` had the same flaw with catch-up ticks and now takes its snapshot inside the tick.
+
+The failure depends on Linux timer precision, so the Windows logs of this record cannot show it. The discriminating runs are development runs in `audit-artifacts/followup3/dev/r17-ci-26.3`, which are not counted:
+
+- Linux Node.js 24, the CI's major version, in Docker:
+  - the unchanged test failed 10 of 10;
+  - the old and new files were run against library mutants that remove the transfer cancel or defer the 26.3 reply;
+  - the fixed tests passed 20 loops on five versions and 40 runs on fully loaded CPUs.
+- Windows: a forced 120 ms event-loop stall reproduces both old failures on 26.3, and the fixed tests pass with it.
+
+The changed file was checked from a clean worktree whose logs name `858e6bb0` and its shrinkwrap's dependencies with the internal suite on all 30 versions and the companion checks below. The vanilla suites, the latency and Velocity runs, `digEverything`, the companion libraries and the real-account runs were not repeated: no library, harness or vanilla test changed.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 75 | 25 |
+| 1.9.4 | 77 | 23 |
+| 1.10.2 | 77 | 23 |
+| 1.11.2 | 77 | 23 |
+| 1.12.2 | 77 | 23 |
+| 1.13.2 | 77 | 23 |
+| 1.14.4 | 77 | 23 |
+| 1.15.2 | 77 | 23 |
+| 1.16.5 | 77 | 23 |
+| 1.17.1 | 81 | 19 |
+| 1.18.2 | 81 | 19 |
+| 1.19 | 84 | 16 |
+| 1.19.2 | 84 | 16 |
+| 1.19.3 | 84 | 16 |
+| 1.19.4 | 85 | 15 |
+| 1.20.1 | 85 | 15 |
+| 1.20.2 | 89 | 11 |
+| 1.20.4 | 90 | 10 |
+| 1.20.6 | 89 | 11 |
+| 1.21.1 | 90 | 10 |
+| 1.21.3 | 92 | 8 |
+| 1.21.4 | 98 | 2 |
+| 1.21.5 | 98 | 2 |
+| 1.21.6 | 98 | 2 |
+| 1.21.8 | 98 | 2 |
+| 1.21.9 | 98 | 2 |
+| 1.21.11 | 98 | 2 |
+| 26.1 | 103 | 2 |
+| 26.2 | 103 | 2 |
+| 26.3 | 104 | 1 |
+
+| Package | Commit | Result |
+|---|---|---|
+| mineflayer lint | `858e6bb` | passes |
+| mineflayer unit | `858e6bb` | 98 passing |
+| mineflayer types | `858e6bb` | passes |
 
 ## Attempts of this round
 
