@@ -850,6 +850,49 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             }
           })
         })
+
+        it('sends nothing for the deferred reply once another respawn arrives inside its delay', (done) => {
+          server.on('playerJoin', async (client) => {
+            try {
+              const replies = await joinAndDie(client)
+              const respawned = once(bot, 'respawn')
+              await client.write('respawn', bot.test.generateRespawnPacket())
+              await respawned
+              let forcedMoves = 0
+              bot.on('forcedMove', () => { forcedMoves++ })
+              if (registry.version['>=']('26.3')) {
+                // Never deferred: answered on the next tick, before the second respawn.
+                const answered = once(client, 'position_look')
+                bot._client.emit('position', teleport(1, 3.5, 80, 3.5))
+                await answered
+                forcedMoves = 0
+                replies.length = 0
+              } else {
+                bot._client.emit('position', teleport(1, 3.5, 80, 3.5))
+                await sleep(200) // the tick that defers the reply
+              }
+              // A dimension change: the deferred reply answers a teleport in the world just left.
+              const respawnedAgain = once(bot, 'respawn')
+              await client.write('respawn', bot.test.generateRespawnPacket())
+              await respawnedAgain
+              let confirmed = false
+              bot._afterTeleportsConfirmed(() => { confirmed = true })
+              assert.ok(confirmed, 'a respawn leaves the deferred reply owed')
+              await sleep(1700)
+              assert.deepStrictEqual(replies, [], `teleport replies: ${JSON.stringify(replies)}`)
+              assert.strictEqual(forcedMoves, 0, `${forcedMoves} forcedMove events`)
+              // The new world's position is answered at once and moves the bot.
+              const answered = once(client, 'position_look')
+              bot._client.emit('position', teleport(2, 5.5, 70, 5.5))
+              await answered
+              assert.deepStrictEqual(replies, [[5.5, 70, 5.5]], `teleport replies: ${JSON.stringify(replies)}`)
+              assert.strictEqual(forcedMoves, 1, `${forcedMoves} forcedMove events`)
+              done()
+            } catch (err) {
+              done(err)
+            }
+          })
+        })
       })
       it('gravity + land on solid block + jump', (done) => {
         let y = 80
