@@ -10,7 +10,7 @@ Every attempt runs into a new run directory and is never overwritten, so a rerun
 
 ## Hosted CI
 
-Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23`, the teleport confirmation follow-up `cb248a03`, the test isolation follow-up `ff4ad5b0`, the dropped item follow-up `16fd831a` and the teleport lifecycle follow-ups `8ffb2d8d` and `060b882d` first ran on hosted CI at `15136195`: push run [40072028091](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40072028091) and pull request run [40072032019](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40072032019). Each passed lint, unit, types and seven of the eight Minecraft jobs. Each failed `MC 26.2 26.3`, and with it the required gate, on one internal 26.3 test whose timing the local Windows runs never exposed (see the follow-up at `858e6bb0`). `858e6bb0` had not run on hosted CI when this record was written.
+Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23`, the teleport confirmation follow-up `cb248a03`, the test isolation follow-up `ff4ad5b0`, the dropped item follow-up `16fd831a` and the teleport lifecycle follow-ups `8ffb2d8d` and `060b882d` first ran on hosted CI at `15136195`: push run [40072028091](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40072028091) and pull request run [40072032019](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40072032019). Each passed lint, unit, types and seven of the eight Minecraft jobs. Each failed `MC 26.2 26.3`, and with it the required gate, on one internal 26.3 test whose timing the local Windows runs never exposed (see the follow-up at `858e6bb0`). `858e6bb0` and `d3e13adf` had not run on hosted CI when this record was written.
 
 ## Results
 
@@ -724,6 +724,8 @@ The failure depends on Linux timer precision, so the Windows logs of this record
   - the fixed tests passed 20 loops on five versions and 40 runs on fully loaded CPUs.
 - Windows: a forced 120 ms event-loop stall reproduces both old failures on 26.3, and the fixed tests pass with it.
 
+*Correction:* the transfer check only fails without the cancel when the post-death teleport is answered before the transfer arrives. Before 26.3 this test still slept 100 ms for that, and with delayed, batched delivery it passed without the cancel. Fixed in `d3e13adf`; see the follow-up at `d3e13adf`.
+
 The changed file was checked from a clean worktree whose logs name `858e6bb0` and its shrinkwrap's dependencies with the internal suite on all 30 versions and the companion checks below. The vanilla suites, the latency and Velocity runs, `digEverything`, the companion libraries and the real-account runs were not repeated: no library, harness or vanilla test changed.
 
 | Java version | Passing | Pending |
@@ -764,6 +766,63 @@ The changed file was checked from a clean worktree whose logs name `858e6bb0` an
 | mineflayer lint | `858e6bb` | passes |
 | mineflayer unit | `858e6bb` | 98 passing |
 | mineflayer types | `858e6bb` | passes |
+
+## Follow-up at `d3e13adf`
+
+`d3e13adf` changes only the transfer test of the previous follow-up (see AUDIT.md, Test isolation); the library and its dependencies are those of `060b882d`.
+
+- **The gap:** a review of `5b340cc0` found that before 26.3 the test wrote the post-death teleport, slept 100 ms and started the transfer, without knowing whether a tick had deferred the reply yet. With the mock server's writes delivered late and together, the teleport and `start_configuration` arrived in one batch, leaving play dropped the queued teleport before any reply timer existed, and the test passed on 1.20.2–26.2 with the transfer's cancel removed.
+- **The fix:** the bot writes `teleport_confirm` just before it defers the reply, so the test now waits for the server to receive the confirmation of that teleport, checks that no movement has been sent, and only then starts the transfer. Both checks after the transfer are unchanged.
+
+The gap needs delayed, coalesced delivery, which the logs of this record do not have. The discriminating runs are development runs in `audit-artifacts/followup3/dev/r19-transfer-barrier`, which are not counted. With the same results on Windows Node.js 26 and Linux Node.js 24 in Docker, on 1.20.2, 1.21.1, 1.21.4, 26.2 and 26.3:
+
+- the old test passes with the cancel removed under batched delivery;
+- the new test fails it on 1.20.2–26.2 under normal and batched delivery, and fails a library that never defers on the new check;
+- the 26.3 checks still reject a deferred 26.3 reply and two replies in one tick;
+- the real plugin passes under both deliveries.
+
+It also has Linux runs of the fixed tests in a loop and on fully loaded CPUs, and a stall check showing that the neighbouring login and respawn tests, which queue their teleport locally, do not share the gap.
+
+The changed file was checked from a clean worktree whose logs name `d3e13adf` and its shrinkwrap's dependencies with the internal suite on all 30 versions and the companion checks below. Nothing else was repeated: no library, harness or vanilla test changed.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 75 | 25 |
+| 1.9.4 | 77 | 23 |
+| 1.10.2 | 77 | 23 |
+| 1.11.2 | 77 | 23 |
+| 1.12.2 | 77 | 23 |
+| 1.13.2 | 77 | 23 |
+| 1.14.4 | 77 | 23 |
+| 1.15.2 | 77 | 23 |
+| 1.16.5 | 77 | 23 |
+| 1.17.1 | 81 | 19 |
+| 1.18.2 | 81 | 19 |
+| 1.19 | 84 | 16 |
+| 1.19.2 | 84 | 16 |
+| 1.19.3 | 84 | 16 |
+| 1.19.4 | 85 | 15 |
+| 1.20.1 | 85 | 15 |
+| 1.20.2 | 89 | 11 |
+| 1.20.4 | 90 | 10 |
+| 1.20.6 | 89 | 11 |
+| 1.21.1 | 90 | 10 |
+| 1.21.3 | 92 | 8 |
+| 1.21.4 | 98 | 2 |
+| 1.21.5 | 98 | 2 |
+| 1.21.6 | 98 | 2 |
+| 1.21.8 | 98 | 2 |
+| 1.21.9 | 98 | 2 |
+| 1.21.11 | 98 | 2 |
+| 26.1 | 103 | 2 |
+| 26.2 | 103 | 2 |
+| 26.3 | 104 | 1 |
+
+| Package | Commit | Result |
+|---|---|---|
+| mineflayer lint | `d3e13ad` | passes |
+| mineflayer unit | `d3e13ad` | 98 passing |
+| mineflayer types | `d3e13ad` | passes |
 
 ## Attempts of this round
 
