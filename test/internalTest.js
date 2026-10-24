@@ -732,6 +732,125 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
           }
         })
       })
+      describe('two teleports handled before one tick inside the respawn reply delay', () => {
+        const teleport = (teleportId, x, y, z) => ({
+          x,
+          y,
+          z,
+          dx: 0,
+          dy: 0,
+          dz: 0,
+          pitch: 0,
+          yaw: 0,
+          flags: bot.supportFeature('positionPacketHasBitflags') ? {} : 0,
+          teleportId
+        })
+        // Before 26.3 both replies run in the tick's flush: the first is deferred, the second
+        // answers at once and must supersede it. 26.3 answers one teleport per tick, never deferred.
+        const expected = () => registry.version['>=']('26.3')
+          ? [[3.5, 80, 3.5], [1.5, 66, 1.5]]
+          : [[1.5, 66, 1.5]]
+        async function joinAndDie (client) {
+          await client.write('login', bot.test.generateLoginPacket())
+          const chunk = bot.test.buildChunk()
+          chunk.setBlockType(pos, goldId)
+          await client.write('map_chunk', generateChunkPacket(chunk))
+          await once(bot, 'chunkColumnLoad')
+          // Received by the server, the reply has been sent and its forcedMove emitted.
+          const answered = once(client, 'position_look')
+          await client.write('position', teleport(0, 1.5, 80, 1.5))
+          await answered
+          const replies = []
+          client.on('packet', (data, meta) => {
+            if (meta.name === 'position_look') replies.push([data.x, data.y, data.z])
+          })
+          bot.emit('death')
+          return replies
+        }
+        function queueBothTeleports () {
+          // Emitted together, both packets are handled before the next tick.
+          bot._client.emit('position', teleport(1, 3.5, 80, 3.5))
+          bot._client.emit('position', teleport(2, 1.5, 66, 1.5))
+        }
+
+        it('sends only the newest position, moves once per answered teleport and leaves no confirmation owed', (done) => {
+          server.on('playerJoin', async (client) => {
+            try {
+              const replies = await joinAndDie(client)
+              let forcedMoves = 0
+              bot.on('forcedMove', () => { forcedMoves++ })
+              queueBothTeleports()
+              while (forcedMoves < expected().length) await once(bot, 'forcedMove')
+              let confirmed = false
+              bot._afterTeleportsConfirmed(() => { confirmed = true })
+              assert.ok(confirmed, 'a superseded deferred reply still holds back actions waiting for teleport confirmations')
+              // Outlive the 1.5 s reply delay.
+              await sleep(1700)
+              assert.deepStrictEqual(replies, expected(), `teleport replies: ${JSON.stringify(replies)}`)
+              assert.strictEqual(forcedMoves, expected().length, `${forcedMoves} forcedMove events`)
+              done()
+            } catch (err) {
+              done(err)
+            }
+          })
+        })
+
+        it('sends nothing for either teleport once a new login arrives before their tick', (done) => {
+          server.on('playerJoin', async (client) => {
+            try {
+              const replies = await joinAndDie(client)
+              let forcedMoves = 0
+              bot.on('forcedMove', () => { forcedMoves++ })
+              const relogged = once(bot, 'login')
+              queueBothTeleports()
+              bot._client.emit('login', bot.test.generateLoginPacket())
+              await relogged
+              let confirmed = false
+              bot._afterTeleportsConfirmed(() => { confirmed = true })
+              assert.ok(confirmed, 'a login leaves teleport confirmations owed to the previous session')
+              await sleep(1700)
+              assert.deepStrictEqual(replies, [], `teleport replies: ${JSON.stringify(replies)}`)
+              assert.strictEqual(forcedMoves, 0, `${forcedMoves} forcedMove events`)
+              done()
+            } catch (err) {
+              done(err)
+            }
+          })
+        })
+
+        it('sends nothing for the deferred reply once a new login arrives inside its delay', (done) => {
+          server.on('playerJoin', async (client) => {
+            try {
+              const replies = await joinAndDie(client)
+              let forcedMoves = 0
+              bot.on('forcedMove', () => { forcedMoves++ })
+              if (registry.version['>=']('26.3')) {
+                // Never deferred: answered on the next tick, before the login.
+                const answered = once(client, 'position_look')
+                bot._client.emit('position', teleport(1, 3.5, 80, 3.5))
+                await answered
+                forcedMoves = 0
+                replies.length = 0
+              } else {
+                bot._client.emit('position', teleport(1, 3.5, 80, 3.5))
+                await sleep(200) // the tick that defers the reply
+              }
+              const relogged = once(bot, 'login')
+              await client.write('login', bot.test.generateLoginPacket())
+              await relogged
+              let confirmed = false
+              bot._afterTeleportsConfirmed(() => { confirmed = true })
+              assert.ok(confirmed, 'a login leaves the deferred reply owed')
+              await sleep(1700)
+              assert.deepStrictEqual(replies, [], `teleport replies: ${JSON.stringify(replies)}`)
+              assert.strictEqual(forcedMoves, 0, `${forcedMoves} forcedMove events`)
+              done()
+            } catch (err) {
+              done(err)
+            }
+          })
+        })
+      })
       it('gravity + land on solid block + jump', (done) => {
         let y = 80
         let landed = false
@@ -3089,6 +3208,48 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             await sleep(200)
             assert.strictEqual(spawns, 0)
             assert.deepStrictEqual(seen, [])
+            done()
+          } catch (err) { done(err) }
+        })
+      })
+
+      it('waits only for the newest of two post-death teleports handled before one tick', function (done) {
+        // Before 26.3 the first reply is deferred and the second, answered in the same flush,
+        // supersedes it: 1.8 must not wait for the deferred reply and no version may send it.
+        server.on('playerJoin', async (client) => {
+          try {
+            const seen = record(client)
+            const replyHeights = []
+            client.on('position_look', (data) => replyHeights.push(data.y))
+            client.write('login', bot.test.generateLoginPacket())
+            client.write('position', facingChest(0))
+            client.write('map_chunk', chestChunk())
+            const spawned = once(bot, 'spawn')
+            client.write('update_health', healthy)
+            await spawned
+            const respawnRequested = once(client, 'client_command')
+            client.write('update_health', { ...healthy, health: 0 })
+            await respawnRequested
+            const placed = once(client, 'block_place')
+            activateChestOnSpawn(done)
+            const respawn = bot.test.generateRespawnPacket()
+            if (respawn.worldState) respawn.worldState.copyMetadata = false
+            else respawn.copyMetadata = false
+            const respawned = once(bot, 'respawn')
+            client.write('respawn', respawn)
+            await respawned
+            bot._client.emit('position', { ...facingChest(1), y: 80 })
+            bot._client.emit('position', facingChest(2))
+            client.write('map_chunk', chestChunk())
+            client.write('update_health', healthy)
+            await placed
+            const expected = bot.supportFeature('teleportUsesOwnPacket')
+              ? [confirmed(0), ...loaded(), confirmed(1), confirmed(2), ...loaded(), 'block_place']
+              : [confirmed(0), confirmed(2), 'block_place']
+            assert.deepStrictEqual(seen, expected)
+            // Outlive the 1.5 s reply delay. 26.3 answers each teleport on its own tick, never deferred.
+            await sleep(1700)
+            assert.deepStrictEqual(replyHeights, registry.version['>=']('26.3') ? [66, 80, 66] : [66, 66], 'position_look heights')
             done()
           } catch (err) { done(err) }
         })
