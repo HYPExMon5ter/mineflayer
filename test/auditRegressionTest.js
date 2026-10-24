@@ -240,6 +240,19 @@ describe('audit regressions', () => {
     }
   })
 
+  it('reads a dropped item from the metadata key the server sends it at', () => {
+    // 1.8.8 and 1.12.2 servers (externalTests/droppedItem.js; 1.8.8 server jar: EntityItem watcher 10)
+    for (const [version, key] of [['1.8.8', 10], ['1.12.2', 6]]) {
+      const bot = makeBot(version)
+      require('../lib/plugins/entities')(bot)
+      bot._client.emit('spawn_entity', { entityId: 2, type: 2, x: 0, y: 0, z: 0, pitch: 0, yaw: 0, objectData: 1, velocity: { x: 0, y: 0, z: 0 } })
+      bot._client.emit('entity_metadata', { entityId: 2, metadata: [{ key, type: 5, value: { blockId: 1, itemCount: 7, itemDamage: 0 } }] })
+      const stack = bot.entities[2].getDroppedItem()
+      assert.strictEqual(stack?.name, 'stone', version)
+      assert.strictEqual(stack.count, 7, version)
+    }
+  })
+
   it('acknowledges empty chunk batches without poisoning subsequent throughput estimates', () => {
     const bot = makeBot()
     require('../lib/plugins/blocks')(bot, { version: bot.version })
