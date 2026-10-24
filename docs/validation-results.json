@@ -4030,6 +4030,910 @@
           "accepted": false
         }
       ]
+    },
+    {
+      "label": "drops-baseline-47822c10",
+      "kind": "drops",
+      "latency": 0,
+      "commit": "47822c1073e441e242c8c154806ba86f36bdc8ec",
+      "note": "Superseded baseline: its helpers recognised dropped items only by the names `item` and `Item`, so on 1.13.2 (`item_stack`) the tossed stack was never seen and the bed item was missed; repeated as `drops-baseline-eea8cd5a` with the corrected helpers.",
+      "attempts": [
+        {
+          "version": "1.10.2",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.10.2.log",
+          "sha256": "f276a3b4e9b331190c7825f3695adbbd55dd587fbbdf6305283fec6e0a5b7957",
+          "accepted": false
+        },
+        {
+          "version": "1.11.2",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.11.2.log",
+          "sha256": "0d42a04951d867004a97b729d024acf19d03f7c84a8969faddfe9ae267d19420",
+          "accepted": false
+        },
+        {
+          "version": "1.9.4",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.9.4.log",
+          "sha256": "6be335e8a02ca8c52fbae7485523b915c6b36c7b5d07dfd3b52341bf76f946b5",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.8.8.log",
+          "sha256": "fb220fcc118e2fe30f89f29b2cf856551bcbbba99fec7b490a28728f17fc3eb2",
+          "accepted": false
+        },
+        {
+          "version": "1.12.2",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.12.2.log",
+          "sha256": "e0aedb24663e85965365dfbbb352876eb52b4e22277c9aafd866647d109fe7f1",
+          "accepted": false
+        },
+        {
+          "version": "1.13.2",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: Error: Event entitySpawn did not fire within timeout of 5000ms"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.13.2.log",
+          "sha256": "08c3632981afd9ea051dc40245f233201c8e2ffe2cde15c00aaf42f6c017d6eb",
+          "accepted": false
+        },
+        {
+          "version": "1.14.4",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.14.4.log",
+          "sha256": "810ed5390bc23cc518fba085982630e8805c8d5d5d0320dd20549abcdfb76ff7",
+          "accepted": false
+        },
+        {
+          "version": "1.15.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.15.2.log",
+          "sha256": "36f41c0ff9af86560752ab5412037d978204be65f4dcd111ddbf3aa95be9a4eb",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.16.5.log",
+          "sha256": "257bbcad30bbbf82ef5b6e82608befc2a7cb2c4c048b4f07a5278829676261a9",
+          "accepted": false
+        },
+        {
+          "version": "1.17.1",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.17.1.log",
+          "sha256": "9caf0da7c20ccd90bba8468a1c508e3bb88b1e6b13d8e150f6eb3a591145cacd",
+          "accepted": false
+        },
+        {
+          "version": "1.18.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.18.2.log",
+          "sha256": "1099c91d76f8f6504a4865ce428e749689fc0a99b73487051ae710f21befbe08",
+          "accepted": false
+        },
+        {
+          "version": "1.19",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.19.log",
+          "sha256": "f0d58477f2fdfad4bf731c870293a6545b8e34c61d8d643b12572fb5d102b043",
+          "accepted": false
+        },
+        {
+          "version": "1.19.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.19.2.log",
+          "sha256": "82c1953c55e41ada5fb8daf4351fdd7f26a8505d8fa6a79ebd850b8c9c2c91c5",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.20.1.log",
+          "sha256": "9d0f9373c60658bc7810137b154f6af6d37f62a19d791e8a8e9eabec64df254c",
+          "accepted": false
+        },
+        {
+          "version": "1.19.4",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.19.4.log",
+          "sha256": "d20dfc5c8a71e2be95bd9d2b24d05a946ea68da54b6ce0d1ab65626d19967ff4",
+          "accepted": false
+        },
+        {
+          "version": "1.19.3",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.19.3.log",
+          "sha256": "f4173bafce33f8c6ae68ab78b1b07d7f1f381b54860948523046131fdfecad88",
+          "accepted": false
+        },
+        {
+          "version": "1.20.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.20.2.log",
+          "sha256": "8132ea9c32d4d9fd0fc84dc4d389c73024a7d7a97bdc36848fa8932ab2e8f701",
+          "accepted": false
+        },
+        {
+          "version": "1.20.4",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.20.4.log",
+          "sha256": "e99a2fffa907ca373df6d7a0300ae6a7e1c9778d4952faacbd105b22de10e10f",
+          "accepted": false
+        },
+        {
+          "version": "1.20.6",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.20.6.log",
+          "sha256": "8354e83a90b010a5fc9367dfbf72a51afc22ed5f0c6b8a1c8d58b35cd02b1456",
+          "accepted": false
+        },
+        {
+          "version": "1.21.1",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.21.1.log",
+          "sha256": "c415b149be99b214fe7ac4f6df64ecca41c79891618460fa0c07230a3ca3e5c7",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.21.3.log",
+          "sha256": "4b0526a22bee87fac2b604177d9e5c06a823baf10564abda56d72ad19b40a322",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.21.4.log",
+          "sha256": "014374e2d5b2cd7d83d227c4ac14388c0254a93fffa4722c1d26dec4adfcb3aa",
+          "accepted": false
+        },
+        {
+          "version": "1.21.5",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.21.5.log",
+          "sha256": "b1faa7037a702c8e6a90c3fde62d31cd03470ef5101dfa0067d45b4120b514d9",
+          "accepted": false
+        },
+        {
+          "version": "1.21.6",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.21.6.log",
+          "sha256": "f1700b987eafd354de809d9c50912ab120b2bafd07382176a60456d13a13e4c1",
+          "accepted": false
+        },
+        {
+          "version": "1.21.8",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.21.8.log",
+          "sha256": "948bfe414f6721bf8a3f7bb3d799304286ade4ed4b839e6528d4b164d2cebb76",
+          "accepted": false
+        },
+        {
+          "version": "1.21.9",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.21.9.log",
+          "sha256": "c95a3b2441ca1fac125c90224e13cfd7c7becd7ec428f3578be8d562889db954",
+          "accepted": false
+        },
+        {
+          "version": "1.21.11",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/1.21.11.log",
+          "sha256": "3df0d14c4dc7b24e862e9ab50aee8c1f0a6d6e9235da53077930b241430e2259",
+          "accepted": false
+        },
+        {
+          "version": "26.1",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/26.1.log",
+          "sha256": "a426f6f273c40f264f61083ba30061118094e257fb131de2655159b1a927612b",
+          "accepted": false
+        },
+        {
+          "version": "26.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/26.2.log",
+          "sha256": "695d6bf4c8acd904765fbc31774697a2a5e73ead1fba9a0feb16954560976fd1",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-47822c10/26.3.log",
+          "sha256": "194e9a21ac10309dfc0534f2ca0cde6fc5cf5b18660b4a0778b6730d2b4e3ca3",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "drops-baseline-eea8cd5a",
+      "kind": "drops",
+      "latency": 0,
+      "commit": "eea8cd5a9bf97d454dc7a1fb6fc34c4728a55f89",
+      "note": "Baseline: the reset of `edb5d2b5` with the `resetState` tests of `bbb2c2c7`, at a commit made only for it. Every failure is the test finding a dropped item after the reset, which is the bug.",
+      "attempts": [
+        {
+          "version": "1.10.2",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.10.2.log",
+          "sha256": "efef693c52ecc56fb3b3b9483e13d194ae69fc7d9b3cd254222cfddc3cd58c38",
+          "accepted": false
+        },
+        {
+          "version": "1.9.4",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.9.4.log",
+          "sha256": "040449065452ba322e931b8900d3eb731fb5d8537a6622c0cd85fd8844449a70",
+          "accepted": false
+        },
+        {
+          "version": "1.11.2",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.11.2.log",
+          "sha256": "42cc404913c2afd7b572126d42d6c1d3d6211e05265b5a47d5a38d92bc2fec6a",
+          "accepted": false
+        },
+        {
+          "version": "1.8.8",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.8.8.log",
+          "sha256": "95d2621d5fb84b0653559cb04e27096abadd07f57474502a92e1c4e0dd7cbe10",
+          "accepted": false
+        },
+        {
+          "version": "1.12.2",
+          "code": 1,
+          "passing": 1,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.12.2.log",
+          "sha256": "92949223c046d7c7a393893270d935ba8ccd87caa4f5340b480cf870d490cdb7",
+          "accepted": false
+        },
+        {
+          "version": "1.13.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.13.2.log",
+          "sha256": "0aa4aae33183693c88c44752e2c320baacbef75b671af5d139924a0332aa4a75",
+          "accepted": false
+        },
+        {
+          "version": "1.14.4",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.14.4.log",
+          "sha256": "29c649872bc6aef6a84f123ad022f6c41ff60637113c967b50cd84ad44a28194",
+          "accepted": false
+        },
+        {
+          "version": "1.15.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.15.2.log",
+          "sha256": "06f0f873b5e72b2df2526967cc82ccc186c295c1a570b5117be94533279dc214",
+          "accepted": false
+        },
+        {
+          "version": "1.16.5",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.16.5.log",
+          "sha256": "ed6fd6298096ac311289a5770f55d80ffab1ffdd48b5c47ec264dc1b30159df0",
+          "accepted": false
+        },
+        {
+          "version": "1.17.1",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.17.1.log",
+          "sha256": "7e87808793187b2f93ac54739bfed61cbd1e87c72ed1b79296b2dd195f32171f",
+          "accepted": false
+        },
+        {
+          "version": "1.18.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.18.2.log",
+          "sha256": "755ad20540f71f5bf2614fbcf778bad93ed41857b6775482a8048922da94f70a",
+          "accepted": false
+        },
+        {
+          "version": "1.19",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.19.log",
+          "sha256": "d07fc5a9791289965ffb892215179f073f0ab2d4857c17a800eae700fd4ee643",
+          "accepted": false
+        },
+        {
+          "version": "1.19.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.19.2.log",
+          "sha256": "e1fd844ccf05050bfd50c65982b456787153731cc9c7c57af24418f8a7f48efd",
+          "accepted": false
+        },
+        {
+          "version": "1.19.3",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.19.3.log",
+          "sha256": "f29f152c3a2cb7825414840d993761952214d8d592f3fa0b20d403114bb2404f",
+          "accepted": false
+        },
+        {
+          "version": "1.20.1",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.20.1.log",
+          "sha256": "63cd0464cc922e3ed628ec6af310ea8e6d9a0eacd054c06c421748e79dfa4a3f",
+          "accepted": false
+        },
+        {
+          "version": "1.19.4",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.19.4.log",
+          "sha256": "2ef0f91c1c3a5f177ac7e08b762cbafa36b6f6c7bb7fe82779936e57b43f8ec9",
+          "accepted": false
+        },
+        {
+          "version": "1.20.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.20.2.log",
+          "sha256": "1af999f72bacc8ec10de962a5d2e38fed3342c56dd1740e6e0fde55ff50f3710",
+          "accepted": false
+        },
+        {
+          "version": "1.20.4",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.20.4.log",
+          "sha256": "a45767f6687c82ca3a7baa056f617d82cee5174c32dedadcd14cbcd1511610ac",
+          "accepted": false
+        },
+        {
+          "version": "1.20.6",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.20.6.log",
+          "sha256": "86b6c21c2c3346467f09ab4d131577d4a77e6416081de10639bdf1f78dd8d769",
+          "accepted": false
+        },
+        {
+          "version": "1.21.1",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.21.1.log",
+          "sha256": "341e86f0a028944748555a0e952b68028f5a84de4302d41b1ccc8ce31a51f7ec",
+          "accepted": false
+        },
+        {
+          "version": "1.21.3",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.21.3.log",
+          "sha256": "bde1cb43a13b2cba35c1e41c7ec49fe3a3a364dbd9666e5e8b09dcfdb8d65b76",
+          "accepted": false
+        },
+        {
+          "version": "1.21.4",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.21.4.log",
+          "sha256": "60b72e0e583e2b29bcdf3a7395a3235ee99b801bba7eab22e073884fc444e2ff",
+          "accepted": false
+        },
+        {
+          "version": "1.21.5",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.21.5.log",
+          "sha256": "065dde1417086c76923405ba6a91dd1126837b9250963d8b44f179187a2854cd",
+          "accepted": false
+        },
+        {
+          "version": "1.21.6",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.21.6.log",
+          "sha256": "c3029d8dd718274aa72766287f8779b824ff05b8d13c0a3ebedad0b063f44140",
+          "accepted": false
+        },
+        {
+          "version": "1.21.8",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.21.8.log",
+          "sha256": "b27a8b7032fe3bb14fb671960b4c597e69f7755b4b1e89615165ea12ec8ec89d",
+          "accepted": false
+        },
+        {
+          "version": "1.21.9",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.21.9.log",
+          "sha256": "7ac0ac2aaff5a0be190d75af89823b72ed716527226531fd58b49817d2c5bbb7",
+          "accepted": false
+        },
+        {
+          "version": "1.21.11",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/1.21.11.log",
+          "sha256": "07985034e8e8263e399c11c52db81464761001e05aa9475b9081591dbf5d32c4",
+          "accepted": false
+        },
+        {
+          "version": "26.1",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/26.1.log",
+          "sha256": "77206ae536e18129c7ddee540cd6edd2904da9b9bac2f7da19197b9cc511f912",
+          "accepted": false
+        },
+        {
+          "version": "26.2",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/26.2.log",
+          "sha256": "9e7d24955c52230bee689257a867577a51de0e796978cea84c3de9738ca6c643",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 2,
+          "passing": 0,
+          "pending": 0,
+          "failing": 2,
+          "failures": [
+            "resetState removes the item its own fills drop: AssertionError [ERR_ASSERTION]: the reset left dropped items",
+            "resetState removes a stack the test tossed: AssertionError [ERR_ASSERTION]: the reset left dropped items"
+          ],
+          "log": "runs/drops-baseline-eea8cd5a/26.3.log",
+          "sha256": "d208aed07e6c642cecffcd80a81e404e3704c5e836883b86663147d28038d202",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "label": "lag150-bbb2c2c7",
+      "kind": "lag",
+      "latency": 150,
+      "commit": "bbb2c2c7d76b3a246975bdf695492e6663db7ca1",
+      "note": "Superseded by `ff4ad5b0`: `time` failed on 1.12.2 and 26.3 because the new `resetState` test had set the time near 18000 just before it, and the test did not wait for its gamerule (see the follow-up at `ff4ad5b0`).",
+      "attempts": [
+        {
+          "version": "1.8.8",
+          "code": 0,
+          "passing": 68,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/lag150-bbb2c2c7/1.8.8.log",
+          "sha256": "eb91718637f09ab3d86f4518a12050b3640ee2f717d56f80e4dbabcf803ebfea",
+          "accepted": false
+        },
+        {
+          "version": "1.21.11",
+          "code": 0,
+          "passing": 72,
+          "pending": 0,
+          "failing": 0,
+          "failures": [],
+          "log": "runs/lag150-bbb2c2c7/1.21.11.log",
+          "sha256": "0303ea8444d32031d18651694d1f3f4d227ebeef2a678bfc7ad9c5feda7b7b8d",
+          "accepted": false
+        },
+        {
+          "version": "26.3",
+          "code": 1,
+          "passing": 72,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "time: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+          ],
+          "log": "runs/lag150-bbb2c2c7/26.3.log",
+          "sha256": "4888ac791fb0e81d4258ae9872807e287af37c4673b0700dc354ab3eda1c3bee",
+          "accepted": false
+        },
+        {
+          "version": "1.12.2",
+          "code": 1,
+          "passing": 67,
+          "pending": 0,
+          "failing": 1,
+          "failures": [
+            "time: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+          ],
+          "log": "runs/lag150-bbb2c2c7/1.12.2.log",
+          "sha256": "557e58d5caabfafddc87d5d4bdd57de70cd93c5f05ef099d6d3d30a56ef6a28f",
+          "accepted": false
+        }
+      ]
     }
   ],
   "companions": [
@@ -7090,6 +7994,429 @@
           "refused": 6
         }
       }
+    },
+    {
+      "mineflayer": "ff4ad5b0acf794b5092638fc117be2cfad0e4717",
+      "note": "Dropped items removed before every vanilla test, and the `time` test waiting for its daylight cycle change.",
+      "dependencies": {
+        "minecraft-data": "https://github.com/HYPExMon5ter/node-minecraft-data/releases/download/java-26.3-data-9/minecraft-data-3.117.0.tgz sha512-cyO+6YLkQbxL58jBSTVD5GuNnMxzpDqmXQEl8sAEg6PjG9w1G9WDnSdp1fdV9sc3aGF/FmbVFoSgWs7K040wUw==",
+        "minecraft-protocol": "git+ssh://git@github.com/HYPExMon5ter/node-minecraft-protocol.git#005d953c3792b90992e542ab81cf5684b7b9fb23 sha512-LpSAvngdE/0i/wHMtLcYSWhvrl+B8E4ywlQC9ZHy1qU2Dhi1geBslN2la9L9hnkVUm+mz57OOZypuQ9WZOmp1Q==",
+        "prismarine-chunk": "git+ssh://git@github.com/HYPExMon5ter/prismarine-chunk.git#a9b77d8f2692832fddbf3e4bb1b23ab0fdfd62f4 sha512-cx3WCe8cPGD+jgTWHCM9i4b8pjkC34IXkcWL7wyvbgSJRrQAPYO8cnGI1Ysw/H9j84al7YHsFBI61sKZbmqwnQ==",
+        "prismarine-physics": "git+ssh://git@github.com/HYPExMon5ter/prismarine-physics.git#fafa7978dfbc10a46dc2aea5e72cbe0b480199d6 sha512-kpT4rwS42p3g5kyk9+pu/ahZ63ssZTZjchTe9A7SJleomKYhgOA6YFoRwXDwapoXscZVmdY5sV7E0lpSi6WUaw==",
+        "prismarine-item": "git+ssh://git@github.com/HYPExMon5ter/prismarine-item.git#fbef4939f9dc2ffc40ae27b0106097ba075ee1f3 sha512-qvBVSNa9bnI4SfBg71b/Q5V5jAPflqpVUh6ilAhs2Zqnl2cQumwHuj5ab+/jbl+wra5T2yy2qWfxevXN9WFfdw=="
+      },
+      "runs": [
+        {
+          "label": "suite-ff4ad5b0",
+          "kind": "suite",
+          "latency": 0,
+          "commit": "ff4ad5b0acf794b5092638fc117be2cfad0e4717",
+          "note": "The internal and vanilla suites on every version, including the new `resetState` tests.",
+          "attempts": [
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 138,
+              "pending": 21,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.8.8.log",
+              "sha256": "fa31289bbe8878974dfef0a236de6f6ef9aa0626abb1e1dcd672b15322d8e8ee"
+            },
+            {
+              "version": "1.11.2",
+              "code": 0,
+              "passing": 140,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.11.2.log",
+              "sha256": "d080b15076e9a90db463debf0fb2a5b19fa5d53937c75f2bdd37b44b34b03f9c"
+            },
+            {
+              "version": "1.9.4",
+              "code": 0,
+              "passing": 140,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.9.4.log",
+              "sha256": "47e71543be021a0eabad37ddb98a97d671ad85c9926484bf4cb8ad6a2e262d6e"
+            },
+            {
+              "version": "1.10.2",
+              "code": 0,
+              "passing": 140,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.10.2.log",
+              "sha256": "00970e6a2f5699c5881780243f101f5f969884407340a3522a36c8aea0bd4b8f"
+            },
+            {
+              "version": "1.15.2",
+              "code": 0,
+              "passing": 140,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.15.2.log",
+              "sha256": "b9104fe248e9f0bf95aa774389b1274a9412056139fdae8a1ebdad18d302741a"
+            },
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 140,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.12.2.log",
+              "sha256": "27bceb55249617b96ccef884d24aa240b2f9ab5ae8632d92ad2830bf39c76cd4"
+            },
+            {
+              "version": "1.14.4",
+              "code": 0,
+              "passing": 140,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.14.4.log",
+              "sha256": "4e0749b20d1942bd71f4e25d327c9df05345825b2e899614acca75cb251ad467"
+            },
+            {
+              "version": "1.13.2",
+              "code": 0,
+              "passing": 140,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.13.2.log",
+              "sha256": "5aae4646372fd8794079f68d907f9e33c39f6ba6264b0e65aee1e3846af92613"
+            },
+            {
+              "version": "1.16.5",
+              "code": 0,
+              "passing": 140,
+              "pending": 19,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.16.5.log",
+              "sha256": "f875e6a46b7da7239b9204f919f38e7b72b53d839c7aa7a46b81e7fcabd3ca3c"
+            },
+            {
+              "version": "1.17.1",
+              "code": 0,
+              "passing": 146,
+              "pending": 15,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.17.1.log",
+              "sha256": "aa346d33bff64fb0f3d768b1741e77bba2e8e8bc6c13b560332a5c7e059ebc32"
+            },
+            {
+              "version": "1.18.2",
+              "code": 0,
+              "passing": 146,
+              "pending": 15,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.18.2.log",
+              "sha256": "9ce0ee575522ce75aabdf1f65a89176e4c286ed40243fd59193ce865f110851a"
+            },
+            {
+              "version": "1.19",
+              "code": 0,
+              "passing": 149,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.19.log",
+              "sha256": "e28619719cfc28d5ac0c1fa7d19dc7b2ba1beca764d9704b308b4a129228ccb4"
+            },
+            {
+              "version": "1.19.2",
+              "code": 0,
+              "passing": 149,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.19.2.log",
+              "sha256": "bcce448b472d016ef575ed6c4cfa8a2ffaa88607ac747ed7b34d692525a9b0ed"
+            },
+            {
+              "version": "1.19.3",
+              "code": 0,
+              "passing": 149,
+              "pending": 12,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.19.3.log",
+              "sha256": "06d593af39d99ae969160c99f9df78f9f80734c1388805af3f50828c62b22029"
+            },
+            {
+              "version": "1.20.1",
+              "code": 0,
+              "passing": 151,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.20.1.log",
+              "sha256": "d9a20ca5a4471ead15b85ea6b52013e65123c77bfe19e19b80113fbc4604aabf"
+            },
+            {
+              "version": "1.19.4",
+              "code": 0,
+              "passing": 150,
+              "pending": 11,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.19.4.log",
+              "sha256": "e8405d97b5be3ef153bc44ceefbec18b52b0bf7f0b52e6943f53002e581d9623"
+            },
+            {
+              "version": "1.20.2",
+              "code": 0,
+              "passing": 155,
+              "pending": 7,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.20.2.log",
+              "sha256": "61a970efd6504ced929eec346ca2fd123ec6a798ed9e022a7e4dd4eed314d91f"
+            },
+            {
+              "version": "1.20.4",
+              "code": 0,
+              "passing": 156,
+              "pending": 6,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.20.4.log",
+              "sha256": "6284833e2db67072ed3e5c508c901dc9c84aadb32e9943268e27024cbb5f796d"
+            },
+            {
+              "version": "1.20.6",
+              "code": 0,
+              "passing": 155,
+              "pending": 7,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.20.6.log",
+              "sha256": "959446219c0121de848dafc361e7acc99d1f9f9e14b0060ee4437970be85b902"
+            },
+            {
+              "version": "1.21.1",
+              "code": 0,
+              "passing": 156,
+              "pending": 6,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.21.1.log",
+              "sha256": "5c388408db8d0d1e7882c51f191e1b8edb664d61c8914cef6a7c6a5bffcf2665"
+            },
+            {
+              "version": "1.21.3",
+              "code": 0,
+              "passing": 158,
+              "pending": 4,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.21.3.log",
+              "sha256": "4cdbb730380575c2959c740f880f437ce0a5f3e0e6029321def6c96f030571c8"
+            },
+            {
+              "version": "1.21.4",
+              "code": 0,
+              "passing": 160,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.21.4.log",
+              "sha256": "9e88d2ae75dddc1e17411e648e48ce2e78247fe6e8bb9f7b13de338b892eafca"
+            },
+            {
+              "version": "1.21.5",
+              "code": 0,
+              "passing": 160,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.21.5.log",
+              "sha256": "762499bcdb19bb15d13471aed93df8aba924b03b0841ed95c34643121bcca2b8"
+            },
+            {
+              "version": "1.21.6",
+              "code": 0,
+              "passing": 160,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.21.6.log",
+              "sha256": "21e57a9740bcc1b67e3c136c703cb56fb01b3bcf37c40c161ca370da83bcde55"
+            },
+            {
+              "version": "1.21.8",
+              "code": 0,
+              "passing": 160,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.21.8.log",
+              "sha256": "fe9cc7cc0e5e6a25f53e044d2cdd4ff14771a6a7450c43f3fa2f86313d560360"
+            },
+            {
+              "version": "1.21.9",
+              "code": 0,
+              "passing": 161,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.21.9.log",
+              "sha256": "7fbd97aed8ee8dacd56ffec4813af2074a8f214a14ca6afd426134b3ca107bbd"
+            },
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 161,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/1.21.11.log",
+              "sha256": "c86488302a4bf7ac4018ab3f0b098688971b8573dc7cd5d09ac96483801e54a1"
+            },
+            {
+              "version": "26.1",
+              "code": 0,
+              "passing": 166,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/26.1.log",
+              "sha256": "105f050979611a1e45291bd66a4be78bbe02ca8a1f71bccff8dadca1743099d7"
+            },
+            {
+              "version": "26.2",
+              "code": 0,
+              "passing": 166,
+              "pending": 2,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/26.2.log",
+              "sha256": "34d1c8b43aa83c1aea05e7cb087e1aac9538889fa6cd0baf2e1aa1c5de88eadf"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 168,
+              "pending": 1,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/suite-ff4ad5b0/26.3.log",
+              "sha256": "941c0753d2b20cedfb6249a9a32fc4e7a2a82b20016261df93ec8484b78f4d15"
+            }
+          ]
+        },
+        {
+          "label": "lag150-ff4ad5b0",
+          "kind": "lag",
+          "latency": 150,
+          "commit": "ff4ad5b0acf794b5092638fc117be2cfad0e4717",
+          "note": "The vanilla suites through the latency proxy, where the `furnace` failure occurred.",
+          "attempts": [
+            {
+              "version": "1.21.11",
+              "code": 0,
+              "passing": 72,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-ff4ad5b0/1.21.11.log",
+              "sha256": "8f71695fe43241653b5057840d54b06851f9e6f16cb23dd54c51a4229a5dd4ef"
+            },
+            {
+              "version": "26.3",
+              "code": 0,
+              "passing": 73,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-ff4ad5b0/26.3.log",
+              "sha256": "68bfe394165a334fd1364062d39d863ec7a65f4ca6f1a34644d13502c5ea6c17"
+            },
+            {
+              "version": "1.8.8",
+              "code": 0,
+              "passing": 68,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-ff4ad5b0/1.8.8.log",
+              "sha256": "c2e0304718a43683d670ab34a3bef2cff36b59b41c879a8778ae9c1fccb91f8c"
+            },
+            {
+              "version": "1.12.2",
+              "code": 0,
+              "passing": 68,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/lag150-ff4ad5b0/1.12.2.log",
+              "sha256": "a767016ff9b79db8ea72f21a096ec2145c1e90a1e233ffd71d1b63af2ee0239f"
+            }
+          ]
+        },
+        {
+          "label": "dig-ff4ad5b0-1.13.2",
+          "kind": "dig",
+          "latency": 0,
+          "commit": "ff4ad5b0acf794b5092638fc117be2cfad0e4717",
+          "note": "`digEverything` on 1.13.2, the only version whose `removeDrops` changed: it now finds the drops, named `item_stack` there.",
+          "attempts": [
+            {
+              "version": "1.13.2",
+              "code": 0,
+              "passing": 547,
+              "pending": 0,
+              "failing": 0,
+              "failures": [],
+              "log": "runs/dig-ff4ad5b0-1.13.2/1.13.2.log",
+              "sha256": "a89ee48817e621dad212d5dbdcadb34c7421f783909114eddc59a8efa87fd4db"
+            }
+          ]
+        }
+      ],
+      "companions": [
+        {
+          "label": "mineflayer lint",
+          "log": "companions/mineflayer-lint-5.log",
+          "repo": "mineflayer-evidence7",
+          "commit": "ff4ad5b0acf794b5092638fc117be2cfad0e4717",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "1ebe746d23fc7ae24f7d03e596d89cfcb42fb7bb42275d3c2be53aeba4ec91df"
+        },
+        {
+          "label": "mineflayer unit",
+          "log": "companions/mineflayer-unit-5.log",
+          "repo": "mineflayer-evidence7",
+          "commit": "ff4ad5b0acf794b5092638fc117be2cfad0e4717",
+          "passing": 97,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "3795fbc2b4312eab210733df934eb7c3ed5a7b81cdfac569ac6c2d626b0f7aee"
+        },
+        {
+          "label": "mineflayer types",
+          "log": "companions/mineflayer-types-5.log",
+          "repo": "mineflayer-evidence7",
+          "commit": "ff4ad5b0acf794b5092638fc117be2cfad0e4717",
+          "passing": 0,
+          "pending": 0,
+          "failing": 0,
+          "sha256": "c4ddcadb8cd1e938fe56b7c7ff29e3be0229038232ad308f150b084a8020447f"
+        }
+      ],
+      "proxy": null
     }
   ],
   "liveAuth": [
