@@ -2,7 +2,7 @@
 
 Executed locally on 2026-10-23 with Windows, Node.js 26.12.1 and Java 25 (OpenJDK 25.0.3). See [AUDIT.md](AUDIT.md) for scope, exclusions, dependency revisions and limitations. The [machine-readable record](validation-results.json) lists every attempt of this round, failed ones included, with its exit status and the SHA-256 of its log; the logs themselves are local and not published.
 
-This record replaces the one for `a26a40f9` (the second follow-up), which is superseded, not rewritten; its text and record remain in the history of this file. It covers Mineflayer `912e8ca2` with the dependency revisions it pins (those in AUDIT.md, except minecraft-protocol `41e6cd2`), installed from the pinned published commits and the `java-26.3-data-9` release. Every Mineflayer log of this round's matrices ran that one commit from a separate clean worktree; companion logs each name their clean commit. The follow-up `ec5885d6`, which pins minecraft-protocol `005d953`, was checked with the targeted runs under [Follow-up at `ec5885d6`](#follow-up-at-ec5885d6), the spawn readiness fix `970eba23` with those under [Follow-up at `970eba23`](#follow-up-at-970eba23), the teleport confirmation fix with those under [Follow-up at `cb248a03`](#follow-up-at-cb248a03), the removal of dropped items between vanilla tests with those under [Follow-up at `ff4ad5b0`](#follow-up-at-ff4ad5b0), and the 1.8 dropped item metadata key, which pins the `java-26.3-data-10` release and the companion commits listed in AUDIT.md, with those under [Follow-up at `16fd831a`](#follow-up-at-16fd831a), and the spawn terrain and deferred teleport reply fixes with those under [Follow-up at `8ffb2d8d`](#follow-up-at-8ffb2d8d).
+This record replaces the one for `a26a40f9` (the second follow-up), which is superseded, not rewritten; its text and record remain in the history of this file. It covers Mineflayer `912e8ca2` with the dependency revisions it pins (those in AUDIT.md, except minecraft-protocol `41e6cd2`), installed from the pinned published commits and the `java-26.3-data-9` release. Every Mineflayer log of this round's matrices ran that one commit from a separate clean worktree; companion logs each name their clean commit. The follow-up `ec5885d6`, which pins minecraft-protocol `005d953`, was checked with the targeted runs under [Follow-up at `ec5885d6`](#follow-up-at-ec5885d6), the spawn readiness fix `970eba23` with those under [Follow-up at `970eba23`](#follow-up-at-970eba23), the teleport confirmation fix with those under [Follow-up at `cb248a03`](#follow-up-at-cb248a03), the removal of dropped items between vanilla tests with those under [Follow-up at `ff4ad5b0`](#follow-up-at-ff4ad5b0), and the 1.8 dropped item metadata key, which pins the `java-26.3-data-10` release and the companion commits listed in AUDIT.md, with those under [Follow-up at `16fd831a`](#follow-up-at-16fd831a), the spawn terrain and deferred teleport reply fixes with those under [Follow-up at `8ffb2d8d`](#follow-up-at-8ffb2d8d), the 26.3 sign text item components, which pin the `java-26.3-data-11` release, with those under [Follow-up at `7af17f87`](#follow-up-at-7af17f87), and the 1.20.5–1.21.1 potion item component, which pins the `java-26.3-data-12` release, together with the stalled-connection retry, with those under [Follow-up at `5c102f14`](#follow-up-at-5c102f14).
 
 ## Evidence format
 
@@ -10,7 +10,7 @@ Every attempt runs into a new run directory and is never overwritten, so a rerun
 
 ## Hosted CI
 
-Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23`, the teleport confirmation follow-up `cb248a03`, the test isolation follow-up `ff4ad5b0`, the dropped item follow-up `16fd831a` and the teleport lifecycle follow-ups `8ffb2d8d` and `060b882d` first ran on hosted CI at `15136195`: push run [40072028091](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40072028091) and pull request run [40072032019](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40072032019). Each passed lint, unit, types and seven of the eight Minecraft jobs. Each failed `MC 26.2 26.3`, and with it the required gate, on one internal 26.3 test whose timing the local Windows runs never exposed (see the follow-up at `858e6bb0`). `858e6bb0` and `d3e13adf` had not run on hosted CI when this record was written.
+Hosted CI [39976149433](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976149433) passed at `ee776144` on 2026-10-23: all 30 Minecraft test versions, lint, and Node.js 22/24 unit and type checks, with the required gate green. This published commit includes the second and third follow-ups and the real signed-chat ordering fix. The earlier baseline run [39754758116](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39754758116) also passed at `ffc2bb45`, and push run [39976805895](https://github.com/HYPExMon5ter/mineflayer/actions/runs/39976805895) and pull request run [40010625824](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40010625824) at `a1fca241`. The spawn readiness follow-up `970eba23`, the teleport confirmation follow-up `cb248a03`, the test isolation follow-up `ff4ad5b0`, the dropped item follow-up `16fd831a` and the teleport lifecycle follow-ups `8ffb2d8d` and `060b882d` first ran on hosted CI at `15136195`: push run [40072028091](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40072028091) and pull request run [40072032019](https://github.com/HYPExMon5ter/mineflayer/actions/runs/40072032019). Each passed lint, unit, types and seven of the eight Minecraft jobs. Each failed `MC 26.2 26.3`, and with it the required gate, on one internal 26.3 test whose timing the local Windows runs never exposed (see the follow-up at `858e6bb0`). `858e6bb0`, `d3e13adf`, `7af17f87` and `5c102f14` had not run on hosted CI when this record was written.
 
 ## Results
 
@@ -824,6 +824,246 @@ The changed file was checked from a clean worktree whose logs name `d3e13adf` an
 | mineflayer unit | `d3e13ad` | 98 passing |
 | mineflayer types | `d3e13ad` | passes |
 
+## Follow-up at `7af17f87`
+
+`7af17f87` pins the data release `java-26.3-data-11` and the companions rebuilt on it (minecraft-protocol `5307b49`; the commits are in AUDIT.md), and adds the test of the fix (see AUDIT.md, Sign items on 26.3). The release differs from `data-10` only in the 26.3 `sign_text_front` and `sign_text_back` item components, whose filtered messages are now optional, as `SignText.STREAM_CODEC` in the 26.3 server jar writes them (`ByteBufCodecs.optional` around the list of four). The archive's other files are identical to `data-10` apart from the generated protocol; the companion commits change only that pin, and minecraft-protocol adds a test that reads both layouts.
+
+The new vanilla test `signItem` gives a 26.3 bot an oak sign with front text, and back text with filtered messages, colour and glowing text, followed by a stack of stone, and requires all of them to be read from the slot packets; before 26.3 it does nothing.
+
+`suite-7af17f87` (server suites): The internal and vanilla suites on every version, including the new `signItem` test.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 145 | 25 |
+| 1.9.4 | 147 | 23 |
+| 1.10.2 | 147 | 23 |
+| 1.11.2 | 147 | 23 |
+| 1.12.2 | 147 | 23 |
+| 1.13.2 | 147 | 23 |
+| 1.14.4 | 147 | 23 |
+| 1.15.2 | 147 | 23 |
+| 1.16.5 | 147 | 23 |
+| 1.17.1 | 153 | 19 |
+| 1.18.2 | 153 | 19 |
+| 1.19 | 156 | 16 |
+| 1.19.2 | 156 | 16 |
+| 1.19.3 | 156 | 16 |
+| 1.19.4 | 157 | 15 |
+| 1.20.1 | 158 | 15 |
+| 1.20.2 | 162 | 11 |
+| 1.20.4 | 163 | 10 |
+| 1.20.6 | 162 | 11 |
+| 1.21.1 | 163 | 10 |
+| 1.21.3 | 165 | 8 |
+| 1.21.4 | 171 | 2 |
+| 1.21.5 | 171 | 2 |
+| 1.21.6 | 171 | 2 |
+| 1.21.8 | 171 | 2 |
+| 1.21.9 | 172 | 2 |
+| 1.21.11 | 172 | 2 |
+| 26.1 | 177 | 2 |
+| 26.2 | 177 | 2 |
+| 26.3 | 179 | 1 |
+
+`lag150-7af17f87` (server suites through the latency proxy, 150 ms each way): The vanilla suites through the latency proxy on the versions of the previous data follow-up.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 70 | 0 |
+| 1.12.2 | 70 | 0 |
+| 1.21.11 | 74 | 0 |
+| 26.3 | 75 | 0 |
+
+| Package | Commit | Result |
+|---|---|---|
+| mineflayer lint | `7af17f8` | passes |
+| mineflayer unit | `7af17f8` | 98 passing |
+| mineflayer types | `7af17f8` | passes |
+| minecraft-protocol lint | `5307b49` | passes |
+| minecraft-protocol focused suites | `5307b49` | 1168 passing, 15 pending |
+| minecraft-protocol packet round trip (32 versions) | `5307b49` | 5680 passing |
+| minecraft-protocol server suite (32 versions) | `5307b49` | 384 passing |
+| prismarine-chunk | `5f7f07c` | 333 passing |
+| prismarine-physics | `39321ad` | 57 passing |
+| prismarine-item | `13c7329` | 173 passing |
+| minecraft-data schema and audit suite | `38fbd69` | 1906 passing, 1 pending |
+| node-minecraft-data wrapper | `518e467` | 902 passing |
+
+The clean application install (`consumer-check-7af17f87.log`) resolves one minecraft-data, `data-11` with the documented integrity, and one forked prismarine-item for every package; every package of the chain reads the optional filtered messages, and minecraft-protocol decodes a sign item as Spigot 26.3 writes it. The earlier checks of that script also passed. The baseline `signItem-baseline-r19` (listed under the attempts of this round) runs the new test with `data-10` and fails. Development material for this follow-up is in `audit-artifacts/followup3/dev/r20-sign-item` and is not counted: the `window_items` packet a Spigot 26.3 server sent for a menu with a sign icon (it fails to decode with `data-10` and decodes to its full length with `data-11`), and `signItem` on 26.2 and 26.3 from the development checkout.
+
+## Follow-up at `5c102f14`
+
+`5c102f14` pins the data release `java-26.3-data-12` and the companions rebuilt on it (minecraft-protocol `bedb4f9`; the commits are in AUDIT.md), adds the test of the fix (see AUDIT.md, Potion items on 1.20.5–1.21.1), makes the vanilla-suite harness start an example once more when its connection stalls (see AUDIT.md, Stalled example connections), and lets the system pick each internal test server's port: run with all 30 versions at once, the first internal run of this follow-up (`internal-c76e29ad`, at the commit before) failed 1.10.2 with `EADDRINUSE`, because a suite released a free port before its test server bound it and another suite took it in between. The release differs from `data-11` only in the `potion_contents` item component of 1.20.5–1.21.1, which no longer reads a custom name after the effects; the PotionContents codec gained one in 1.21.2. The archive's other files are identical to `data-11` apart from the generated protocol; the companion commits change only that pin, and minecraft-protocol adds a test that reads a water bottle as 1.20.6 and 1.21.1 servers send it.
+
+The new vanilla test `potionItem` gives a 1.20.5+ bot a water bottle and a splash potion with a custom colour and effect (and, from 1.21.2, a custom name), followed by a stack of stone, and requires all of them to be read from the slot packets; before 1.20.5 it does nothing. As the harness changed, the internal and vanilla suites were rerun on every version, as separate runs that together cover the tests of a `suite` run: the internal suites of all 30 versions at once, three times, then the vanilla suites alone (`run-matrix.js` kind `external`), 8 versions at a time.
+
+`internal-5c102f14-a` (internal suite): The internal suites of all 30 versions at once, first of three runs.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 75 | 25 |
+| 1.9.4 | 77 | 23 |
+| 1.10.2 | 77 | 23 |
+| 1.11.2 | 77 | 23 |
+| 1.12.2 | 77 | 23 |
+| 1.13.2 | 77 | 23 |
+| 1.14.4 | 77 | 23 |
+| 1.15.2 | 77 | 23 |
+| 1.16.5 | 77 | 23 |
+| 1.17.1 | 81 | 19 |
+| 1.18.2 | 81 | 19 |
+| 1.19 | 84 | 16 |
+| 1.19.2 | 84 | 16 |
+| 1.19.3 | 84 | 16 |
+| 1.19.4 | 85 | 15 |
+| 1.20.1 | 85 | 15 |
+| 1.20.2 | 89 | 11 |
+| 1.20.4 | 90 | 10 |
+| 1.20.6 | 89 | 11 |
+| 1.21.1 | 90 | 10 |
+| 1.21.3 | 92 | 8 |
+| 1.21.4 | 98 | 2 |
+| 1.21.5 | 98 | 2 |
+| 1.21.6 | 98 | 2 |
+| 1.21.8 | 98 | 2 |
+| 1.21.9 | 98 | 2 |
+| 1.21.11 | 98 | 2 |
+| 26.1 | 103 | 2 |
+| 26.2 | 103 | 2 |
+| 26.3 | 104 | 1 |
+
+`internal-5c102f14-b` (internal suite): The internal suites of all 30 versions at once, second run.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 75 | 25 |
+| 1.9.4 | 77 | 23 |
+| 1.10.2 | 77 | 23 |
+| 1.11.2 | 77 | 23 |
+| 1.12.2 | 77 | 23 |
+| 1.13.2 | 77 | 23 |
+| 1.14.4 | 77 | 23 |
+| 1.15.2 | 77 | 23 |
+| 1.16.5 | 77 | 23 |
+| 1.17.1 | 81 | 19 |
+| 1.18.2 | 81 | 19 |
+| 1.19 | 84 | 16 |
+| 1.19.2 | 84 | 16 |
+| 1.19.3 | 84 | 16 |
+| 1.19.4 | 85 | 15 |
+| 1.20.1 | 85 | 15 |
+| 1.20.2 | 89 | 11 |
+| 1.20.4 | 90 | 10 |
+| 1.20.6 | 89 | 11 |
+| 1.21.1 | 90 | 10 |
+| 1.21.3 | 92 | 8 |
+| 1.21.4 | 98 | 2 |
+| 1.21.5 | 98 | 2 |
+| 1.21.6 | 98 | 2 |
+| 1.21.8 | 98 | 2 |
+| 1.21.9 | 98 | 2 |
+| 1.21.11 | 98 | 2 |
+| 26.1 | 103 | 2 |
+| 26.2 | 103 | 2 |
+| 26.3 | 104 | 1 |
+
+`internal-5c102f14-c` (internal suite): The internal suites of all 30 versions at once, third run.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 75 | 25 |
+| 1.9.4 | 77 | 23 |
+| 1.10.2 | 77 | 23 |
+| 1.11.2 | 77 | 23 |
+| 1.12.2 | 77 | 23 |
+| 1.13.2 | 77 | 23 |
+| 1.14.4 | 77 | 23 |
+| 1.15.2 | 77 | 23 |
+| 1.16.5 | 77 | 23 |
+| 1.17.1 | 81 | 19 |
+| 1.18.2 | 81 | 19 |
+| 1.19 | 84 | 16 |
+| 1.19.2 | 84 | 16 |
+| 1.19.3 | 84 | 16 |
+| 1.19.4 | 85 | 15 |
+| 1.20.1 | 85 | 15 |
+| 1.20.2 | 89 | 11 |
+| 1.20.4 | 90 | 10 |
+| 1.20.6 | 89 | 11 |
+| 1.21.1 | 90 | 10 |
+| 1.21.3 | 92 | 8 |
+| 1.21.4 | 98 | 2 |
+| 1.21.5 | 98 | 2 |
+| 1.21.6 | 98 | 2 |
+| 1.21.8 | 98 | 2 |
+| 1.21.9 | 98 | 2 |
+| 1.21.11 | 98 | 2 |
+| 26.1 | 103 | 2 |
+| 26.2 | 103 | 2 |
+| 26.3 | 104 | 1 |
+
+`external-5c102f14` (vanilla suites): The vanilla suites on every version, 8 at a time, including the new `potionItem` test.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 71 | 0 |
+| 1.9.4 | 71 | 0 |
+| 1.10.2 | 71 | 0 |
+| 1.11.2 | 71 | 0 |
+| 1.12.2 | 71 | 0 |
+| 1.13.2 | 71 | 0 |
+| 1.14.4 | 71 | 0 |
+| 1.15.2 | 71 | 0 |
+| 1.16.5 | 71 | 0 |
+| 1.17.1 | 73 | 0 |
+| 1.18.2 | 73 | 0 |
+| 1.19 | 73 | 0 |
+| 1.19.2 | 73 | 0 |
+| 1.19.3 | 73 | 0 |
+| 1.19.4 | 73 | 0 |
+| 1.20.1 | 74 | 0 |
+| 1.20.2 | 74 | 0 |
+| 1.20.4 | 74 | 0 |
+| 1.20.6 | 74 | 0 |
+| 1.21.1 | 74 | 0 |
+| 1.21.3 | 74 | 0 |
+| 1.21.4 | 74 | 0 |
+| 1.21.5 | 74 | 0 |
+| 1.21.6 | 74 | 0 |
+| 1.21.8 | 74 | 0 |
+| 1.21.9 | 75 | 0 |
+| 1.21.11 | 75 | 0 |
+| 26.1 | 75 | 0 |
+| 26.2 | 75 | 0 |
+| 26.3 | 76 | 0 |
+
+`lag150-5c102f14` (server suites through the latency proxy, 150 ms each way): The vanilla suites through the latency proxy on 1.8.8, 1.12.2, 1.20.6, 1.21.1 and 26.3.
+
+| Java version | Passing | Pending |
+|---|---:|---:|
+| 1.8.8 | 71 | 0 |
+| 1.12.2 | 71 | 0 |
+| 1.20.6 | 74 | 0 |
+| 1.21.1 | 74 | 0 |
+| 26.3 | 76 | 0 |
+
+| Package | Commit | Result |
+|---|---|---|
+| mineflayer lint | `5c102f1` | passes |
+| mineflayer unit | `5c102f1` | 98 passing |
+| mineflayer types | `5c102f1` | passes |
+| minecraft-protocol lint | `bedb4f9` | passes |
+| minecraft-protocol focused suites | `bedb4f9` | 1170 passing, 15 pending |
+| minecraft-protocol packet round trip (32 versions) | `bedb4f9` | 5680 passing |
+| minecraft-protocol server suite (32 versions) | `bedb4f9` | 384 passing |
+| prismarine-chunk | `d697040` | 333 passing |
+| prismarine-physics | `4edde73` | 57 passing |
+| prismarine-item | `ccd339d` | 173 passing |
+| minecraft-data schema and audit suite | `c594f65` | 1906 passing, 1 pending |
+| node-minecraft-data wrapper | `a2b3bd3` | 902 passing |
+
+The clean application install (`consumer-check-5c102f14.log`) resolves one minecraft-data, `data-12` with the documented integrity, and one forked prismarine-item for every package; every package of the chain reads the 1.20.5–1.21.1 potion layout and the 1.21.3 one with its custom name, and minecraft-protocol decodes the captured water bottle on 1.20.6 and 1.21.1. The earlier checks of that script also passed. The baseline `potionItem-baseline-r21` (listed under the attempts of this round) runs the new test with `data-11`: it fails on 1.20.6 and 1.21.1 and passes on 1.21.3. Development material for this follow-up is in `audit-artifacts/followup3/dev/r21-potion-item` and is not counted: the `fishing` failure on 1.20.6 that found the bug, with its packet trace; the `/loot give` reproduction on 1.20.6, 1.21.1 and 1.21.3; the PotionContents codec field names from the server jars; and the stand-in examples that checked the stalled-connection retry.
+
 ## Attempts of this round
 
 - `suite-d22e00df` (server suites, `d22e00df`): all 30 versions passed. Superseded: the nether test changed in `912e8ca2` after the first lag run.
@@ -854,6 +1094,11 @@ The changed file was checked from a clean worktree whose logs name `d3e13adf` an
 - `suite-6282be0f` (server suites, `6282be0f`): 29 of 30 versions passed; failed: 1.15.2 (exampleInventory: Error: examples/inventory.js exited before the test finished (code 1, signal null)). Not accepted: 29 versions passed; on 1.15.2 `examples/inventory.js` exited when its `waitForChunksToLoad()` after the test's `/tp` timed out waiting for 25 chunks, as `exampleBee` once did on 1.12.2 in the first follow-up; the example bot did not die and 1.15.2 has no terrain wait, so neither changed code path ran. The suites were run again at the same commit (`suite-6282be0f-b`). The cause was established afterwards: the vanilla server had stopped reading the example's connection when it switched it to play, so it never handled the confirmation of the `/tp` and never moved the example's chunk view (see AUDIT.md, Stalled example connections).
 - `suite-6282be0f-b` (server suites, `6282be0f`): 29 of 30 versions passed; failed: 1.17.1 (nether: Error: Server refused to place warped_sign at (0, 128, 0): the block is still brown_mushroom). Superseded by `8ffb2d8d`: 29 versions passed, 1.15.2 and 1.21.3 included; on 1.17.1 `nether` was refused its sign because the generated nether roof had a brown mushroom where the sign goes (fixed in `8ffb2d8d`, see AUDIT.md, Test isolation).
 - `internal-baseline-c7e2a2dd` (internal suite, `c7e2a2dd`): 1 of 5 versions passed; failed: 1.8.8 (mineflayer_internal 1.8.8v: AssertionError [ERR_ASSERTION]: a respawn leaves the deferred reply owed), 1.12.2 (mineflayer_internal 1.12.2v: AssertionError [ERR_ASSERTION]: teleport replies: [[3.5,80,3.5]]), 1.21.3 (mineflayer_internal 1.21.3v: AssertionError [ERR_ASSERTION]: teleport replies: [[3.5,80,3.5]]), 1.21.4 (mineflayer_internal 1.21.4v: AssertionError [ERR_ASSERTION]: teleport replies: [[3.5,80,3.5]]). Baseline: the physics plugin of `1e67f091` with the test of `060b882d`, at a commit made only for it, on 1.8.8, 1.12.2, 1.21.3, 1.21.4 and 26.3. The only failure is the new respawn test, on every version before 26.3; 26.3 never defers the reply and passes.
+- `signItem-baseline-r19` (vanilla `signItem` test, `f21b8dae`): 0 of 1 versions passed; failed: 26.3 (signItem: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:; "after all" hook for "exampleInventory": Error: 1 packet(s) could not be decoded:). Baseline: `8d992ad5` (data-10) with the `signItem` test of `7af17f87`, at a commit made only for it, on 26.3. The test fails, and the harness reports the slot packet it could not decode.
+- `potionItem-baseline-r21` (vanilla `potionItem` test, `fc87a637`): 1 of 3 versions passed; failed: 1.20.6 (potionItem: Error: Event updateSlot did not fire within timeout of 20000ms; "after all" hook for "exampleInventory": Error: 3 packet(s) could not be decoded:), 1.21.1 (potionItem: Error: Event updateSlot did not fire within timeout of 20000ms; "after all" hook for "exampleInventory": Error: 3 packet(s) could not be decoded:). Baseline: `9c9ae527` (data-11) with the `potionItem` test of `518dfbf1`, at a commit made only for it, on 1.20.6, 1.21.1 and 1.21.3. The test fails on 1.20.6 and 1.21.1, where the potion slot packets do not decode, and passes on 1.21.3, whose layout with a custom name was already right.
+- `internal-c76e29ad` (internal suite, `c76e29ad`): 29 of 30 versions passed; failed: 1.10.2 ("before each" hook for "chat": Uncaught Error: listen EADDRINUSE: address already in use :::56775; "after each" hook for "chat": TypeError: Cannot read properties of undefined (reading '_client')). Superseded by `5c102f14`: 29 versions passed; on 1.10.2 a test server could not listen (`EADDRINUSE`). With the suites of all 30 versions running at once, another suite took the port this one had found free and released before its server bound it; `5c102f14` lets the system pick the port.
+- `external-c76e29ad` (vanilla suites, `c76e29ad`): all 30 versions passed. Superseded by `5c102f14`, which changed only the internal tests: every version passed.
+- `lag150-c76e29ad` (server suites through the latency proxy, 150 ms each way, `c76e29ad`): all 5 versions passed. Superseded by `5c102f14`, which changed only the internal tests: every version passed.
 
 ## Failures investigated
 

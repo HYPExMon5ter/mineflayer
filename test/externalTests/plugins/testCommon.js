@@ -347,8 +347,36 @@ function inject (bot, wrap) {
     runningExample = null
   }
 
+  // A 1.12.2–1.20.1 server on Netty's NIO transport can stop reading a new connection for good
+  // when it switches it to play (docs/AUDIT.md, "Stalled example connections"). The example then
+  // dies waiting for chunks the server never sends, and the server never applies its settings, so
+  // the skin parts it broadcasts for that player stay unset. Only that failure is the server's, and
+  // only it starts the example once more.
   async function runExample (file, run) {
+    try {
+      return await runExampleOnce(file, run)
+    } catch (err) {
+      if (!err.stalledConnection) throw err
+      const message = `stalled example connection: ${file} never received its chunks and the server never applied its settings; starting it again`
+      console.log(message)
+      bot.test.dumpMarker(message)
+      return runExampleOnce(file, run)
+    }
+  }
+
+  // Player metadata key of the skin parts (the client settings the server broadcasts) on the
+  // versions where the connection can stall
+  function skinPartsKey () {
+    if (bot.registry.isNewerOrEqualTo('1.17')) return 17
+    if (bot.registry.isNewerOrEqualTo('1.15')) return 16
+    if (bot.registry.isNewerOrEqualTo('1.14')) return 15
+    return 13
+  }
+
+  async function runExampleOnce (file, run) {
     let childBotName
+    let childEntity
+    let childOutput = ''
     const abort = new AbortController()
     runningExample = abort
 
@@ -366,6 +394,7 @@ function inject (bot, wrap) {
              bot.players[childBotName].entity.position.distanceTo(targetPos) > 5) {
         await sleep(100)
       }
+      childEntity = bot.players[childBotName].entity
       bot.chat('loaded')
     }
 
@@ -381,7 +410,10 @@ function inject (bot, wrap) {
 
     // Useful to debug child processes:
     child.stdout.on('data', (data) => { console.log(`${data}`) })
-    child.stderr.on('data', (data) => { console.error(`${data}`) })
+    child.stderr.on('data', (data) => {
+      childOutput += data
+      console.error(`${data}`)
+    })
 
     // Neither wait above settles if the example process dies (an uncaught
     // chunk-load timeout, say), so without this the attempt just hangs until
@@ -422,6 +454,8 @@ function inject (bot, wrap) {
       await Promise.race([Promise.all([detectChildJoin(), runExampleOnReady()]), childDied])
     } catch (err) {
       console.log(err)
+      err.stalledConnection = bot.registry.isNewerOrEqualTo('1.12') && !bot.registry.isNewerOrEqualTo('1.20.2') &&
+        /Timeout waiting for \d+ chunks to load/.test(childOutput) && childEntity !== undefined && !childEntity.metadata?.[skinPartsKey()]
       return closeExample(err)
     }
     return closeExample()
