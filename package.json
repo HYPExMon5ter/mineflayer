@@ -14,11 +14,13 @@
   ],
   "scripts": {
     "mocha_test": "mocha --reporter ./test/common/durationsReporter.js --exit",
-    "test": "npm run mocha_test",
+    "test": "bun run --parallel --no-exit-on-error lint test:unit test:types && node test/run-versions.js",
     "test:unit": "node test/run-unit.js",
-    "test:types": "tsc --noEmit --strict --skipLibCheck --esModuleInterop --target ES2022 --module commonjs test/types.ts",
-    "pretest": "npm run lint",
-    "lint": "standard && standard-markdown",
+    "test:types": "bun check",
+    "test:versions": "node test/run-versions.js",
+    "lint": "bun run --parallel --no-exit-on-error lint:js lint:md",
+    "lint:js": "standard",
+    "lint:md": "standard-markdown",
     "fix": "standard --fix && standard-markdown --fix",
     "prepublishOnly": "cp docs/README.md README.md"
   },
@@ -65,7 +67,6 @@
     "mocha": "^11.0.1",
     "protodef-yaml": "^1.5.3",
     "standard": "^17.0.0",
-    "standard-markdown": "^7.1.0",
-    "typescript": "^5.4.5"
+    "standard-markdown": "^7.1.0"
   }
 }
