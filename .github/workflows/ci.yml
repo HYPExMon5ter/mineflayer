@@ -27,8 +27,12 @@ jobs:
         node-version: 24
         cache: npm
         cache-dependency-path: npm-shrinkwrap.json
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.4.4
     - run: npm ci --ignore-scripts
-    - run: npm run lint
+    # bun check is the type checker; neither needs the Node.js matrix
+    - run: bun run --parallel --no-exit-on-error lint test:types
 
   Unit:
     runs-on: ubuntu-latest
@@ -44,8 +48,7 @@ jobs:
           cache-dependency-path: npm-shrinkwrap.json
       - run: npm ci --ignore-scripts
       - run: npm run test:unit
-      - run: npm run test:types
-  
+
   PrepareSupportedVersions:
     runs-on: ubuntu-latest
     outputs:
@@ -62,7 +65,7 @@ jobs:
         node -e "
           const v = require('./lib/version').testedVersions;
           const groups = [];
-          const SIZE = 4;
+          const SIZE = 2;
           for (let i = 0; i < v.length; i += SIZE) {
             groups.push({ versions: v.slice(i, i + SIZE).join(' ') });
           }
@@ -111,48 +114,20 @@ jobs:
           mv durations baseline 2>/dev/null || mkdir -p baseline
           mkdir -p durations
 
+      # The internal suites of the group's versions run at once, then their external suites.
+      # The runner records a packet trace of each external suite and keeps it only if it fails.
       - name: Start Tests
+        run: node test/run-versions.js --jobs 2 --logs test-results ${{ matrix.versions }} -- --retries 1
+
+      - name: Show logs
+        if: always()
         run: |
-          exit_code=0
-          pids=""
-          for v in ${{ matrix.versions }}; do
-            # TRACE is cheap (<1% runtime) and only written by the harness bot,
-            # so always record a packet trace for post-mortem analysis.
-            (result=0; MC_VERSION="$v" TRACE="trace-${v}.jsonl" DURATIONS="durations/durations-${v}.json" npm run mocha_test -- test/internalTest.js test/externalTest.js --retries 1 > "test-${v}.log" 2>&1 || result=$?; echo "$result" > "test-${v}.exit"; exit "$result") &
-            pids="$pids $!"
+          for f in test-results/*.log; do
+            echo "::group::$f"
+            cat "$f"
+            echo "::endgroup::"
           done
-          for pid in $pids; do
-            wait $pid || exit_code=$?
-          done
-          # Print passing versions first, then failing versions last
-          for v in ${{ matrix.versions }}; do
-            if [ "$(cat "test-${v}.exit" 2>/dev/null)" = "0" ]; then
-              echo ""
-              echo "=========================================="
-              echo "  Results for Minecraft ${v}"
-              echo "=========================================="
-              cat "test-${v}.log"
-            fi
-          done
-          for v in ${{ matrix.versions }}; do
-            if [ "$(cat "test-${v}.exit" 2>/dev/null)" != "0" ]; then
-              echo ""
-              echo "=========================================="
-              echo "  FAILED: Minecraft ${v}"
-              echo "=========================================="
-              cat "test-${v}.log"
-            fi
-          done
-          # Only the failing versions' logs and packet traces are uploaded,
-          # so artifact storage stays small; they auto-expire quickly too.
-          mkdir -p artifacts
-          for v in ${{ matrix.versions }}; do
-            if [ "$(cat "test-${v}.exit" 2>/dev/null)" != "0" ]; then
-              cp "test-${v}.log" artifacts/
-              cp "trace-${v}.jsonl" artifacts/ 2>/dev/null || true
-            fi
-          done
-          exit $exit_code
+          mv test-results/durations-*.json durations/ 2>/dev/null || true
 
       - name: Compare test durations against master
         run: |
@@ -176,12 +151,13 @@ jobs:
           path: durations
           key: durations-${{ strategy.job-index }}-${{ github.sha }}
 
-      - name: Upload failed versions' logs and traces
+      # Every log, and the packet traces of the failed external suites
+      - name: Upload logs and failed suites' traces
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: failing-versions-${{ strategy.job-index }}
-          path: artifacts/
+          path: test-results/
           retention-days: 7
 
   Required:

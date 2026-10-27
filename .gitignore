@@ -9,6 +9,7 @@ pnpm-lock.yaml
 versions/
 server_jars/
 test/server_*
+test-results/
 .vscode
 .DS_Store
 launcher_accounts.json
