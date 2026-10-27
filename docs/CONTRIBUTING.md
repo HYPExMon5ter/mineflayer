@@ -24,7 +24,7 @@ The objective of these tests is to know automatically what works and what doesn'
 
 
 ## Running tests
-The scripts need [Bun](https://bun.com) for linting and type checking, and Java on PATH for the vanilla servers. The tests run on Node.js. `test/run-versions.js` runs one mocha process per version and suite: first every internal suite at once, then the external suites `--jobs` at a time (default one per three CPUs), and writes each log to `test-results/`. Arguments after a second `--` go to mocha. For example:
+The scripts need [Bun](https://bun.com) for linting and type checking, and Java on PATH for the vanilla servers. The tests run on Node.js. `test/run-versions.js` runs one mocha process per version and suite: first the internal suites, then the external suites `--jobs` at a time (default one per three CPUs and 1.5 GB of free memory), and writes each log to `test-results/`. Arguments after a second `--` go to mocha. For example:
 
 ```bash
 # Lint, type check, unit tests, then all tests in all supported versions

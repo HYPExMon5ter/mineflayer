@@ -1,13 +1,15 @@
 // Runs the internal and external (vanilla server) suites of every tested version, one mocha
 // process per suite and version, in parallel. The internal suites mostly wait on timers, so
-// they all run at once; the external suites each start a vanilla server, so --jobs limits them.
+// more of them run at once than there are CPUs; the external suites each start a vanilla
+// server, so --jobs limits them.
 // The internal suites run first, on their own: their timing tests failed under the CPU load
 // of several vanilla servers booting at once.
 //
 // usage: node test/run-versions.js [options] [version...] [-- mocha options]
 //   --suite internal|external  run only that suite (default: both)
-//   --jobs N                   external suites (vanilla servers) at once (default: one per 3 CPUs)
-//   --internal-jobs N          internal suites at once (default: one per CPU)
+//   --jobs N                   external suites (vanilla servers) at once (default: one per 3 CPUs
+//                              and 1.5 GB of free memory)
+//   --internal-jobs N          internal suites at once (default: 1.25 per CPU)
 //   --logs DIR                 where logs, durations and traces go (default test-results)
 //   --keep-traces              keep the packet traces of passing external suites too
 // Versions default to MC_VERSION, else every tested version.
@@ -29,9 +31,11 @@ function parseOptions (argv) {
     allowPositionals: true,
     options: {
       suite: { type: 'string' },
-      // A booting server keeps about three cores busy; 8 at once on 24 cores ran clean.
-      jobs: { type: 'string', default: String(Math.max(1, Math.floor(os.availableParallelism() / 3))) },
-      'internal-jobs': { type: 'string', default: String(os.availableParallelism()) },
+      // A booting server keeps about three cores busy, and a suite with its server takes up to
+      // 1.3 GB: 8 at once on 24 cores ran clean, with the CPU saturated 10% of the time.
+      jobs: { type: 'string', default: String(Math.max(1, Math.min(Math.floor(os.availableParallelism() / 3), Math.floor(os.freemem() / 1.5 / 2 ** 30)))) },
+      // An internal suite keeps about a third of a core busy: 30 on 24 cores averaged 43% CPU.
+      'internal-jobs': { type: 'string', default: String(Math.ceil(os.availableParallelism() * 1.25)) },
       logs: { type: 'string', default: 'test-results' },
       'keep-traces': { type: 'boolean', default: false }
     }

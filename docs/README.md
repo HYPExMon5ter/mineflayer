@@ -283,7 +283,7 @@ Run
 npm run test:versions -- <version>...
 ```
 
-where `<version>` is a supported minecraft version like `1.12.2`, `1.15.2`... `--suite internal` or `--suite external` runs only one suite, and `--jobs N` sets how many vanilla servers run at once (default one per three CPUs).
+where `<version>` is a supported minecraft version like `1.12.2`, `1.15.2`... `--suite internal` or `--suite external` runs only one suite, and `--jobs N` sets how many vanilla servers run at once (default one per three CPUs and 1.5 GB of free memory).
 
 ### Testing specific test
 Run 
