@@ -238,7 +238,9 @@ npm ci --ignore-scripts
 npm run lint
 npm run test:unit
 npm run test:types
-# Set MC_VERSION to an exact version or a comma/space-separated list.
+# Both suites of each listed version (default: all), one process per suite and version, in parallel
+npm run test:versions -- 26.3
+# One mocha process for both suites. Set MC_VERSION to an exact version or a comma/space-separated list.
 MC_VERSION=26.3 npm run mocha_test -- test/internalTest.js test/externalTest.js
 # The same through a 150 ms each-way latency proxy
 MC_LATENCY_MS=150 MC_VERSION=26.3 npm run mocha_test -- test/externalTest.js
@@ -248,7 +250,7 @@ On PowerShell, use `$env:MC_VERSION='26.3'` before the test command. Put Java 25
 
 ## Remaining limitations
 
-- `npx tsc --noEmit` over the complete declaration graph fails in existing prismarine-chat, prismarine-nbt, prismarine-windows and protodef declarations (and a chunk interop setting). `test:types` compiles a real consumer of the changed APIs with `skipLibCheck`; it validates consumer usage but does not certify dependency declarations.
+- A type check of the complete declaration graph (without `skipLibCheck`) fails in existing prismarine-chat, prismarine-nbt, prismarine-windows and protodef declarations (and a chunk interop setting). `test:types` (`bun check` with the options in `tsconfig.json`) compiles a real consumer of the changed APIs with `skipLibCheck`; it validates consumer usage but does not certify dependency declarations.
 - The dependency audit reports known transitive advisories, including uuid under the authentication chain and older development tooling. Suggested automatic fixes include downgrades and unrelated API changes. They were not blindly applied; at the evidence commit the development graph has 18 findings (9 high, 8 moderate, 1 low), as at the second follow-up. This is not a clean security audit.
 - Minecraft resources and server caches are local test inputs, not redistributed in the package. No Microsoft account credentials or existing user server settings were changed.
 - Anti-cheat/proxy-specific behavior beyond the local Velocity runs, relighting, additional GUI plugins, major movement/digging rewrites and unverified feature requests remain explicitly deferred in the triage. A passing vanilla suite does not prove those environments.

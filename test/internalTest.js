@@ -670,20 +670,24 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
             teleportId: 1,
             flags: bot.supportFeature('positionPacketHasBitflags') ? { x: false, y: false, z: false, yaw: false, pitch: false } : 0
           })
-          await once(bot, 'physicsTick')
-          await sleep(300)
-          // No physics tick can run during the stall (30 ticks' worth).
-          const stallUntil = Date.now() + 1500
-          while (Date.now() < stallUntil) { /* busy wait */ }
-          let ticks = 0
-          const count = () => ticks++
-          bot.on('physicsTick', count)
-          await sleep(500)
-          bot.off('physicsTick', count)
-          // 10 ticks at 20 tps plus one burst of at most maxCatchupTicks (4).
-          assert.ok(ticks <= 18, `${ticks} physics ticks in the 500 ms after a 1.5 s stall`)
-          assert.ok(ticks >= 8, `only ${ticks} physics ticks in 500 ms`)
-          done()
+          try {
+            await once(bot, 'physicsTick')
+            await sleep(300)
+            // No physics tick can run during the stall (30 ticks' worth).
+            const stallUntil = Date.now() + 1500
+            while (Date.now() < stallUntil) { /* busy wait */ }
+            let ticks = 0
+            const count = () => ticks++
+            bot.on('physicsTick', count)
+            await sleep(500)
+            bot.off('physicsTick', count)
+            // 10 ticks at 20 tps plus one burst of at most maxCatchupTicks (4).
+            assert.ok(ticks <= 18, `${ticks} physics ticks in the 500 ms after a 1.5 s stall`)
+            assert.ok(ticks >= 8, `only ${ticks} physics ticks in 500 ms`)
+            done()
+          } catch (err) {
+            done(err)
+          }
         })
       })
       it('answers only the latest teleport when a second one lands inside the respawn reply delay', (done) => {

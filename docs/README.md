@@ -264,6 +264,8 @@ The most updated and useful are :
 
 ## Testing
 
+The development scripts need [Bun](https://bun.com) (for linting in parallel and type checking) and Java on PATH (for the vanilla servers); the tests themselves run on Node.js.
+
 ### Testing everything
 
 Simply run: 
@@ -272,20 +274,22 @@ Simply run:
 npm test
 ```
 
+This lints, type checks and runs the unit tests in parallel, then runs the internal and vanilla server suites of every supported version in parallel through `test/run-versions.js`. Each suite's log goes to `test-results/`.
+
 ### Testing specific version
 Run 
 
 ```bash
-npm run mocha_test -- -g <version>
+npm run test:versions -- <version>...
 ```
 
-where `<version>` is a minecraft version like `1.12`, `1.15.2`...
+where `<version>` is a supported minecraft version like `1.12.2`, `1.15.2`... `--suite internal` or `--suite external` runs only one suite, and `--jobs N` sets how many vanilla servers run at once (default one per three CPUs and 1.5 GB of free memory).
 
 ### Testing specific test
 Run 
 
 ```bash
-npm run mocha_test -- -g <test_name>
+npm run test:versions -- <version>... -- -g <test_name>
 ```
 
 where `<test_name>` is a name of the test like `bed`, `useChests`, `rayTrace`...
@@ -293,9 +297,9 @@ where `<test_name>` is a name of the test like `bed`, `useChests`, `rayTrace`...
 ### Example
 
 ```bash
-npm run mocha_test -- -g "1.18.1.*BlockFinder"
+npm run test:versions -- --suite external 1.18.2 -- -g BlockFinder
 ```
-to run the block finder test for 1.18.1
+to run the block finder test for 1.18.2
 
 ## License
 

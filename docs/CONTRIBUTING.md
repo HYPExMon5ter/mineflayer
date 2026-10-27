@@ -24,17 +24,22 @@ The objective of these tests is to know automatically what works and what doesn'
 
 
 ## Running tests
-You can run tests for Different Minecraft versions using the `-g` flag with npm run mocha_test. For example:
+The scripts need [Bun](https://bun.com) for linting and type checking, and Java on PATH for the vanilla servers. The tests run on Node.js. `test/run-versions.js` runs one mocha process per version and suite: first the internal suites, then the external suites `--jobs` at a time (default one per three CPUs and 1.5 GB of free memory), and writes each log to `test-results/`. Arguments after a second `--` go to mocha. For example:
 
 ```bash
-# Run all tests in all supported versions
+# Lint, type check, unit tests, then all tests in all supported versions
 npm run test
 
 # Run a specific test in Minecraft 1.20.4
-npm run mocha_test -- -g "mineflayer_external 1.20.4v.*exampleBee"
+npm run test:versions -- --suite external 1.20.4 -- -g exampleBee
 
 # Run all tests in just version 1.20.4
-npm run mocha_test -- -g "mineflayer_external 1.20.4v"
+npm run test:versions -- 1.20.4
+
+# Lint and type check, or the unit tests only
+npm run lint
+npm run test:types
+npm run test:unit
 ```
 
 

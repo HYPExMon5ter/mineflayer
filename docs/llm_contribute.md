@@ -69,19 +69,15 @@ const timeTests = [
 
 ### Basic Test Execution
 ```bash
-npm run mocha_test -- -g "mineflayer_external 1.20.4v.*time"
+npm run test:versions -- --suite external 1.20.4 -- -g time
 ```
 
 ### Version-Specific Testing
-- Test against multiple Minecraft versions
+- Test against multiple Minecraft versions; they run in parallel, with each log in `test-results/`
 - Common versions to test: 1.14.4, 1.20.4, 1.21.3
 - Example:
 ```bash
-# Test for 1.14.4
-npm run mocha_test -- -g "mineflayer_external 1.14.4v.*time"
-
-# Test for 1.21.3
-npm run mocha_test -- -g "mineflayer_external 1.21.3v.*time"
+npm run test:versions -- --suite external 1.14.4 1.20.4 1.21.3 -- -g time
 ```
 
 ## Debugging Tests
