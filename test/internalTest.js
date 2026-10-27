@@ -9,7 +9,6 @@ const nbt = require('prismarine-nbt')
 const { once, onceWithCleanup } = require('../lib/promise_utils')
 const events = require('events')
 const { EventEmitter } = events
-const { getPort } = require('./common/util')
 
 for (const supportedVersion of require('./common/versions').getTestVersions()) {
   const registry = require('prismarine-registry')(supportedVersion)
@@ -61,13 +60,15 @@ for (const supportedVersion of require('./common/versions').getTestVersions()) {
     let server
     let PORT
     beforeEach(async function () {
-      PORT = await getPort()
+      // Listen on a port the system picks: a port found free and released first can be taken by
+      // another suite's bot or server before this one binds it, when many suites run at once.
       server = mc.createServer({
         'online-mode': false,
         version: supportedVersion,
-        port: PORT
+        port: 0
       })
       await once(server, 'listening')
+      PORT = server.socketServer.address().port
       bot = mineflayer.createBot({
         username: 'player',
         version: supportedVersion,
